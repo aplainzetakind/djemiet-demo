@@ -1,5 +1,5 @@
 # cemiyet #
-#### A tool for communities ####
+_A tool for communities_
 
 ### Getting set-up ###
 
@@ -13,3 +13,6 @@
 * If everything went well, the django app should be able to talk to the database. Go to the project root and issue `$ pipenv shell`. This will drop you into a virtual environment shell. Chenge to the directory `cemiyet`, where `manage.py` lives. Run `$ python manage.py migrate`. This should do some stuff, which, if completed without errors, should mean that django can talk to your database. To verify this, swith to the `postgres` user as you did before on another terminal, __not from the virtual environment__, and drop to the postgresql shell as you did before. There, the command `\c cemiyetdb` followed by `\d` should show you some django-related stuff. This means all is good.
 * Run (from the python virtual environment) `$ python manage.py runserver`. This should serve the site, which you should be able to access from your browser at `127.0.0.1:8000`. This local site should be enough for development.
 * Make yourself a branch and think of something to do. Push to your branch when you complete something.
+
+### Convenience ###
+* Add the line `213.164.205.34  cemiyet.vps` to `/etc/hosts`. This will allow you to use `http://cemiyet.vps` in the browser to access the live site or to `<username>@cemiyet.vps` to `ssh`. If you use any other name than `cemiyet.vps`, the site won't respond, because the name is in the configuration of the server.

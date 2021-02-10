@@ -25,7 +25,7 @@ SECRET_KEY = '1%i%10r#9(00m57znqx28y49oes_jgqfu9-yop_iv@w(n7op%a'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['213.164.205.34']
+ALLOWED_HOSTS = ['213.164.205.34', 'cemiyet.vps']
 
 
 # Application definition
