@@ -15,4 +15,10 @@ _A tool for communities_
 * Make yourself a branch and think of something to do. Push to your branch when you complete something.
 
 ### Convenience ###
-* Add the line `213.164.205.34  cemiyet.vps` to `/etc/hosts`. This will allow you to use `http://cemiyet.vps` in the browser to access the live site or to `<username>@cemiyet.vps` to `ssh`. If you use any other name than `cemiyet.vps`, the site won't respond, because the name is in the configuration of the server.
+* Add the line `213.164.205.34  cemiyet.vps` to `/etc/hosts`. This will allow you to use `http://cemiyet.vps` in the browser to access the live site or to `$ ssh <username>@cemiyet.vps`. If you use any other name than `cemiyet.vps`, the site won't respond, because the name is in the configuration of the server.
+
+### Version history ###
+(None) Out of the box Django installation with database setting changes.
+
+### TODO ###
+Have an authentication wall before accessing a static welcome page.
