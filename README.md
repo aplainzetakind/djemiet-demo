@@ -24,4 +24,11 @@ _A tool for communities_
 Have an authentication wall before accessing a static welcome page.
 
 ### Docker ###
-Postgres : docker run --rm  --name pg -p 5432:5432 -e POSTGRES_PASSWORD=XXX -e POSTGRES_USER=XXX -e POSTGRES_DB=XXX -v $HOME/django/postgres/data:/var/lib/postgresql/data postgres
+Postgres : 
+- Create dir for persistence data ($HOME/django/postgres/data)
+- Run command : 
+docker run --rm  --name pg -p 5432:5432 -e POSTGRES_PASSWORD=XXX -e POSTGRES_USER=XXX -e POSTGRES_DB=XXX -v $HOME/django/postgres/data:/var/lib/postgresql/data postgres
+
+# Sample local_settings.py(located at the level of manage.py)
+DEBUG = True
+ALLOWED_HOSTS = ['localhost','0.0.0.0','127.0.0.1']
