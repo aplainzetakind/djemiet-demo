@@ -22,3 +22,6 @@ _A tool for communities_
 
 ### TODO ###
 Have an authentication wall before accessing a static welcome page.
+
+### Docker ###
+Postgres : docker run --rm  --name pg -p 5432:5432 -e POSTGRES_PASSWORD=XXX -e POSTGRES_USER=XXX -e POSTGRES_DB=XXX -v $HOME/django/postgres/data:/var/lib/postgresql/data postgres
