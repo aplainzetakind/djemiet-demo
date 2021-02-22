@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include,path
+from .views import auth_wall
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')), # new
-    path('', include('forum.urls')), # new
+    path('', auth_wall)
 ]
