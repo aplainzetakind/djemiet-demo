@@ -5,21 +5,24 @@
 
 {% block content %}
 <div class="container">
-    <div class="row">
-        <h4>Log in</h4>
+    <div class="twelve columns">
+        <div class="four columns offset-by-four">
+            <div class="row">
+                <h4>Log in</h4>
+            </div>
+            <form class="u-center-abs" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    {{ form.username.label_tag }}
+                    {{ form.username }}
+                    {{ form.password.label_tag }}
+                    {{ form.password }}
+                </div>
+                <div class="row">
+                    <button class="u-center-abs" type="submit">Sign In</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <form class="u-center-abs" method="post">
-        {% csrf_token %}
-        <div class="row">
-            {{ form.username.label_tag }}
-            {{ form.username }}
-            {{ form.password.label_tag }}
-            {{ form.password }}
-        </div>
-        <div class="row">
-            <button class="u-center-abs" type="submit">Log In</button>
-        </div>
-    </form>
-</div>
 </div>
 {% endblock %}
