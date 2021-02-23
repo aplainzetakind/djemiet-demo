@@ -47,10 +47,7 @@ _A tool for communities_
   server.
 
 ### TODO ###
-* When not logged in, `/` redirects to `/accounts/login`. After that, if the
-  user logs in at another tab, then refreshes the current page, he still sees
-  the login screen. Reorganize redirects so that the login screen also redirects
-  back to `/` when refreshed.
+* Figure out how to override widget attributes for forms.
 
 ### Feature history ###
 - Out of the box Django installation with database setting changes.
