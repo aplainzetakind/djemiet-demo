@@ -10,7 +10,7 @@
             <div class="row">
                 <h4>Log in</h4>
             </div>
-            <form class="u-center-abs" method="post">
+            <form method="post">
                 {% csrf_token %}
                 <div class="row">
                     {{ form.username.label_tag }}
