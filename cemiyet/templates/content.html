@@ -3,13 +3,14 @@
 
 {% block title %}Welcome to Cemiyet{% endblock %}
 {% block content %}
-<div class="container">
-    <h1 class="text-center">You are logged in.</h1>
-    <div class="row">
-        <div class="col text-center">
-            <p><a href="{% url 'logout' %}">Log Out</a></p>
+<div class="container deadcenter">
+    <div class="one column fullwidth">
+        <div class="row hcenter-content">
+            <h4>You have signed in.</h4>
+        </div>
+        <div class="row hcenter-content">
+            <a class="button" href="{% url 'logout' %}">Sign out</a>
         </div>
     </div>
-</div>
 </div>
 {% endblock %}

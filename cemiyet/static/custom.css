@@ -1,0 +1,15 @@
+.deadcenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.hcenter-content {
+    display: flex;
+    justify-content: center;
+}
+
+.fullwidth {
+    min-width: 100vw;
+}

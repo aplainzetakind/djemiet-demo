@@ -2,13 +2,11 @@
 {% extends 'base.html' %}
 
 {% block title %}Login{% endblock %}
-
 {% block content %}
-<div class="container">
-    <div class="twelve columns">
-        <div class="four columns offset-by-four">
-            <div class="row">
-                <h4>Log in</h4>
+<div class="container deadcenter">
+    <div class="three columns">
+            <div class="row hcenter-content">
+                <h4>Sign in</h4>
             </div>
             <form method="post">
                 {% csrf_token %}
@@ -18,7 +16,7 @@
                     {{ form.password.label_tag }}
                     {{ form.password }}
                 </div>
-                <div class="row">
+                <div class="row hcenter-content">
                     <button class="u-center-abs" type="submit">Sign In</button>
                 </div>
             </form>
