@@ -6,15 +6,23 @@
 <div class="container deadcenter">
     <div class="three columns">
             <div class="row hcenter-content">
-                <h4>Sign in</h4>
+                <h4>SIGN IN</h4>
             </div>
             <form method="post">
                 {% csrf_token %}
                 <div class="row">
-                    {{ form.username.label_tag }}
-                    {{ form.username }}
-                    {{ form.password.label_tag }}
-                    {{ form.password }}
+                    {% comment %} <label for="{{ form.username.id_for_label }}">Username:</label> {% endcomment %}
+                    <input class="u-full-width" type="text"
+                    placeholder="Username" id="{{ form.username.id_for_label }}"
+                    name="{{ form.username.html_name }}">
+                    {% comment %} {{ form.username.label_tag }} {% endcomment %}
+                    {% comment %} {{ form.username }} {% endcomment %}
+                    <input class="u-full-width" type="password"
+                    placeholder="Password" id="{{ form.password.id_for_label }}"
+                    name="{{ form.password.html_name }}">
+                    {% comment %} {{ form.password.label_tag }} {% endcomment %}
+                    {% comment %} {{ form.password }} {% endcomment %}
+                    {{ form.errors }}
                 </div>
                 <div class="row hcenter-content">
                     <button class="u-center-abs" type="submit">Sign In</button>
