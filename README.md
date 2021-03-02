@@ -66,3 +66,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['localhost','0.0.0.0','127.0.0.1']
 SECRET_KEY = <Something you generate locally>
 ```
+
+# Migrations
+From Model To Migration : python manage.py makemigrations
+After pulling new Code  : python manage.py migrate
