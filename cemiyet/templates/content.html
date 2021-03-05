@@ -1,16 +1,63 @@
 <!-- templates/content.html -->
 {% extends 'base.html' %}
-
-{% block title %}Welcome to Cemiyet{% endblock %}
+{% block title %}
+Welcome to Cemiyet
+{% endblock title %}
 {% block content %}
-<div class="container deadcenter">
-    <div class="one column fullwidth">
-        <div class="row hcenter-content">
-            <h4>You have signed in.</h4>
-        </div>
-        <div class="row hcenter-content">
-            <a class="button" href="{% url 'logout' %}">Sign out</a>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    <!-- Style for menu bar. -->
+    <style>
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #dddddd;
+    }
+    </style>
+    <!-- Style for cards. -->
+    <style>
+    li {
+        float: left;
+    }
+
+    li a {
+        display: block;
+        padding: 8px;
+    }
+
+    .card {
+        box-shadow: 0 16px 48px #E3E7EB;
+    }
+    </style>
+</head>
+
+<body>
+    <!-- Menu Bar -->
+    <ul>
+        <div>You have signed in.</div>
+        <li><a href="admin">Admin</a></li>
+        <li><a href="{% url 'logout' %}">Sign out</a></li>
+    </ul>
+    <!-- Page content-->
+    <div class="container">
+        <div class="row">
+            <!-- Blog Entries Column -->
+            <div class="col-md-8 mt-3 left">
+                {% for post in post_list %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text text-muted h6">{{ post.author }} | {{ post.created_on}} </p>
+                        <p class="card-text" style="color:blue;font-size:large;">{{post.body}}</p>
+                        <p class="card-text text-muted h6">{{ post.tags }} </p> <!-- I tried to list all tags but I get an error "post.tags not iterable" -->
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
-</div>
-{% endblock %}
+</body>
+{% endblock content %}
