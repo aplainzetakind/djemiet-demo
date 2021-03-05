@@ -132,7 +132,9 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
+# Import settings from '../local_settings.py' if available.
+# This will override settings above.
 try:
-    from .local_settings import *
+    from local_settings import *
 except ImportError as e:
     print(f"No local settings were imported: {e}")
