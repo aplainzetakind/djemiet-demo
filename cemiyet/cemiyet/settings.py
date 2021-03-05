@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '1%i%10r#9(00m57znqx28y49oes_jgqfu9-yop_iv@w(n7op%a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -133,6 +133,6 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 try:
-        from local_settings import *
-except ImportError:
-        pass
+    from .local_settings import *
+except ImportError as e:
+    print(f"No local settings were imported: {e}")
