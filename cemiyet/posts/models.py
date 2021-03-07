@@ -23,4 +23,5 @@ class Post(models.Model):
     image = models.CharField(max_length=255,blank=True, null=True)
 
     def __str__(self):
-        return '#' + str(self.pk)
+        return self.title
+    #return '#' + str(self.pk) bunu sildim, admin.py'de cagirinca list_display yapmama izin vermiyordu
