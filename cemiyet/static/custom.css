@@ -5,11 +5,103 @@
     min-height: 100vh;
 }
 
+.fullwidth {
+    min-width: 100vw;
+}
+
 .hcenter-content {
     display: flex;
     justify-content: center;
 }
 
+.grey-bg {
+    background-color: #f3f3f3;
+}
+
 .fullwidth {
     min-width: 100vw;
+}
+
+.postsrow {
+    margin-bottom: 50px;
+}
+
+.post-holder {
+    min-height: 80vh;
+    min-width: 70vw;
+    margin-top: 50px;
+}
+
+.post-card {
+    padding: 1em;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: relative;
+    height: 20em;
+}
+
+.post-body {
+    margin-top: 10pt;
+    margin-bottom: 10pt;
+}
+
+.post-title {
+    font-size: 1.5em;
+    margin-top: 18pt;
+    padding: 0;
+}
+
+.post-id {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 10pt;
+    color: #777777;
+    padding-top: 7pt;
+    padding-left: 10pt;
+}
+
+.post-tag {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 10pt;
+    color: #777777;
+    padding-top: 7pt;
+    padding-right: 10pt;
+}
+
+.post-date {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 10pt;
+    color: #777777;
+    padding-bottom: 7pt;
+    padding-right: 10pt;
+}
+
+.topbar {
+    /* padding: 0.5em; */
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    margin: 0;
+    padding: 0px;
+    width: auto;
+    min-width: 100vw;
+    min-height: 50px;
+}
+
+.vertical-center {
+    margin: 5px;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    width: auto;
 }
