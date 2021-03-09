@@ -4,20 +4,20 @@
 Welcome to Cemiyet
 {% endblock title %}
 {% block content %}
+
+<style>
+html, body {
+    scrollbar-width: none;
+}
+</style>
+
 <!-- Menu Bar -->
-{% comment %} <ul> {% endcomment %}
-    {% comment %} <div>You have signed in.</div> {% endcomment %}
-    {% comment %} <li><a href="admin">Admin</a></li> {% endcomment %}
-    {% comment %} <li><a href="{% url 'logout' %}">Sign out</a></li> {% endcomment %}
-    {% comment %} </ul> {% endcomment %}
-<div class="container topbar">
-        <img class="topbarlogo" src="static/logos/50x102.png"></img>
-    <div class="vertical-center">
-        <a class="button" href="{% url 'logout' %}">Sign out</a>
-    </div>
+<div class="topbar">
+    <img src="static/logos/50x102.png"></img>
+    <a class="button flushright" href="{% url 'logout' %}">Sign out</a>
 </div>
-<div class="container deadcenter fullwidth grey-bg">
-    <div class="container post-holder">
+<div class="post-holder fullwidth grey-bg">
+    <div class="container">
         <div class="row postsrow">
             {% for post in post_list %}
             {%  if forloop.counter|divisibleby:3 %}
