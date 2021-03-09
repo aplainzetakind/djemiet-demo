@@ -44,8 +44,9 @@
 .post-body {
     margin-top: 10pt;
     margin-bottom: 10pt;
-    max-height: 300px;
+    max-height: 12em;
     overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 .post-title {
