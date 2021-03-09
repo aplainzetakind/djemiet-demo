@@ -1,1 +1,13 @@
-<!-- Balon commit --> 
+{% extends 'base.html' %} {% block content %}
+
+Hello you are the post page.
+
+<!-- How to put in the input fields??-->
+
+
+        <form method="post">
+          {{ comment_form.as_p }}
+          <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
+        </form>
+
+{% endblock content %}

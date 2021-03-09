@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from . import views
+import posts.views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -23,5 +24,6 @@ urlpatterns = [
     path('accounts/login', auth_views.LoginView.as_view(redirect_authenticated_user=True), name='login'),
     path('accounts/', include('django.contrib.auth.urls')), # new
     path('', views.auth_wall),
-    path('content', views.PostList.as_view(), name='content')
+    path('content', views.PostList.as_view(), name='content'),
+    path('post', posts.views.post, name='post')
 ]
