@@ -29,6 +29,7 @@
 .post-holder {
     margin-top: 70px;
     padding-top: 50px;
+    min-width: 60vw;
 }
 
 .post-card {
