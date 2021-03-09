@@ -12,7 +12,7 @@ class Tag(models.Model):
         return self.name
 
 class Post(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, blank=True)
     #  I removed `related_name='answer'` without knowing what it does - d.
     refs = models.ManyToManyField('self', blank=True, null=True)
     body = models.TextField()
@@ -23,5 +23,5 @@ class Post(models.Model):
     image = models.CharField(max_length=255,blank=True, null=True)
 
     def __str__(self):
-        return self.title
+        return str(self.pk)
     #return '#' + str(self.pk) bunu sildim, admin.py'de cagirinca list_display yapmama izin vermiyordu
