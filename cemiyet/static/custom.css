@@ -96,7 +96,13 @@
     padding: 0px;
     width: auto;
     min-width: 100vw;
-    min-height: 50px;
+    min-height: 70px;
+}
+
+.topbarlogo {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-left: 20px;
 }
 
 .vertical-center {
