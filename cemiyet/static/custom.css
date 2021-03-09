@@ -33,6 +33,8 @@
 }
 
 .post-card {
+    display: flex;
+    flex-flow: column;
     padding: 1em;
     background-color: #ffffff;
     border-radius: 10px;
@@ -42,9 +44,8 @@
 }
 
 .post-body {
-    margin-top: 10pt;
-    margin-bottom: 10pt;
-    max-height: 12em;
+    position: relative;
+    margin-bottom: 15pt;
     overflow-y: scroll;
     scrollbar-width: none;
 }
