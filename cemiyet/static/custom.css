@@ -1,3 +1,11 @@
+.font-forum {
+    font-family: 'Forum', cursive;
+}
+
+textarea {
+    font-family: 'VollkornRegular';
+}
+
 .deadcenter {
     display: flex;
     justify-content: center;
@@ -29,6 +37,23 @@
 
 .grey-bg {
     background-color: #f3f3f3;
+}
+
+.auto {
+    height: auto;
+    width: auto;
+}
+
+.largetextbox {
+    height: 200px;
+    width: 400px;
+}
+
+.posting-form {
+    background-color: #ffffff;
+    padding: 2em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
 }
 
 .signin-box {

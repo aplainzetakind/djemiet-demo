@@ -1,15 +1,47 @@
 {% extends 'base.html' %} {% block content %}
 
-<h4>~~Hello you are at the post page.~~ </h4>
-
-
 <!-- How to put in the input fields??-->
 
+<div class="deadcenter grey-bg">
+    <div class="posting-form">
+    <div class="row">
+        <h4 class="font-forum">CREATE NEW POST</h4>
+    </div>
+        <form class="auto" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <input class="signin-input" type="text"
+                       placeholder="Subject" id="{{ post_form.title.id_for_label }}"
+                       name="{{ post_form.title.html_name }}">
+            </div>
+            <div class="row">
+                <label for="{{ post_form.body.id_for_label }}"></label>
+                <textarea class="largetextbox"
+                          name="{{ post_form.body.html_name }}"
+                          cols="25"
+                          rows="30"
+                          required=""
+                          placeholder="Post body"
+                          id="{{ post_form.body.id_for_label }}"></textarea>
+            </div>
+            <div class="row">
+                {{ post_form.tags }}
+            </div>
+            <div class="row topmargin07">
+                <button class="button nomargin" type="submit">Post</button>
+            </div>
+                {{ form.errors }}
+        </form>
+    </div>
+</div>
+</div>
 
+<div class="container">
         <form method="post">
         {% csrf_token %}
           {{ post_form.as_p }}
           <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
         </form>
+</div>
 
 {% endblock content %}
