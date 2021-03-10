@@ -22,11 +22,11 @@ html, body {
             {% for post in post_list %}
             {%  if forloop.counter|divisibleby:3 %}
             <div class="four columns post-card">
-                <div class="post-id">#{{ post.id }}</div>
-                <div class="post-tag">&lt;{{ post.tags }}&gt;</div>
+                <div class="post-id fineprint">#{{ post.id }}</div>
+                <div class="post-tag fineprint">&lt;{{ post.tags }}&gt;</div>
                 <div class="post-title">{{ post.title }}</div>
                 <div class="post-body">{{ post.body }}</div>
-                <div class="post-date">{{ post.created_on}}</div>
+                <div class="post-date fineprint">{{ post.created_on}}</div>
             </div>
         </div>
         {% if not forloop.last %}
@@ -34,11 +34,11 @@ html, body {
             {% endif %}
             {% else %}
             <div class="four columns post-card">
-                <div class="post-id">#{{ post.id }}</div>
-                <div class="post-tag">&lt;{{ post.tags }}&gt;</div>
+                <div class="post-id fineprint">#{{ post.id }}</div>
+                <div class="post-tag fineprint">&lt;{{ post.tags }}&gt;</div>
                 <div class="post-title">{{ post.title }}</div>
                 <div class="post-body">{{ post.body }}</div>
-                <div class="post-date">{{ post.created_on}}</div>
+                <div class="post-date fineprint">{{ post.created_on}}</div>
             </div>
             {% endif %}
             {% endfor %}
