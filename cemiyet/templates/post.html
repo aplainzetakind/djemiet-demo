@@ -1,12 +1,14 @@
 {% extends 'base.html' %} {% block content %}
 
-Hello you are at the post page.
+<h4>~~Hello you are at the post page.~~ </h4>
+
 
 <!-- How to put in the input fields??-->
 
 
         <form method="post">
-          {{ comment_form.as_p }}
+        {% csrf_token %}
+          {{ post_form.as_p }}
           <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
         </form>
 
