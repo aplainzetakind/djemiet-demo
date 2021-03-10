@@ -1,20 +1,17 @@
 <!-- templates/content.html -->
 {% extends 'base.html' %}
-{% block title %}
-Welcome to Cemiyet
-{% endblock title %}
+{% load static %}
 {% block content %}
+<style>
+html, body {
+    scrollbar-width: none;
+}
+</style>
+
 <!-- Menu Bar -->
-{% comment %} <ul> {% endcomment %}
-    {% comment %} <div>You have signed in.</div> {% endcomment %}
-    {% comment %} <li><a href="admin">Admin</a></li> {% endcomment %}
-    {% comment %} <li><a href="{% url 'logout' %}">Sign out</a></li> {% endcomment %}
-    {% comment %} </ul> {% endcomment %}
-<div class="container topbar">
-        <img class="topbarlogo" src="static/logos/50x102.png"></img>
-    <div class="vertical-center">
-        <a class="button" href="{% url 'logout' %}">Sign out</a>
-    </div>
+<div class="topbar">
+    <img src="{% static 'logos/50x102.png'%}"></img>
+    <a class="button flushright" href="{% url 'logout' %}">Sign out</a>
 </div>
 <div class="container deadcenter fullwidth grey-bg">
     <div class="container post-holder">
@@ -22,11 +19,12 @@ Welcome to Cemiyet
             {% for post in post_list %}
             {%  if forloop.counter|divisibleby:3 %}
             <div class="four columns post-card">
-                <div class="post-id">#{{ post.id }}</div>
-                <div class="post-tag">&lt;{{ post.tags }}&gt;</div>
+                <div class="post-id fineprint">#{{ post.id }}</div>
+                <div class="post-tag fineprint">&lt;{{ post.tags }}&gt;</div>
                 <div class="post-title">{{ post.title }}</div>
                 <div class="post-body">{{ post.body }}</div>
-                <div class="post-date">{{ post.created_on}}</div>
+                <div class="post-date fineprint">
+                    {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
             </div>
         </div>
         {% if not forloop.last %}
@@ -34,11 +32,12 @@ Welcome to Cemiyet
             {% endif %}
             {% else %}
             <div class="four columns post-card">
-                <div class="post-id">#{{ post.id }}</div>
-                <div class="post-tag">&lt;{{ post.tags }}&gt;</div>
+                <div class="post-id fineprint">#{{ post.id }}</div>
+                <div class="post-tag fineprint">&lt;{{ post.tags }}&gt;</div>
                 <div class="post-title">{{ post.title }}</div>
                 <div class="post-body">{{ post.body }}</div>
-                <div class="post-date">{{ post.created_on}}</div>
+                <div class="post-date fineprint">
+                    {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
             </div>
             {% endif %}
             {% endfor %}
