@@ -1,0 +1,141 @@
+.deadcenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.button {
+    font-family: 'Montserrat';
+    font-size: 16px;
+}
+
+.fullwidth {
+    min-width: 100vw;
+}
+
+.hcenter-content {
+    display: flex;
+    justify-content: center;
+}
+
+.grey-bg {
+    background-color: #f3f3f3;
+}
+
+.signin-box {
+    background-color: #ffffff;
+    padding: 1em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.fullwidth {
+    min-width: 100vw;
+}
+
+.postsrow {
+    margin-bottom: 50px;
+}
+
+.post-holder {
+    margin-top: 70px;
+    padding-top: 50px;
+    min-width: 60vw;
+}
+
+.post-card {
+    display: flex;
+    flex-flow: column;
+    padding: 1.2em;
+    background-color: #ffffff;
+    border-radius: 3px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: relative;
+    height: 20em;
+}
+
+.post-body {
+    position: relative;
+    margin-bottom: 15pt;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    font-family: 'VollkornRegular';
+    font-size: 18px;
+    line-height: 1.2em;
+}
+
+.post-title {
+    font-size: 2em;
+    margin-top: 18pt;
+    padding: 0;
+    font-family: 'Forum', cursive;
+    line-height: 1;
+    margin-bottom: 0.5em;
+    /* font-weight: normal; */
+    /* font-style: normal; */
+}
+
+.fineprint {
+    font-family: 'Montserrat';
+    font-size: 10pt;
+    color: #777777;
+}
+
+.post-id {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-top: 7pt;
+    padding-left: 10pt;
+}
+
+.post-tag {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-top: 7pt;
+    padding-right: 10pt;
+}
+
+.post-date {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding-bottom: 7pt;
+    padding-right: 10pt;
+}
+
+.topbar {
+    /* padding: 0.5em; */
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    margin: 0;
+    display: flex;
+    align-items:center;
+    padding-left: 30px;
+    padding-right: 30px;
+    box-sizing: border-box;
+    width: auto;
+    min-width: 100vw;
+    height: 70px;
+}
+
+.flushright {
+    margin-left: auto;
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+.vertical-center {
+    margin: 5px;
+    position: relative;
+    top: 50%;
+    right: 0;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    width: auto;
+}

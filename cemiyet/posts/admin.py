@@ -1,8 +1,8 @@
 from django.contrib import admin
 from .models import Post,Tag
 
-#admin liste gorunumu
 class PostAdmin(admin.ModelAdmin):
+    """ Admin panel list view """
     list_display = ('id', 'title', 'author', 'tags')
     autocomplete_fields = ['tags']
 
