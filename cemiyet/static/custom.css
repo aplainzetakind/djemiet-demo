@@ -170,10 +170,18 @@ textarea {
     height: 70px;
 }
 
-.flushright {
+.blockcenter {
     margin-left: auto;
-    margin-right: 0;
+    margin-right: auto;
     margin-bottom: 0;
+}
+
+.flushright {
+    position: relative;
+    right: 0;
+    /* margin-left: auto; */
+    /* margin-right: 0; */
+    margin: 0;
 }
 
 .vertical-center {
