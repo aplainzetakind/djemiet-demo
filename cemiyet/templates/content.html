@@ -11,6 +11,7 @@ html, body {
 <!-- Menu Bar -->
 <div class="topbar">
     <img src="{% static 'logos/50x102.png'%}"></img>
+    <a class="button blockcenter" href="{% url 'post' %}">Create post</a>
     <a class="button flushright" href="{% url 'logout' %}">Sign out</a>
 </div>
 <div class="container deadcenter fullwidth grey-bg">
@@ -44,4 +45,16 @@ html, body {
         </div>
     </div>
 </div>
+{% if page_obj.has_previous %}
+<div class="nav prev">
+    <a class="arrows" href="?page=1">&lt;&lt;</a>
+    <a class="arrows" href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+</div>
+{% endif %}
+{% if page_obj.has_next %}
+<div class="nav next">
+    <a class="arrows" href="?page={{ page_obj.next_page_number }}">&gt;</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}">&gt;&gt;</a>
+</div>
+{% endif %}
 {% endblock content %}

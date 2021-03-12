@@ -170,10 +170,18 @@ textarea {
     height: 70px;
 }
 
-.flushright {
+.blockcenter {
     margin-left: auto;
-    margin-right: 0;
+    margin-right: auto;
     margin-bottom: 0;
+}
+
+.flushright {
+    position: relative;
+    right: 0;
+    /* margin-left: auto; */
+    /* margin-right: 0; */
+    margin: 0;
 }
 
 .vertical-center {
@@ -184,4 +192,29 @@ textarea {
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
     width: auto;
+}
+
+.nav {
+    position: fixed;
+    top: 50%;
+    font-size: 60px;
+    font-family: 'VollkornRegular';
+    width: 20vw;
+    text-align: center;
+    text-shadow: 3px 3px 3px #999999;
+    letter-spacing: -0.3em;
+}
+
+.nav a {
+    margin: 0.3em;
+    text-decoration: none;
+    color: #444444;
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
 }
