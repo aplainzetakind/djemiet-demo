@@ -44,4 +44,21 @@ html, body {
         </div>
     </div>
 </div>
+<div class="container pagination">
+    <span>
+        <a href="?page=1">first</a>
+        {% if page_obj.has_previous %}          
+            <a href="?page={{ page_obj.previous_page_number }}">prev</a>
+        {% endif %}
+
+        <a href="?page={{ page_obj.number }}" class="active">
+          {{ page_obj.number }}
+        </a>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next </a>
+        {% endif %}
+        <a href="?page={{ page_obj.paginator.num_pages }}">last</a>
+    </span>
+</div>
 {% endblock content %}
