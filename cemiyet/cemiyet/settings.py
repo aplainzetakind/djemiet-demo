@@ -131,6 +131,10 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
+# Paging
+POSTS_COUNT_PER_PAGE = 9
+
+
 # Import settings from '../local_settings.py' if available.
 # This will override settings above.
 try:
