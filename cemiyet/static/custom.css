@@ -186,20 +186,27 @@ textarea {
     width: auto;
 }
 
-.pagination {
-    display: inline-block;
-}
-  
-.pagination a {
-    color: black;
-    float: left;
-    padding: 8px 16px;
-    text-decoration: none;
+.nav {
+    position: fixed;
+    top: 50%;
+    font-size: 60px;
+    font-family: 'VollkornRegular';
+    width: 20vw;
+    text-align: center;
+    text-shadow: 3px 3px 3px #999999;
+    letter-spacing: -0.3em;
 }
 
-.pagination a.active {
-    background-color: #4CAF50;
-    color: white;
+.nav a {
+    margin: 0.3em;
+    text-decoration: none;
+    color: #444444;
 }
-  
-.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
+}
