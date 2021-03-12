@@ -8,8 +8,6 @@ class PostAdmin(admin.ModelAdmin):
 
 class TagAdmin(admin.ModelAdmin):
     search_fields = ['name']
-#admin.site.register(Post)
-
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Tag, TagAdmin)
