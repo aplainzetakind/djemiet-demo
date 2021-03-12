@@ -170,10 +170,18 @@ textarea {
     height: 70px;
 }
 
-.flushright {
+.blockcenter {
     margin-left: auto;
-    margin-right: 0;
+    margin-right: auto;
     margin-bottom: 0;
+}
+
+.flushright {
+    position: relative;
+    right: 0;
+    /* margin-left: auto; */
+    /* margin-right: 0; */
+    margin: 0;
 }
 
 .vertical-center {
@@ -189,7 +197,7 @@ textarea {
 .pagination {
     display: inline-block;
 }
-  
+
 .pagination a {
     color: black;
     float: left;
@@ -201,5 +209,5 @@ textarea {
     background-color: #4CAF50;
     color: white;
 }
-  
+
 .pagination a:hover:not(.active) {background-color: #ddd;}
