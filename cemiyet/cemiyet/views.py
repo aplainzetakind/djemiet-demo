@@ -19,3 +19,6 @@ class PostList(generic.ListView):
     queryset = Post.objects.order_by('-created_on')
     paginate_by = settings.POSTS_COUNT_PER_PAGE
     template_name = 'content.html'
+
+def manual(request):
+	return(render(request, "manual.html"))

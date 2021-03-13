@@ -1,0 +1,22 @@
+<!-- templates/manual.html-->
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Menu Bar -->
+<div class="topbar">
+    <a href="{% url 'content' %}">
+    <img src="{% static 'logos/50x102.png'%}">
+    </a>
+    </img>
+    <a class="button flushright" href="{% url 'logout' %}">Sign out</a> <!-- Why is this not pushed to right??-->
+</div>
+
+<!-- Help section -->
+<div>  <!-- This paragraph ended up starting from under the menu bar-->
+<h3> How does Djemiet work? </h3>
+<p> Text here </p>
+</div>
+
+{% endblock content %}
