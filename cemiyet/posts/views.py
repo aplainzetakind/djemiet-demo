@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
+from django.views.generic.detail import DetailView
 from .models import Post, Tag
 from .forms import PostForm
 
@@ -23,3 +24,7 @@ def post(request):
         post_form = PostForm()
 
     return render(request, template_name, {'post_form': post_form})
+
+class PostDetailView(DetailView):
+    slug_field = 'pk'
+    model = Post

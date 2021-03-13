@@ -25,5 +25,6 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')), # new
     path('', views.auth_wall),
     path('content', views.PostList.as_view(), name='content'),
-    path('post', posts.views.post, name='post')
+    path('post', posts.views.post, name='post'),
+    path('p/<slug:slug>', posts.views.PostDetailView.as_view(), name='post_detail')
 ]
