@@ -1,11 +1,39 @@
-
-<!-- templates/content.html -->
 {% extends 'base.html' %}
 {% load static %}
+
+{% block title %}{% endblock %}
 {% block content %}
-Register new user
-<form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Register">
-</form>
-{% endblock content %}
+<div class="deadcenter grey-bg">
+    <div class="signin-box">
+        <h4 class="font-forum">NEW ACCOUNT</h4>
+        <form class="nomargin" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <input class="signin-input" type="text"
+                       placeholder="Username" id="{{ form.username.id_for_label }}"
+                       name="{{ form.username.html_name }}">
+            </div>
+            <div class="row">
+                <input class="signin-input bodyfont"
+                       type="password"
+                       placeholder="Password"
+                       id="{{ form.password1.id_for_label }}"
+                       name="{{ form.password1.html_name }}">
+            </div>
+            <div class="row">
+                <input class="signin-input bodyfont"
+                       type="password"
+                       placeholder="Password confirmation"
+                       id="{{ form.password2.id_for_label }}"
+                       name="{{ form.password2.html_name }}">
+            </div>
+                {{ form.errors }}
+            <div class="row topmargin07">
+                <button class="button nomargin" type="submit">
+                    Create
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+        {% endblock content %}
