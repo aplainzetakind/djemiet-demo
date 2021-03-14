@@ -1,3 +1,11 @@
+.font-forum {
+    font-family: 'Forum', cursive;
+}
+
+textarea {
+    font-family: 'VollkornRegular';
+}
+
 .deadcenter {
     display: flex;
     justify-content: center;
@@ -29,6 +37,23 @@
 
 .grey-bg {
     background-color: #f3f3f3;
+}
+
+.auto {
+    height: auto;
+    width: auto;
+}
+
+.largetextbox {
+    height: 200px;
+    width: 400px;
+}
+
+.posting-form {
+    background-color: #ffffff;
+    padding: 2em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
 }
 
 .signin-box {
@@ -74,16 +99,33 @@
     height: 20em;
 }
 
+.post-card-detail {
+    display: flex;
+    flex-flow: column;
+    padding: 1.2em;
+    background-color: #ffffff;
+    border-radius: 3px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: relative;
+    min-height: 15em;
+    width: 60%;
+    margin: auto;
+}
+
 .post-body {
     position: relative;
     margin-bottom: 15pt;
     overflow-y: scroll;
     scrollbar-width: none;
     font-family: 'VollkornRegular';
-    font-size: 18px;
+    font-size: 20px;
     line-height: 1.2em;
 }
 
+.post-body a {
+    color: #777777;
+    font-family: 'VollkornSemibold';
+}
 
 .post-title {
     font-size: 2em;
@@ -145,10 +187,18 @@
     height: 70px;
 }
 
-.flushright {
+.blockcenter {
     margin-left: auto;
-    margin-right: 0;
+    margin-right: auto;
     margin-bottom: 0;
+}
+
+.flushright {
+    position: relative;
+    right: 0;
+    /* margin-left: auto; */
+    /* margin-right: 0; */
+    margin: 0;
 }
 
 .vertical-center {
@@ -159,4 +209,29 @@
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
     width: auto;
+}
+
+.nav {
+    position: fixed;
+    top: 50%;
+    font-size: 60px;
+    font-family: 'VollkornRegular';
+    width: 20vw;
+    text-align: center;
+    text-shadow: 3px 3px 3px #999999;
+    letter-spacing: -0.3em;
+}
+
+.nav a {
+    margin: 0.3em;
+    text-decoration: none;
+    color: #444444;
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
 }
