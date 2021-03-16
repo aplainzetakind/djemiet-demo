@@ -32,8 +32,6 @@ class PostingFormView(FormView):
         for pst in post.parents.all():
             pst.children.add(post)
         return super().form_valid(form)
-        #  post_form.Meta.response_text = "[[{post_id}]]".format(post_id=postid) if postid > 0 else ""
-
 
 @method_decorator(login_required, name='dispatch')
 class PostDetailView(DetailView):
