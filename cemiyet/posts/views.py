@@ -6,7 +6,7 @@ from .forms import PostForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-def post(request):
+def post(request, postid=0):
     template_name = 'post.html'
 
     if request.method == 'POST':
@@ -24,6 +24,7 @@ def post(request):
 
     else:
         post_form = PostForm()
+        post_form.Meta.response_text = "[[{post_id}]]".format(post_id=postid) if postid > 0 else ""
 
     return render(request, template_name, {'post_form': post_form})
 
