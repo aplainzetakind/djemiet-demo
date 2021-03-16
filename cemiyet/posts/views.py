@@ -17,6 +17,8 @@ class PostingFormView(FormView):
         post = form.save(commit=False)
         post.author = self.request.user
         post.save()
+        post.parents.set(form.refs)
+        post.save()
         return super().form_valid(form)
 
 @method_decorator(login_required, name='dispatch')
