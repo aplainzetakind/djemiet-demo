@@ -11,7 +11,9 @@ html, body {
 
 <!-- Menu Bar -->
 <div class="topbar">
-    <img src="{% static 'logos/50x102.png'%}"></img>
+    <a href="{% url 'content' %}">
+        <img src="{% static 'logos/50x102.png'%}"></img>
+    </a>
     <a class="button blockcenter" href="{% url 'post' %}">Create post</a>
     <a class="button flushright" href="{% url 'logout' %}">Sign out</a>
 </div>
@@ -21,8 +23,16 @@ html, body {
             {% for post in post_list %}
             {%  if forloop.counter|divisibleby:3 %}
             <div class="four columns post-card">
-                <div class="post-id fineprint">#{{ post.id }}</div>
-                <div class="post-tag fineprint">&lt;{{ post.tags }}&gt;</div>
+                <div class="post-id fineprint">
+                    <a href="{% url 'respond' postid=post.id %}">
+                        #{{ post.id }}
+                    </a>
+                </div>
+                <div class="post-tag fineprint">
+                    <a href="{% url 'content' %}?t={{ post.tags }}">
+                        &lt;{{ post.tags }}&gt;
+                    </a>
+                </div>
                 <div class="post-title">{{ post.title|titlefilter }}</div>
                 <div class="post-body">{{ post.body|postfilter }}</div>
                 <div class="post-date fineprint">
@@ -34,8 +44,16 @@ html, body {
             {% endif %}
             {% else %}
             <div class="four columns post-card">
-                <div class="post-id fineprint">#{{ post.id }}</div>
-                <div class="post-tag fineprint">&lt;{{ post.tags }}&gt;</div>
+                <div class="post-id fineprint">
+                    <a href="{% url 'respond' postid=post.id %}">
+                        #{{ post.id }}
+                    </a>
+                </div>
+                <div class="post-tag fineprint">
+                    <a href="{% url 'content' %}?t={{ post.tags }}">
+                        &lt;{{ post.tags }}&gt;
+                    </a>
+                </div>
                 <div class="post-title">{{ post.title|titlefilter }}</div>
                 <div class="post-body">{{ post.body|postfilter }}</div>
                 <div class="post-date fineprint">

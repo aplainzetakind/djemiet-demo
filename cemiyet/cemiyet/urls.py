@@ -27,6 +27,7 @@ urlpatterns = [
     path('content', views.PostList.as_view(), name='content'),
     path('reg/', include('tokens.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('post', posts.views.post, name='post'),
-    path('p/<slug:slug>', posts.views.PostDetailView.as_view(), name='post_detail')
+    path('post', posts.views.PostingFormView.as_view(), name='post'),
+    path('p/<slug:slug>', posts.views.PostDetailView.as_view(), name='post_detail'),
+    path('respond/<int:postid>', posts.views.PostingFormView.as_view(), name='respond')
 ]
