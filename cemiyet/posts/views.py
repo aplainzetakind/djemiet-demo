@@ -5,28 +5,35 @@ from .models import Post, Tag
 from .forms import PostForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.views.generic.edit import FormView
 
-def post(request, postid=0):
+@method_decorator(login_required, name='dispatch')
+class PostingFormView(FormView):
+    form_class = PostForm
     template_name = 'post.html'
+    success_url = '/content'
+    fill = ''
 
-    if request.method == 'POST':
-        post_form = PostForm(data=request.POST)
-        if post_form.is_valid():
-            # Create Comment object but don't save to database yet
-            new_post = post_form.save(commit=False)
-            # Assign the current post to the comment
-            new_post.title = post_form.cleaned_data["title"]
-            new_post.body = post_form.cleaned_data["body"]
-            new_post.tags = post_form.cleaned_data["tags"]
-            new_post.save()
+    def get(self, request, *args, **kwargs):
+        self.fill = ''
+        postid = kwargs.get('postid')
+        if postid is not None:
+            self.fill = '[[' + str(postid) + ']]'
+        return super().get(request, *args, **kwargs)
 
-            return HttpResponseRedirect('/content')
+    def get_initial(self):
+        return {'body' : self.fill }
 
-    else:
-        post_form = PostForm()
-        post_form.Meta.response_text = "[[{post_id}]]".format(post_id=postid) if postid > 0 else ""
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.author = self.request.user
+        post.save()
+        form.save_m2m()
+        for pst in post.parents.all():
+            pst.children.add(post)
+        return super().form_valid(form)
+        #  post_form.Meta.response_text = "[[{post_id}]]".format(post_id=postid) if postid > 0 else ""
 
-    return render(request, template_name, {'post_form': post_form})
 
 @method_decorator(login_required, name='dispatch')
 class PostDetailView(DetailView):

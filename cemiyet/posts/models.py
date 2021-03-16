@@ -8,14 +8,15 @@ from django.contrib.postgres.fields import ArrayField
 class Tag(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
-
     def __str__(self):
         return self.name
+
 
 class Post(models.Model):
     title = models.CharField(max_length=255, blank=True)
     #  I removed `related_name='answer'` without knowing what it does - d.
-    refs = models.ManyToManyField('self', blank=True, null=True)
+    parents = models.ManyToManyField('self', blank=True, null=True)
+    children = models.ManyToManyField('self', blank=True, null=True)
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=False,
