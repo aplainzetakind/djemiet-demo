@@ -11,7 +11,9 @@ html, body {
 
 <!-- Menu Bar -->
 <div class="topbar">
-    <img src="{% static 'logos/50x102.png'%}"></img>
+    <a href="{% url 'content' %}">
+        <img src="{% static 'logos/50x102.png'%}"></img>
+    </a>
     <a class="button blockcenter" href="{% url 'post' %}">Create post</a>
     <a class="button flushright" href="{% url 'logout' %}">Sign out</a>
 </div>
