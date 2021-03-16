@@ -24,7 +24,11 @@ html, body {
             {%  if forloop.counter|divisibleby:3 %}
             <div class="four columns post-card">
                 <div class="post-id fineprint">#{{ post.id }}</div>
-                <div class="post-tag fineprint">&lt;{{ post.tags }}&gt;</div>
+                <div class="post-tag fineprint">
+                    <a href="{% url 'content' %}?t={{ post.tags }}">
+                        &lt;{{ post.tags }}&gt;
+                    </a>
+                </div>
                 <div class="post-title">{{ post.title|titlefilter }}</div>
                 <div class="post-body">{{ post.body|postfilter }}</div>
                 <div class="post-date fineprint">
@@ -37,7 +41,11 @@ html, body {
             {% else %}
             <div class="four columns post-card">
                 <div class="post-id fineprint">#{{ post.id }}</div>
-                <div class="post-tag fineprint">&lt;{{ post.tags }}&gt;</div>
+                <div class="post-tag fineprint">
+                    <a href="{% url 'content' %}?t={{ post.tags }}">
+                        &lt;{{ post.tags }}&gt;
+                    </a>
+                </div>
                 <div class="post-title">{{ post.title|titlefilter }}</div>
                 <div class="post-body">{{ post.body|postfilter }}</div>
                 <div class="post-date fineprint">

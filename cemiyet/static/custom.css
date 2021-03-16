@@ -122,7 +122,7 @@ textarea {
     line-height: 1.2em;
 }
 
-.post-card a {
+.post-body a {
     color: #238cbc;
     font-family: 'VollkornSemibold';
     text-decoration: none;
@@ -146,6 +146,13 @@ textarea {
 .post-title a {
     color: #238cbc;
     font-family: 'Forum', cursive;
+    text-decoration: none;
+}
+
+.fineprint a {
+    color: #777777;
+    font-family: 'Montserrat';
+    text-decoration: none;
 }
 
 .fineprint {
