@@ -122,6 +122,13 @@ textarea {
     line-height: 1.2em;
 }
 
+::-webkit-scrollbar {
+    width: 20px;
+    height: 10px;
+    scrollbar-width: none;
+}
+
+
 .post-card a {
     color: #238cbc;
     font-family: 'VollkornSemibold';
