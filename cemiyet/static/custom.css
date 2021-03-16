@@ -122,7 +122,7 @@ textarea {
     line-height: 1.2em;
 }
 
-<<<<<<< HEAD
+
 ::-webkit-scrollbar {
     width: 20px;
     height: 10px;
@@ -133,7 +133,6 @@ textarea {
 .post-card a {
 =======
 .post-body a {
->>>>>>> ed43ca1b447ca7ab5bf0a87a3a39ab2f91bf7c15
     color: #238cbc;
     font-family: 'VollkornSemibold';
     text-decoration: none;
@@ -161,6 +160,7 @@ textarea {
 }
 
 .fineprint a {
+    color: #777777;
     font-family: 'Montserrat';
     text-decoration: none;
 }
