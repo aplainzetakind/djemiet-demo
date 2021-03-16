@@ -11,21 +11,21 @@
             {% csrf_token %}
             <div class="row">
                 <input class="signin-input" type="text"
-                       placeholder="Subject" id="{{ post_form.title.id_for_label }}"
-                       name="{{ post_form.title.html_name }}">
+                       placeholder="Subject" id="{{ form.title.id_for_label }}"
+                       name="{{ form.title.html_name }}">
             </div>
             <div class="row">
-                <label for="{{ post_form.body.id_for_label }}"></label>
+                <label for="{{ form.body.id_for_label }}"></label>
                 <textarea class="largetextbox"
-                          name="{{ post_form.body.html_name }}"
+                          name="{{ form.body.html_name }}"
                           cols="25"
                           rows="30"
                           required=""
                           placeholder="Post body"
-                          id="{{ post_form.body.id_for_label }}"></textarea>
+                          id="{{ form.body.id_for_label }}"></textarea>
             </div>
             <div class="row">
-                {{ post_form.tags }}
+                {{ form.tags }}
             </div>
             <div class="row topmargin07">
                 <button class="button nomargin" type="submit">Post</button>
@@ -39,7 +39,7 @@
 <div class="container">
         <form method="post">
         {% csrf_token %}
-          {{ post_form.as_p }}
+          {{ form.as_p }}
           <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
         </form>
 </div>
