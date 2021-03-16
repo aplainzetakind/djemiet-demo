@@ -11,7 +11,18 @@ from django.views.generic.edit import FormView
 class PostingFormView(FormView):
     form_class = PostForm
     template_name = 'post.html'
-    success_url = 'content'
+    success_url = '/content'
+    fill = ''
+
+    def get(self, request, *args, **kwargs):
+        self.fill = ''
+        postid = kwargs.get('postid')
+        if postid is not None:
+            self.fill = '[[' + str(postid) + ']]'
+        return super().get(request, *args, **kwargs)
+
+    def get_initial(self):
+        return {'body' : self.fill }
 
     def form_valid(self, form):
         post = form.save(commit=False)
@@ -21,6 +32,8 @@ class PostingFormView(FormView):
         for pst in post.parents.all():
             pst.children.add(post)
         return super().form_valid(form)
+        #  post_form.Meta.response_text = "[[{post_id}]]".format(post_id=postid) if postid > 0 else ""
+
 
 @method_decorator(login_required, name='dispatch')
 class PostDetailView(DetailView):
