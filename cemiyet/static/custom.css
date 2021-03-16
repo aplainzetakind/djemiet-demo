@@ -123,8 +123,13 @@ textarea {
 }
 
 .post-body a {
-    color: #777777;
+    color: #238cbc;
     font-family: 'VollkornSemibold';
+    text-decoration: none;
+}
+
+.post-card-detail p {
+    margin-bottom: 0.5em;
 }
 
 .post-title {
@@ -136,6 +141,18 @@ textarea {
     margin-bottom: 0.5em;
     /* font-weight: normal; */
     /* font-style: normal; */
+}
+
+.post-title a {
+    color: #238cbc;
+    font-family: 'Forum', cursive;
+    text-decoration: none;
+}
+
+.fineprint a {
+    color: #777777;
+    font-family: 'Montserrat';
+    text-decoration: none;
 }
 
 .fineprint {

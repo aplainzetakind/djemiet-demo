@@ -122,9 +122,14 @@ textarea {
     line-height: 1.2em;
 }
 
-.post-body a {
-    color: #777777;
+.post-card a {
+    color: #238cbc;
     font-family: 'VollkornSemibold';
+    text-decoration: none;
+}
+
+.post-card p {
+    margin-bottom: 1em;
 }
 
 .post-title {

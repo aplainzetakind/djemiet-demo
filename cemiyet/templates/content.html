@@ -23,11 +23,11 @@ html, body {
             <div class="four columns post-card">
                 <div class="post-id fineprint">#{{ post.id }}</div>
                 <div class="post-tag fineprint">
-                    &lt; 
-                    <a href="{% url 'content' %}?t={{ post.tags }}">{{ post.tags }}</a>
-                    &gt;
+                    <a href="{% url 'content' %}?t={{ post.tags }}">
+                        &lt;{{ post.tags }}&gt;
+                    </a>
                 </div>
-                <div class="post-title">{{ post.title }}</div>
+                <div class="post-title">{{ post.title|titlefilter }}</div>
                 <div class="post-body">{{ post.body|postfilter }}</div>
                 <div class="post-date fineprint">
                     {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
@@ -38,13 +38,13 @@ html, body {
             {% endif %}
             {% else %}
             <div class="four columns post-card">
-                <div class="post-id fineprint">#{{ post.id }}</div>                
+                <div class="post-id fineprint">#{{ post.id }}</div>
                 <div class="post-tag fineprint">
-                    &lt; 
-                    <a href="{% url 'content' %}?t={{ post.tags }}">{{ post.tags }}</a>
-                    &gt;
+                    <a href="{% url 'content' %}?t={{ post.tags }}">
+                        &lt;{{ post.tags }}&gt;
+                    </a>
                 </div>
-                <div class="post-title">{{ post.title }}</div>
+                <div class="post-title">{{ post.title|titlefilter }}</div>
                 <div class="post-body">{{ post.body|postfilter }}</div>
                 <div class="post-date fineprint">
                     {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
