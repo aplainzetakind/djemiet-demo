@@ -14,7 +14,6 @@ class Tag(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=255, blank=True)
-    #  I removed `related_name='answer'` without knowing what it does - d.
     parents = models.ManyToManyField('self', related_name = 'children', symmetrical=False, blank=True, null=True)
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
