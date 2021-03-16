@@ -143,6 +143,11 @@ textarea {
     /* font-style: normal; */
 }
 
+.post-title a {
+    color: #238cbc;
+    font-family: 'Forum', cursive;
+}
+
 .fineprint {
     font-family: 'Montserrat';
     font-size: 10pt;
