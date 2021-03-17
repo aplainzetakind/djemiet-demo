@@ -12,7 +12,6 @@ class PostForm(forms.ModelForm):
         #  overriding stuff.  But since we ignore whatever would be posted and
         #  overwrite it, that shouldn't be a problem.
         fields = ('title', 'body', 'tags', 'parents')
-        response_text = ""
 
     def clean(self):
         cd = self.cleaned_data

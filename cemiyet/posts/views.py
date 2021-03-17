@@ -14,8 +14,8 @@ class PostingFormView(FormView):
     success_url = '/content'
     fill = ''
 
+    #  Probably better to do this by overriding __init__
     def get(self, request, *args, **kwargs):
-        self.fill = ''
         postid = kwargs.get('postid')
         if postid is not None:
             self.fill = '[[' + str(postid) + ']]'
@@ -29,8 +29,6 @@ class PostingFormView(FormView):
         post.author = self.request.user
         post.save()
         form.save_m2m()
-        for pst in post.parents.all():
-            pst.children.add(post)
         return super().form_valid(form)
 
 @method_decorator(login_required, name='dispatch')
