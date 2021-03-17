@@ -18,12 +18,12 @@ from django.urls import include, path
 from . import views
 import posts.views
 import tokens
-from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import LoginView
 
 urlpatterns = [
     path('', views.auth_wall, name='root'),
     path('admin/', admin.site.urls),
-    path('accounts/login', auth_views.LoginView.as_view(redirect_authenticated_user=True), name='login'),
+    path('accounts/login', LoginView.as_view(redirect_authenticated_user=True), name='login'),
     path('content', views.PostList.as_view(), name='content'),
     path('reg/', include('tokens.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
