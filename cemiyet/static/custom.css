@@ -134,6 +134,10 @@ textarea {
     text-decoration: none;
 }
 
+.post-card-detail {
+    margin-bottom: 50px;
+}
+
 .post-card-detail p {
     margin-bottom: 0.5em;
 }
