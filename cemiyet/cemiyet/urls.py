@@ -24,10 +24,10 @@ urlpatterns = [
     path('', views.auth_wall, name='root'),
     path('admin/', admin.site.urls),
     path('accounts/login', LoginView.as_view(redirect_authenticated_user=True), name='login'),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('content', views.PostList.as_view(), name='content'),
     path('reg/', include('tokens.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
     path('post', posts.views.PostingFormView.as_view(), name='post'),
-    path('p/<slug:slug>', posts.views.PostDetailView.as_view(), name='post_detail'),
+    path('p/<int:slug>', posts.views.PostDetailView.as_view(), name='post_detail'),
     path('respond/<int:postid>', posts.views.PostingFormView.as_view(), name='respond')
 ]
