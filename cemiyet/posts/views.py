@@ -1,4 +1,8 @@
+import json
+
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.detail import DetailView
 from .models import Post, Tag
@@ -35,3 +39,14 @@ class PostingFormView(FormView):
 class PostDetailView(DetailView):
     slug_field = 'pk'
     model = Post
+
+
+def autocomplete(request):
+    if 'term' in request.GET:
+        qs = Tag.objects.filter(name__icontains=request.GET.get('term'))
+        titles = list()
+        for tag in qs:
+            titles.append(tag.name)
+        # titles = [product.title for product in qs]
+        return JsonResponse(titles, safe=False)
+    return render(request, 'post')

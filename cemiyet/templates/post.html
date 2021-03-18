@@ -3,6 +3,7 @@
 <!-- How to put in the input fields??-->
 
 <div class="deadcenter grey-bg">
+    
     <div class="posting-form">
     <div class="row">
         <h4 class="font-forum">CREATE NEW POST</h4>
@@ -25,7 +26,9 @@
                           id="{{ form.body.id_for_label }}">{{ form.body.initial }}</textarea>
             </div>
             <div class="row">
-                {{ form.tags }}
+                <form>
+                    <input type="text" name="tags" id="tags" placeholder="Tag">
+                </form>
             </div>
             <div class="row topmargin07">
                 <button class="button nomargin" type="submit">Post</button>
@@ -43,5 +46,13 @@
           <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
         </form>
 </div>
-
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $( function() {
+        $("#tags").autocomplete({
+            source: '{% url 'autocomplete' %}',
+      });
+    } );
+</script>
 {% endblock content %}
