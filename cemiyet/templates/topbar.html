@@ -1,0 +1,12 @@
+<!-- templates/topbar.html-->
+{% load static %}
+
+<div class="topbar">
+    <a href="{% url 'content' %}">
+        <img src="{% static 'logos/50x102.png'%}"></img>
+    </a>
+    <a class="button blockcenter" href="{% url 'post' %}">Create post</a>
+    <a class="button flushright" href="{% url 'manual' %}">?</a>
+    <!-- A few pixels of space between these '?' and 'Sign out' buttons would have been nice-->
+    <a class="button flushright" href="{% url 'logout' %}">Sign out</a>
+</div>

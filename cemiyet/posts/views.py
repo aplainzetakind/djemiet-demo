@@ -35,3 +35,4 @@ class PostingFormView(FormView):
 class PostDetailView(DetailView):
     slug_field = 'pk'
     model = Post
+    template_name = "base.html"
