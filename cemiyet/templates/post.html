@@ -1,9 +1,7 @@
-{% extends 'base.html' %} {% block content %}
-
-<!-- How to put in the input fields??-->
+{% extends 'base.html' %}
+{% block content %}
 
 <div class="deadcenter grey-bg">
-    
     <div class="posting-form">
     <div class="row">
         <h4 class="font-forum">CREATE NEW POST</h4>
@@ -26,9 +24,12 @@
                           id="{{ form.body.id_for_label }}">{{ form.body.initial }}</textarea>
             </div>
             <div class="row">
-                <form>
-                    <input type="text" name="tags" id="tags" placeholder="Tag">
-                </form>
+            <!-- See above: names and ids come from the template context for
+            other fields.  When I do the same for this, autocomplete stops
+            working. For the integrity of the form, these should probably also
+            come from that form context, but I'm not sure how other parts of the
+            code needs to be changed for this. -->
+                <input type="text" name="tags" id="tags" placeholder="Tag">
             </div>
             <div class="row topmargin07">
                 <button class="button nomargin" type="submit">Post</button>
