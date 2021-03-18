@@ -4,24 +4,18 @@
 {% load post_filters %}
 {% block content %}
 <style>
-html, body {
+html,
+body {
     scrollbar-width: none;
 }
 </style>
-
-<!-- Menu Bar -->
-<div class="topbar">
-    <a href="{% url 'content' %}">
-        <img src="{% static 'logos/50x102.png'%}"></img>
-    </a>
-    <a class="button blockcenter" href="{% url 'post' %}">Create post</a>
-    <a class="button flushright" href="{% url 'logout' %}">Sign out</a>
-</div>
+<!-- Add top bar -->
+{% include 'topbar.html' %}
 <div class="container deadcenter fullwidth grey-bg">
     <div class="container post-holder">
         <div class="row postsrow">
             {% for post in post_list %}
-            {%  if forloop.counter|divisibleby:3 %}
+            {% if forloop.counter|divisibleby:3 %}
             <div class="four columns post-card">
                 <div class="post-id fineprint">
                     <a href="{% url 'respond' postid=post.id %}">
