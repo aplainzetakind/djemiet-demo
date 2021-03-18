@@ -223,9 +223,9 @@ textarea {
 .flushright {
     position: relative;
     right: 0;
+    margin-left: 6px;
     /* margin-left: auto; */
     /* margin-right: 0; */
-    margin: 0;
 }
 
 .vertical-center {
