@@ -1,6 +1,5 @@
 <!-- templates/topbar.html-->
 {% load static %}
-
 <div class="topbar">
     <a href="{% url 'content' %}">
         <img src="{% static 'logos/50x102.png'%}"></img>
@@ -8,3 +7,11 @@
     <a class="button blockcenter" href="{% url 'post' %}">Create post</a>
     <a class="button flushright" href="{% url 'logout' %}">Sign out</a>
 </div>
+
+<!-- To add this topbar to a page:
+
+Use {% block topbar %}{% endblock topbar %}
+
+or
+
+Use '<include 'topbar.html'> if you are placing it into a block within the html template. Cannot add a block into a block. -->
