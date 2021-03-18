@@ -122,10 +122,20 @@ textarea {
     line-height: 1.2em;
 }
 
+::-webkit-scrollbar {
+    width: 20px;
+    height: 10px;
+    scrollbar-width: none;
+}
+
 .post-body a {
     color: #238cbc;
     font-family: 'VollkornSemibold';
     text-decoration: none;
+}
+
+.post-card-detail {
+    margin-bottom: 50px;
 }
 
 .post-card-detail p {
