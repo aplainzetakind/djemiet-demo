@@ -1,6 +1,7 @@
 <!-- templates/content.html -->
 {% extends 'base.html' %}
 {% load static %}
+{% load post_filters %}
 {% block content %}
 <style>
 html,
@@ -11,9 +12,8 @@ body {
 <!-- Menu Bar -->
 <div class="topbar">
     <a href="{% url 'content' %}">
-        <img src="{% static 'logos/50x102.png'%}">
+        <img src="{% static 'logos/50x102.png'%}"></img>
     </a>
-    </img>
     <a class="button blockcenter" href="{% url 'post' %}">Create post</a>
     <a class="button flushright" href="{% url 'manual' %}">?</a>
     <!-- A few pixels of space between these '?' and 'Sign out' buttons would have been nice-->
@@ -25,10 +25,18 @@ body {
             {% for post in post_list %}
             {% if forloop.counter|divisibleby:3 %}
             <div class="four columns post-card">
-                <div class="post-id fineprint">#{{ post.id }}</div>
-                <div class="post-tag fineprint">&lt;{{ post.tags }}&gt;</div>
-                <div class="post-title">{{ post.title }}</div>
-                <div class="post-body">{{ post.body }}</div>
+                <div class="post-id fineprint">
+                    <a href="{% url 'respond' postid=post.id %}">
+                        #{{ post.id }}
+                    </a>
+                </div>
+                <div class="post-tag fineprint">
+                    <a href="{% url 'content' %}?t={{ post.tags }}">
+                        &lt;{{ post.tags }}&gt;
+                    </a>
+                </div>
+                <div class="post-title">{{ post.title|titlefilter }}</div>
+                <div class="post-body">{{ post.body|postfilter }}</div>
                 <div class="post-date fineprint">
                     {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
             </div>
@@ -38,10 +46,18 @@ body {
             {% endif %}
             {% else %}
             <div class="four columns post-card">
-                <div class="post-id fineprint">#{{ post.id }}</div>
-                <div class="post-tag fineprint">&lt;{{ post.tags }}&gt;</div>
-                <div class="post-title">{{ post.title }}</div>
-                <div class="post-body">{{ post.body }}</div>
+                <div class="post-id fineprint">
+                    <a href="{% url 'respond' postid=post.id %}">
+                        #{{ post.id }}
+                    </a>
+                </div>
+                <div class="post-tag fineprint">
+                    <a href="{% url 'content' %}?t={{ post.tags }}">
+                        &lt;{{ post.tags }}&gt;
+                    </a>
+                </div>
+                <div class="post-title">{{ post.title|titlefilter }}</div>
+                <div class="post-body">{{ post.body|postfilter }}</div>
                 <div class="post-date fineprint">
                     {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
             </div>

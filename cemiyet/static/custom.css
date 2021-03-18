@@ -99,16 +99,48 @@ textarea {
     height: 20em;
 }
 
+.post-card-detail {
+    display: flex;
+    flex-flow: column;
+    padding: 1.2em;
+    background-color: #ffffff;
+    border-radius: 3px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: relative;
+    min-height: 15em;
+    width: 60%;
+    margin: auto;
+}
+
 .post-body {
     position: relative;
     margin-bottom: 15pt;
     overflow-y: scroll;
     scrollbar-width: none;
     font-family: 'VollkornRegular';
-    font-size: 18px;
+    font-size: 20px;
     line-height: 1.2em;
 }
 
+::-webkit-scrollbar {
+    width: 20px;
+    height: 10px;
+    scrollbar-width: none;
+}
+
+.post-body a {
+    color: #238cbc;
+    font-family: 'VollkornSemibold';
+    text-decoration: none;
+}
+
+.post-card-detail {
+    margin-bottom: 50px;
+}
+
+.post-card-detail p {
+    margin-bottom: 0.5em;
+}
 
 .post-title {
     font-size: 2em;
@@ -119,6 +151,18 @@ textarea {
     margin-bottom: 0.5em;
     /* font-weight: normal; */
     /* font-style: normal; */
+}
+
+.post-title a {
+    color: #238cbc;
+    font-family: 'Forum', cursive;
+    text-decoration: none;
+}
+
+.fineprint a {
+    color: #777777;
+    font-family: 'Montserrat';
+    text-decoration: none;
 }
 
 .fineprint {

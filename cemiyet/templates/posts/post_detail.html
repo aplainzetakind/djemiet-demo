@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load post_filters %}
+{% block content %}
+<style>
+html, body {
+    scrollbar-width: none;
+}
+</style>
+
+<!-- Menu Bar -->
+<div class="topbar">
+    <img src="{% static 'logos/50x102.png'%}"></img>
+    <a class="button blockcenter" href="{% url 'post' %}">Create post</a>
+    <a class="button flushright" href="{% url 'logout' %}">Sign out</a>
+</div>
+<div class="container deadcenter fullwidth grey-bg">
+    <div class="container post-holder">
+            <div class="post-card-detail">
+                <div class="post-id fineprint">#{{ object.id }}</div>
+                <div class="post-tag fineprint">&lt;{{ object.tags }}&gt;</div>
+                <div class="post-title">{{ object.title|titlefilter }}</div>
+                <div class="post-body">{{ object.body|postfilter }}</div>
+                <div class="post-date fineprint">
+                    {{ object.created_on|date:"SHORT_DATE_FORMAT"}}, {{object.created_on|time:"H:i"}}</div>
+            </div>
+    </div>
+</div>
+{% endblock content %}

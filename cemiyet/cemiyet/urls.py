@@ -17,14 +17,18 @@ from django.contrib import admin
 from django.urls import include, path
 from . import views
 import posts.views
-from django.contrib.auth import views as auth_views
+import tokens
+from django.contrib.auth.views import LoginView
 
 urlpatterns = [
+    path('', views.auth_wall, name='root'),
     path('admin/', admin.site.urls),
-    path('accounts/login', auth_views.LoginView.as_view(redirect_authenticated_user=True), name='login'),
-    path('accounts/', include('django.contrib.auth.urls')), # new
-    path('', views.auth_wall),
+    path('accounts/login', LoginView.as_view(redirect_authenticated_user=True), name='login'),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('content', views.PostList.as_view(), name='content'),
-    path('post', posts.views.post, name='post'),
     path('manual', views.manual, name='manual')
+    path('reg/', include('tokens.urls')),
+    path('post', posts.views.PostingFormView.as_view(), name='post'),
+    path('p/<int:slug>', posts.views.PostDetailView.as_view(), name='post_detail'),
+    path('respond/<int:postid>', posts.views.PostingFormView.as_view(), name='respond')
 ]
