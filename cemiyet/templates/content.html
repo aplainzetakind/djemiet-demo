@@ -3,33 +3,27 @@
 {% load static %}
 {% load post_filters %}
 {% block content %}
-<style>
-html,
-body {
-    scrollbar-width: none;
-}
-</style>
-<!-- Add top bar -->
+
 {% include 'topbar.html' %}
-<div class="container deadcenter fullwidth grey-bg">
-    <div class="container post-holder">
-        <div class="row postsrow">
+<div class="bg-div">
+    <div class="container width-60">
+        <div class="row">
             {% for post in post_list %}
             {% if forloop.counter|divisibleby:3 %}
-            <div class="four columns post-card">
-                <div class="post-id fineprint">
+            <div class="four columns content-card small-square">
+                <div class="fineprint top left">
                     <a href="{% url 'respond' postid=post.id %}">
                         #{{ post.id }}
                     </a>
                 </div>
-                <div class="post-tag fineprint">
+                <div class="fineprint top right">
                     <a href="{% url 'content' %}?t={{ post.tags }}">
                         &lt;{{ post.tags }}&gt;
                     </a>
                 </div>
-                <div class="post-title">{{ post.title|titlefilter }}</div>
+                <div class="title">{{ post.title|titlefilter }}</div>
                 <div class="post-body">{{ post.body|postfilter }}</div>
-                <div class="post-date fineprint">
+                <div class="fineprint bottom right">
                     {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
             </div>
         </div>
@@ -37,20 +31,20 @@ body {
         <div class="row postsrow">
             {% endif %}
             {% else %}
-            <div class="four columns post-card">
-                <div class="post-id fineprint">
+            <div class="four columns content-card small-square">
+                <div class="fineprint top left">
                     <a href="{% url 'respond' postid=post.id %}">
                         #{{ post.id }}
                     </a>
                 </div>
-                <div class="post-tag fineprint">
+                <div class="fineprint top right">
                     <a href="{% url 'content' %}?t={{ post.tags }}">
                         &lt;{{ post.tags }}&gt;
                     </a>
                 </div>
-                <div class="post-title">{{ post.title|titlefilter }}</div>
+                <div class="title">{{ post.title|titlefilter }}</div>
                 <div class="post-body">{{ post.body|postfilter }}</div>
-                <div class="post-date fineprint">
+                <div class="fineprint bottom right">
                     {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
             </div>
             {% endif %}
