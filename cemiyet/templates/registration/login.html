@@ -12,21 +12,28 @@
         <form class="nomargin" method="post">
             {% csrf_token %}
             <div class="row">
+                {% for e in form.username.errors %}
+                <p class="form-error">{{e}}</p>
+                {% endfor %}
                 <input class="signin-input" type="text"
                        placeholder="Username" id="{{ form.username.id_for_label }}"
                        name="{{ form.username.html_name }}">
             </div>
             <div class="row">
+                {% for e in form.password.errors %}
+                <p class="form-error">{{e}}</p>
+                {% endfor %}
                 <input class="signin-input bodyfont" type="password"
                        placeholder="Password" id="{{ form.password.id_for_label }}"
                        name="{{ form.password.html_name }}">
-                {{ form.errors }}
+                {% for e in form.non_field_errors %}
+                <p class="form-error">{{e}}</p>
+                {% endfor %}
             </div>
             <div class="row topmargin07">
                 <button class="button nomargin" type="submit">Sign In</button>
             </div>
         </form>
     </div>
-</div>
 </div>
 {% endblock %}

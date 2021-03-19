@@ -36,6 +36,9 @@
                        id="{{ form.password2.id_for_label }}"
                        name="{{ form.password2.html_name }}">
             </div>
+            {% for e in form.non_field_errors %}
+            <p class="form-error">{{e}}</p>
+            {% endfor %}
             <div class="row topmargin07">
                 <button class="button nomargin" type="submit">
                     Create
