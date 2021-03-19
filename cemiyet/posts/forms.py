@@ -20,7 +20,6 @@ class PostForm(forms.ModelForm):
         title= cd['title']
         try:
             cd['parents'] = get_refs(title) + get_refs(body)
-            #cd['parents'] = get_refs(body)
 
         except Post.DoesNotExist:
             raise forms.ValidationError("Non-existent reference.")
