@@ -17,7 +17,10 @@ class PostForm(forms.ModelForm):
         cd = self.cleaned_data
 
         body = cd['body']
+        title= cd['title']
         try:
-            cd['parents'] = get_refs(body)
+            cd['parents'] = get_refs(title) + get_refs(body)
+            #cd['parents'] = get_refs(body)
+
         except Post.DoesNotExist:
             raise forms.ValidationError("Non-existent reference.")
