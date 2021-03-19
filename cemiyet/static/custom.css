@@ -1,70 +1,138 @@
-.font-forum {
-    font-family: 'Forum', cursive;
-}
-
-textarea {
+html, body {
+    scrollbar-width: none;
     font-family: 'VollkornRegular';
+    font-size: 20px;
 }
 
-.deadcenter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+form { margin: 0; }
+.bg-div {
+    background-color: #f3f3f3;
     min-height: 100vh;
+    width: 100vw;
+    padding: 120px 0 50px 0;
 }
 
-.button {
+.title {
+    font-family: 'Forum';
+    font-size: 2em;
+    margin-bottom: 0.4em;
+    line-height: 1;
+}
+
+.fineprint {
+    position: absolute;
     font-family: 'Montserrat';
-    font-size: 16px;
+    font-size: 11pt;
+    color: #777777;
+    padding: 7pt 10pt 7pt 10pt;
 }
 
-.nomargin {
+.fineprint a {
+    color: #777777;
+    font-family: 'Montserrat';
+    text-decoration: none;
+}
+
+.top { top: 0; }
+.right { right: 0; }
+.bottom { bottom: 0; }
+.left { left: 0; }
+
+.width-60 {
+    min-width: 60vw;
+}
+
+.width-40 {
+    min-width: 40vw;
+}
+
+.content-card {
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    padding: 2em 1.5em 1.5em 1.5em;
+    background-color: #ffffff;
+    border-radius: 3px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-sizing: border-box;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.form-box {
+    width: 500px;
+    padding: 2em;
+    padding-top: 1.5em;
+    text-align: center;
+    margin: auto;
+}
+
+.width500 { width: 700; }
+
+.vcenter-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0
+}
+
+.topbar {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    margin: 0;
+    display: flex;
+    align-items:center;
+    padding-left: 30px;
+    padding-right: 30px;
+    box-sizing: border-box;
+    width: auto;
+    min-width: 100vw;
+    height: 70px;
+}
+
+.justified { margin: auto; }
+
+.rightmost {
+    position: relative;
+    right: 0;
     margin: 0;
 }
 
-.topmargin07 {
-    margin-top: 0.7em;
+.post-body p {
+    margin-bottom: 0.5em;
 }
 
-.fullwidth {
-    min-width: 100vw;
+.post-body a {
+    color: #238cbc;
+    font-family: 'VollkornSemibold';
+    text-decoration: none;
 }
 
-.hcenter-content {
-    display: flex;
-    justify-content: center;
+.small-square {
+    height: 20em;
 }
 
-.grey-bg {
-    background-color: #f3f3f3;
+.post-body {
+    position: relative;
+    margin-bottom: 5pt;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    font-size: 20px;
+    line-height: 1.2em;
 }
 
-.auto {
-    height: auto;
-    width: auto;
+.button {
+    font-family: 'Forum';
+    font-size: 18px;
 }
 
 .largetextbox {
     height: 200px;
     width: 400px;
-}
-
-.posting-form {
-    background-color: #ffffff;
-    padding: 2em;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    text-align: center;
-}
-
-.signin-box {
-    text-align: center;
-    border-radius: 3px;
-    width: 300px;
-    background-color: #ffffff;
-    padding: 2em;
-    padding-top: 1.5em;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    position: relative;
 }
 
 .form-error {
@@ -84,170 +152,6 @@ textarea {
     margin-bottom: 1em;
     font-family: 'VollkornRegular';
     width: 224px;
-}
-
-.fullwidth {
-    min-width: 100vw;
-}
-
-.postsrow {
-    margin-bottom: 50px;
-}
-
-.post-holder {
-    margin-top: 70px;
-    padding-top: 50px;
-    min-width: 60vw;
-}
-
-.post-card {
-    display: flex;
-    flex-flow: column;
-    padding: 1.2em;
-    background-color: #ffffff;
-    border-radius: 3px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    position: relative;
-    height: 20em;
-}
-
-.post-card-detail {
-    display: flex;
-    flex-flow: column;
-    padding: 1.2em;
-    background-color: #ffffff;
-    border-radius: 3px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    position: relative;
-    min-height: 15em;
-    width: 60%;
-    margin: auto;
-}
-
-.post-body {
-    position: relative;
-    margin-bottom: 15pt;
-    overflow-y: scroll;
-    scrollbar-width: none;
-    font-family: 'VollkornRegular';
-    font-size: 20px;
-    line-height: 1.2em;
-}
-
-::-webkit-scrollbar {
-    width: 20px;
-    height: 10px;
-    scrollbar-width: none;
-}
-
-.post-body a {
-    color: #238cbc;
-    font-family: 'VollkornSemibold';
-    text-decoration: none;
-}
-
-.post-card-detail {
-    margin-bottom: 50px;
-}
-
-.post-card-detail p {
-    margin-bottom: 0.5em;
-}
-
-.post-title {
-    font-size: 2em;
-    margin-top: 18pt;
-    padding: 0;
-    font-family: 'Forum', cursive;
-    line-height: 1;
-    margin-bottom: 0.5em;
-    /* font-weight: normal; */
-    /* font-style: normal; */
-}
-
-.post-title a {
-    color: #238cbc;
-    font-family: 'Forum', cursive;
-    text-decoration: none;
-}
-
-.fineprint a {
-    color: #777777;
-    font-family: 'Montserrat';
-    text-decoration: none;
-}
-
-.fineprint {
-    font-family: 'Montserrat';
-    font-size: 10pt;
-    color: #777777;
-}
-
-.post-id {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding-top: 7pt;
-    padding-left: 10pt;
-}
-
-.post-tag {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding-top: 7pt;
-    padding-right: 10pt;
-}
-
-.post-date {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding-bottom: 7pt;
-    padding-right: 10pt;
-}
-
-.topbar {
-    /* padding: 0.5em; */
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    margin: 0;
-    display: flex;
-    align-items:center;
-    padding-left: 30px;
-    padding-right: 30px;
-    box-sizing: border-box;
-    width: auto;
-    min-width: 100vw;
-    height: 70px;
-}
-
-.blockcenter {
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 0;
-}
-
-.flushright {
-    position: relative;
-    right: 0;
-    /* margin-left: auto; */
-    /* margin-right: 0; */
-    margin: 0;
-}
-
-.vertical-center {
-    margin: 5px;
-    position: relative;
-    top: 50%;
-    right: 0;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-    width: auto;
 }
 
 .nav {

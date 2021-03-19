@@ -1,73 +1,65 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load post_filters %}
+
 {% block content %}
-<style>
-html,
-body {
-    scrollbar-width: none;
-}
-</style>
-<!-- Add top bar -->
+
 {% include 'topbar.html' %}
-<div class="container fullwidth grey-bg">
-<!-- Add top bar -->
-{% include 'topbar.html' %}
-<div class="container fullwidth grey-bg">
-    <div class="container post-holder">
-        <div class="post-card-detail">
-            <div class="post-id fineprint">#{{ object.id }}</div>
-            <div class="post-tag fineprint">&lt;{{ object.tags }}&gt;</div>
-            <div class="post-title">{{ object.title|titlefilter }}</div>
-            <div class="post-body">{{ object.body|postfilter }}</div>
-            <div class="post-date fineprint">
-                {{ object.created_on|date:"SHORT_DATE_FORMAT"}}, {{object.created_on|time:"H:i"}}</div>
+<div class="bg-div">
+    <div class="container width-60">
+        <div class="row">
+            <div class="ten columns offset-by-one content-card">
+                <div class="fineprint top left">#{{ object.id }}</div>
+                <div class="fineprint top right">&lt;{{ object.tags }}&gt;</div>
+                <div class="title">{{ object.title|titlefilter }}</div>
+                <div class="post-body">{{ object.body|postfilter }}</div>
+                <div class="fineprint bottom right">
+                    {{ object.created_on|date:"SHORT_DATE_FORMAT"}}, {{object.created_on|time:"H:i"}}</div>
+            </div>
         </div>
-    </div>
-</div>
-<div class="container post-holder" style="min-height: 100vh;">
-    <div class="row postsrow">
-        {% for post in object.children.all %}
-        {% if forloop.counter|divisibleby:3 %}
-        <div class="four columns post-card">
-            <div class="post-id fineprint">
-                <a href="{% url 'respond' postid=post.id %}">
-                    #{{ post.id }}
-                </a>
+        <div class="row">
+            {% for post in object.children.all %}
+            {% if forloop.counter|divisibleby:3 %}
+            <div class="four columns content-card small-square">
+                <div class="fineprint top left">
+                    <a href="{% url 'respond' postid=post.id %}">
+                        #{{ post.id }}
+                    </a>
+                </div>
+                <div class="fineprint top right">
+                    <a href="{% url 'content' %}?t={{ post.tags }}">
+                        &lt;{{ post.tags }}&gt;
+                    </a>
+                </div>
+                <div class="title">{{ post.title|titlefilter }}</div>
+                <div class="post-body">{{ post.body|postfilter }}</div>
+                <div class="fineprint bottom right">
+                    {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
             </div>
-            <div class="post-tag fineprint">
-                <a href="{% url 'content' %}?t={{ post.tags }}">
-                    &lt;{{ post.tags }}&gt;
-                </a>
-            </div>
-            <div class="post-title">{{ post.title|titlefilter }}</div>
-            <div class="post-body">{{ post.body|postfilter }}</div>
-            <div class="post-date fineprint">
-                {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
         </div>
-    </div>
-    {% if not forloop.last %}
-    <div class="row postsrow">
-        {% endif %}
-        {% else %}
-        <div class="four columns post-card">
-            <div class="post-id fineprint">
-                <a href="{% url 'respond' postid=post.id %}">
-                    #{{ post.id }}
-                </a>
+        {% if not forloop.last %}
+        <div class="row postsrow">
+            {% endif %}
+            {% else %}
+            <div class="four columns content-card small-square">
+                <div class="fineprint top left">
+                    <a href="{% url 'respond' postid=post.id %}">
+                        #{{ post.id }}
+                    </a>
+                </div>
+                <div class="fineprint top right">
+                    <a href="{% url 'content' %}?t={{ post.tags }}">
+                        &lt;{{ post.tags }}&gt;
+                    </a>
+                </div>
+                <div class="title">{{ post.title|titlefilter }}</div>
+                <div class="post-body">{{ post.body|postfilter }}</div>
+                <div class="fineprint bottom right">
+                    {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
             </div>
-            <div class="post-tag fineprint">
-                <a href="{% url 'content' %}?t={{ post.tags }}">
-                    &lt;{{ post.tags }}&gt;
-                </a>
-            </div>
-            <div class="post-title">{{ post.title|titlefilter }}</div>
-            <div class="post-body">{{ post.body|postfilter }}</div>
-            <div class="post-date fineprint">
-                {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
+            {% endif %}
+            {% endfor %}
         </div>
-        {% endif %}
-        {% endfor %}
     </div>
 </div>
 {% endblock content %}
