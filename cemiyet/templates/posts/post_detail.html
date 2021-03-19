@@ -14,7 +14,7 @@ html, body {
     <a class="button blockcenter" href="{% url 'post' %}">Create post</a>
     <a class="button flushright" href="{% url 'logout' %}">Sign out</a>
 </div>
-<div class="container deadcenter fullwidth grey-bg">
+<div class="container fullwidth grey-bg">
     <div class="container post-holder">
             <div class="post-card-detail">
                 <div class="post-id fineprint">#{{ object.id }}</div>
@@ -25,5 +25,23 @@ html, body {
                     {{ object.created_on|date:"SHORT_DATE_FORMAT"}}, {{object.created_on|time:"H:i"}}</div>
             </div>
     </div>
+
 </div>
+{% for item in object.children.all %}
+<div class="container fullwidth grey-bg">
+<div class="container post-holder">
+    <div class="post-card-detail">
+        <div class="post-id fineprint">#{{ item.id }}</div>
+        <div class="post-tag fineprint">&lt;{{ item.tags }}&gt;</div>
+        <div class="post-title">{{ item.title|titlefilter }}</div>
+        <div class="post-body">{{ item.body|postfilter }}</div>
+        <div class="post-date fineprint">
+            {{ item.created_on|date:"SHORT_DATE_FORMAT"}}, {{item.created_on|time:"H:i"}}</div>
+    </div>
+</div>
+</div>
+{% endfor %}
+
+
+{% include "post.html" %} 
 {% endblock content %}
