@@ -44,13 +44,4 @@
     </div>
 </div>
 </div>
-
-<div class="container">
-        <form method="post">
-        {% csrf_token %}
-          {{ form.as_p }}
-          <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
-        </form>
-</div>
-
 {% endblock content %}
