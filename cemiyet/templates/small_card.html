@@ -1,0 +1,23 @@
+{% load static %}
+{% load post_filters %}
+
+<div class="four columns content-card small-square">
+    <div class="fineprint top left">
+        <a href="{% url 'respond' postid=post.id %}">
+            #{{ post.id }}
+        </a>
+    </div>
+    <div class="fineprint top right">
+        <a href="{% url 'content' %}?t={{ post.tags }}">
+            &lt;{{ post.tags }}&gt;
+        </a>
+    </div>
+    <div class="title">{{ post.title|titlefilter }}</div>
+    <div class="post-body">{{ post.body|postfilter }}</div>
+    <div class="fineprint bottom left star">☆</div>
+    <div class="fineprint bottom right star"><a href="{% url 'post_detail' slug=post.id %}">⋯</a></div>
+    {% comment %} ★ {% endcomment %}
+    <div class="fineprint bottom left right justified" style="width:
+                                                      35%;">
+        {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
+</div>

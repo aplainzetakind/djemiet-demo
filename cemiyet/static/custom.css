@@ -25,6 +25,15 @@ form { margin: 0; }
     font-size: 11pt;
     color: #777777;
     padding: 7pt 10pt 7pt 10pt;
+    display: inline-block;
+    text-align: center;
+}
+
+.star {
+    font-size: 25px;
+    margin: auto;
+    width: 30px;
+    padding-bottom: 5px;
 }
 
 .fineprint a {
