@@ -18,7 +18,7 @@ class PostingFormView(FormView):
     def get(self, request, *args, **kwargs):
         postid = kwargs.get('postid')
         if postid is not None:
-            self.fill = '[[' + str(postid) + ']]'
+            self.fill = '[[' + str(postid) + ']]\n'
         return super().get(request, *args, **kwargs)
 
     def get_initial(self):
