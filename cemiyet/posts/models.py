@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.contrib.postgres.fields import ArrayField
 
-
 class Tag(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
@@ -23,5 +22,8 @@ class Post(models.Model):
     image = models.CharField(max_length=255,blank=True, null=True)
 
     def __str__(self):
-        # Works on my machine -d.
         return '#' + str(self.pk)
+
+class Watchlist(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
+    postlist = models.ManyToManyField(Post, related_name= 'watchlist', blank=True)
