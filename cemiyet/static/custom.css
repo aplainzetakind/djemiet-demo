@@ -14,7 +14,7 @@ form { margin: 0; }
 
 .title {
     font-family: 'Forum';
-    font-size: 2em;
+    font-size: 1.5em;
     margin-bottom: 0.4em;
     line-height: 1;
 }
@@ -34,12 +34,19 @@ form { margin: 0; }
     margin: auto;
     width: 30px;
     padding-bottom: 5px;
+    cursor: pointer;
 }
 
 .fineprint a {
     color: #777777;
     font-family: 'Montserrat';
     text-decoration: none;
+}
+
+.unselectable {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
 .top { top: 0; }
