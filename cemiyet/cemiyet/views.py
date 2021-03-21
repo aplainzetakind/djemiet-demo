@@ -18,12 +18,9 @@ def auth_wall(request):
 class PostList(generic.ListView):
     def get_queryset(self):
         queryset = Post.objects.all()
-        ordering_prefix = "-"    
+        ordering_prefix = "-"
         if self.request.GET.get('t'):
             queryset = queryset.filter(tags__name=self.request.GET.get('t'))
         return queryset.order_by(ordering_prefix + 'created_on')
     paginate_by = settings.POSTS_COUNT_PER_PAGE
     template_name = 'content.html'
-
-def manual(request):
-	return(render(request, "manual.html"))
