@@ -20,11 +20,3 @@
     <div class="fineprint bottom left right justified" style="width: 10em;">
         {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
 </div>
-    <script>
-        function favourite(id) {
-            target = '#star-' + id;
-            star = document.querySelector(target);
-            current = star.innerHTML;
-            star.innerHTML = current === '☆' ? '★' : '☆';
-        }
-    </script>

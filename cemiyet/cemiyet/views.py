@@ -14,6 +14,7 @@ def auth_wall(request):
         return redirect('content')
     return redirect('login')
 
+#  This belongs under posts/
 @method_decorator(login_required, name='dispatch')
 class PostList(generic.ListView):
     def get_queryset(self):

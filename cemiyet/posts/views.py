@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.detail import DetailView
-from .models import Post, Tag
+from .models import Post, Tag, Profile
 from .forms import PostForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -35,3 +35,11 @@ class PostingFormView(FormView):
 class PostDetailView(DetailView):
     slug_field = 'pk'
     model = Post
+
+def addToWatchlist(request):
+    if request.method == 'POST':
+        postid = int(request.body)
+        #  Need logic here to add the post with `postid` to `request.user`s
+        #  watchlist. It would be simple, the problem is with the database: see
+        #  the comment in posts/models.py.
+        return HttpResponse(status=200)
