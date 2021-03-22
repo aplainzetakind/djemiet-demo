@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.views.generic.detail import DetailView
-from .models import Post, Tag
+from .models import Post, Tag, Profile
 from .forms import PostForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -35,3 +35,17 @@ class PostingFormView(FormView):
 class PostDetailView(DetailView):
     slug_field = 'pk'
     model = Post
+
+def addToWatchlist(request):
+    if request.method == 'POST':
+        postid = int(request.body)
+        try:
+            post = Post.objects.get(pk=postid)
+            user = request.user
+            if post in user.profile.watchlist.all():
+                user.profile.watchlist.remove(post)
+            else:
+                request.user.profile.watchlist.add(post)
+            return HttpResponse(status=200)
+        except Exception as e:
+            return JsonResponse({ 'error': str(e) }, status=500)
