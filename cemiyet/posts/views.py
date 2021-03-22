@@ -18,6 +18,7 @@ class PostingFormView(FormView):
     success_url = '/content'
     fill = ''
 
+
     #  Probably better to do this by overriding __init__
     def get(self, request, *args, **kwargs):
         postid = kwargs.get('postid')

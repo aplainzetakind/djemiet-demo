@@ -19,7 +19,7 @@ class Post(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=False,
             null=True)
-    tags = models.ForeignKey(Tag, on_delete=models.CASCADE, null=True)
+    tags = models.ForeignKey(Tag, on_delete=models.CASCADE, null=False)
     image = models.CharField(max_length=255,blank=True, null=True)
 
     def __str__(self):

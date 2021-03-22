@@ -13,6 +13,10 @@ class PostForm(forms.ModelForm):
         #  overwrite it, that shouldn't be a problem.
         fields = ('title', 'body', 'tags', 'parents')
 
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+    )
+
     def clean(self):
         cd = self.cleaned_data
 
