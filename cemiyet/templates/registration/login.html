@@ -4,29 +4,42 @@
 
 {% block title %}Login{% endblock %}
 {% block content %}
-<div class="deadcenter grey-bg">
-    <div class="signin-box">
+<div class="bg-div vcenter-content">
+    <div class="container">
+    <div class="content-card form-box">
         <div class="row">
             <img style="margin-bottom: 0.5em" src="{% static 'logos/100x224.png'%}"></img>
         </div>
-        <form class="nomargin" method="post">
+        <form method="post">
             {% csrf_token %}
             <div class="row">
-                <input class="signin-input" type="text"
-                       placeholder="Username" id="{{ form.username.id_for_label }}"
+                {% for e in form.username.errors %}
+                <p class="form-error">{{e}}</p>
+                {% endfor %}
+                <input class="signin-input"
+                       type="text"
+                       placeholder="Username"
+                       id="{{ form.username.id_for_label }}"
                        name="{{ form.username.html_name }}">
             </div>
             <div class="row">
-                <input class="signin-input bodyfont" type="password"
-                       placeholder="Password" id="{{ form.password.id_for_label }}"
+                {% for e in form.password.errors %}
+                <p class="form-error">{{e}}</p>
+                {% endfor %}
+                <input class="signin-input"
+                       type="password"
+                       placeholder="Password"
+                       id="{{ form.password.id_for_label }}"
                        name="{{ form.password.html_name }}">
-                {{ form.errors }}
+                {% for e in form.non_field_errors %}
+                <p class="form-error">{{e}}</p>
+                {% endfor %}
             </div>
             <div class="row topmargin07">
-                <button class="button nomargin" type="submit">Sign In</button>
+                <button class="button justified" type="submit">Sign In</button>
             </div>
         </form>
     </div>
-</div>
+    </div>
 </div>
 {% endblock %}

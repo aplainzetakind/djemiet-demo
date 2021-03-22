@@ -29,5 +29,7 @@ urlpatterns = [
     path('content', views.PostList.as_view(), name='content'),
     path('reg/', include('tokens.urls')),
     path('p/<int:slug>', posts.views.PostDetailView.as_view(), name='post_detail'),
-    path('respond/<int:postid>', posts.views.PostingFormView.as_view(), name='respond'),
+    path('respond/<int:postid>', posts.views.PostingFormView.as_view(),
+        name='respond'),
+    path('watch', posts.views.addToWatchlist, name='watchlist')
 ]

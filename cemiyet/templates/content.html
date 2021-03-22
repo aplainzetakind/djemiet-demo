@@ -3,62 +3,20 @@
 {% load static %}
 {% load post_filters %}
 {% block content %}
-<style>
-html, body {
-    scrollbar-width: none;
-}
-</style>
 
-<!-- Menu Bar -->
-<div class="topbar">
-    <a href="{% url 'content' %}">
-        <img src="{% static 'logos/50x102.png'%}"></img>
-    </a>
-    <a class="button blockcenter" href="{% url 'post' %}">Create post</a>
-    <a class="button flushright" href="{% url 'logout' %}">Sign out</a>
-</div>
-<div class="container deadcenter fullwidth grey-bg">
-    <div class="container post-holder">
-        <div class="row postsrow">
+{% include 'topbar.html' %}
+<div class="bg-div">
+    <div class="container width-60">
+        <div class="row">
             {% for post in post_list %}
-            {%  if forloop.counter|divisibleby:3 %}
-            <div class="four columns post-card">
-                <div class="post-id fineprint">
-                    <a href="{% url 'respond' postid=post.id %}">
-                        #{{ post.id }}
-                    </a>
-                </div>
-                <div class="post-tag fineprint">
-                    <a href="{% url 'content' %}?t={{ post.tags }}">
-                        &lt;{{ post.tags }}&gt;
-                    </a>
-                </div>
-                <div class="post-title">{{ post.title|titlefilter }}</div>
-                <div class="post-body">{{ post.body|postfilter }}</div>
-                <div class="post-date fineprint">
-                    {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
-            </div>
+            {% if forloop.counter|divisibleby:3 %}
+            {% include 'small_card.html' %}
         </div>
         {% if not forloop.last %}
         <div class="row postsrow">
             {% endif %}
             {% else %}
-            <div class="four columns post-card">
-                <div class="post-id fineprint">
-                    <a href="{% url 'respond' postid=post.id %}">
-                        #{{ post.id }}
-                    </a>
-                </div>
-                <div class="post-tag fineprint">
-                    <a href="{% url 'content' %}?t={{ post.tags }}">
-                        &lt;{{ post.tags }}&gt;
-                    </a>
-                </div>
-                <div class="post-title">{{ post.title|titlefilter }}</div>
-                <div class="post-body">{{ post.body|postfilter }}</div>
-                <div class="post-date fineprint">
-                    {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
-            </div>
+            {% include 'small_card.html' %}
             {% endif %}
             {% endfor %}
         </div>
@@ -76,4 +34,22 @@ html, body {
     <a href="?page={{ page_obj.paginator.num_pages }}">&gt;&gt;</a>
 </div>
 {% endif %}
+<script>
+    function favourite(id) {
+        options = {
+            method: 'POST',
+            body: id,
+            headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+        };
+        fetch('/watch', options)
+            .then(response => {
+                if (response.status == '200') {
+                    star = document.querySelector('#star-' + id);
+                    current = star.innerHTML;
+                    star.innerHTML = current === '☆' ? '★' : '☆';
+                }
+            }
+                )
+    }
+</script>
 {% endblock content %}

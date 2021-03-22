@@ -1,162 +1,40 @@
-.font-forum {
-    font-family: 'Forum', cursive;
-}
-
-textarea {
-    font-family: 'VollkornRegular';
-}
-
-.deadcenter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-
-.button {
-    font-family: 'Montserrat';
-    font-size: 16px;
-}
-
-.nomargin {
-    margin: 0;
-}
-
-.topmargin07 {
-    margin-top: 0.7em;
-}
-
-.fullwidth {
-    min-width: 100vw;
-}
-
-.hcenter-content {
-    display: flex;
-    justify-content: center;
-}
-
-.grey-bg {
-    background-color: #f3f3f3;
-}
-
-.auto {
-    height: auto;
-    width: auto;
-}
-
-.largetextbox {
-    height: 200px;
-    width: 400px;
-}
-
-.posting-form {
-    background-color: #ffffff;
-    padding: 2em;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    text-align: center;
-}
-
-.signin-box {
-    text-align: center;
-    border-radius: 3px;
-    width: 300px;
-    background-color: #ffffff;
-    padding: 2em;
-    padding-top: 1.5em;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    position: relative;
-}
-
-.signin-input {
-    position: relative;
-    margin-bottom: 1em;
-    font-family: 'VollkornRegular';
-    width: 224px;
-}
-
-.fullwidth {
-    min-width: 100vw;
-}
-
-.postsrow {
-    margin-bottom: 50px;
-}
-
-.post-holder {
-    margin-top: 70px;
-    padding-top: 50px;
-    min-width: 60vw;
-}
-
-.post-card {
-    display: flex;
-    flex-flow: column;
-    padding: 1.2em;
-    background-color: #ffffff;
-    border-radius: 3px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    position: relative;
-    height: 20em;
-}
-
-.post-card-detail {
-    display: flex;
-    flex-flow: column;
-    padding: 1.2em;
-    background-color: #ffffff;
-    border-radius: 3px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    position: relative;
-    min-height: 15em;
-    width: 60%;
-    margin: auto;
-}
-
-.post-body {
-    position: relative;
-    margin-bottom: 15pt;
-    overflow-y: scroll;
+html, body {
     scrollbar-width: none;
     font-family: 'VollkornRegular';
     font-size: 20px;
-    line-height: 1.2em;
 }
 
-::-webkit-scrollbar {
-    width: 20px;
-    height: 10px;
-    scrollbar-width: none;
+form { margin: 0; }
+.bg-div {
+    background-color: #f3f3f3;
+    min-height: 100vh;
+    width: 100vw;
+    padding: 120px 0 50px 0;
 }
 
-.post-body a {
-    color: #238cbc;
-    font-family: 'VollkornSemibold';
-    text-decoration: none;
-}
-
-.post-card-detail {
-    margin-bottom: 50px;
-}
-
-.post-card-detail p {
-    margin-bottom: 0.5em;
-}
-
-.post-title {
-    font-size: 2em;
-    margin-top: 18pt;
-    padding: 0;
-    font-family: 'Forum', cursive;
+.title {
+    font-family: 'Forum';
+    font-size: 1.5em;
+    margin-bottom: 0.4em;
     line-height: 1;
-    margin-bottom: 0.5em;
-    /* font-weight: normal; */
-    /* font-style: normal; */
 }
 
-.post-title a {
-    color: #238cbc;
-    font-family: 'Forum', cursive;
-    text-decoration: none;
+.fineprint {
+    position: absolute;
+    font-family: 'Montserrat';
+    font-size: 11pt;
+    color: #777777;
+    padding: 7pt 10pt 7pt 10pt;
+    display: inline-block;
+    text-align: center;
+}
+
+.star {
+    font-size: 25px;
+    margin: auto;
+    width: 30px;
+    padding-bottom: 5px;
+    cursor: pointer;
 }
 
 .fineprint a {
@@ -165,38 +43,56 @@ textarea {
     text-decoration: none;
 }
 
-.fineprint {
-    font-family: 'Montserrat';
-    font-size: 10pt;
-    color: #777777;
+.unselectable {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
-.post-id {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding-top: 7pt;
-    padding-left: 10pt;
+.top { top: 0; }
+.right { right: 0; }
+.bottom { bottom: 0; }
+.left { left: 0; }
+
+.width-60 {
+    min-width: 60vw;
 }
 
-.post-tag {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding-top: 7pt;
-    padding-right: 10pt;
+.width-40 {
+    min-width: 40vw;
 }
 
-.post-date {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding-bottom: 7pt;
-    padding-right: 10pt;
+.content-card {
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    padding: 2em 1.5em 1.5em 1.5em;
+    background-color: #ffffff;
+    border-radius: 3px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-sizing: border-box;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.form-box {
+    width: 500px;
+    padding: 2em;
+    padding-top: 1.5em;
+    text-align: center;
+    margin: auto;
+}
+
+.width500 { width: 700; }
+
+.vcenter-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0
 }
 
 .topbar {
-    /* padding: 0.5em; */
     background-color: #ffffff;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     position: fixed;
@@ -214,28 +110,64 @@ textarea {
     height: 70px;
 }
 
-.blockcenter {
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 0;
-}
+.justified { margin: auto; }
 
-.flushright {
+.rightmost {
     position: relative;
     right: 0;
-    /* margin-left: auto; */
-    /* margin-right: 0; */
     margin: 0;
 }
 
-.vertical-center {
-    margin: 5px;
+.post-body p {
+    margin-bottom: 0.5em;
+}
+
+.post-body a {
+    color: #238cbc;
+    font-family: 'VollkornSemibold';
+    text-decoration: none;
+}
+
+.small-square {
+    height: 20em;
+}
+
+.post-body {
     position: relative;
-    top: 50%;
-    right: 0;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-    width: auto;
+    margin-bottom: 5pt;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    font-size: 20px;
+    line-height: 1.2em;
+}
+
+.button {
+    font-family: 'Forum';
+    font-size: 18px;
+}
+
+.largetextbox {
+    height: 200px;
+    width: 400px;
+}
+
+.form-error {
+    font-size: 0.8em;
+    color: #cc5555;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0.3em;
+    margin-bottom: 0;
+    width: 50%;
+    text-align: left;
+    width: 224px;
+}
+
+.signin-input {
+    position: relative;
+    margin-bottom: 1em;
+    font-family: 'VollkornRegular';
+    width: 224px;
 }
 
 .nav {

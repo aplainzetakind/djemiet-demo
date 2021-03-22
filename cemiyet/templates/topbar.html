@@ -1,0 +1,9 @@
+<!-- templates/topbar.html-->
+{% load static %}
+<div class="topbar">
+    <a href="{% url 'content' %}">
+        <img src="{% static 'logos/50x102.png'%}"></img>
+    </a>
+    <a class="button justified" href="{% url 'post' %}">Create post</a>
+    <a class="button justified rightmost" href="{% url 'logout' %}">Sign out</a>
+</div>

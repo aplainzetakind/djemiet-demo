@@ -3,9 +3,9 @@ import json
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.views.generic.detail import DetailView
-from .models import Post, Tag
+from .models import Post, Tag, Profile
 from .forms import PostForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -23,7 +23,7 @@ class PostingFormView(FormView):
     def get(self, request, *args, **kwargs):
         postid = kwargs.get('postid')
         if postid is not None:
-            self.fill = '[[' + str(postid) + ']]'
+            self.fill = '[[' + str(postid) + ']]\n'
         return super().get(request, *args, **kwargs)
 
     def get_initial(self):
@@ -51,3 +51,17 @@ def autocomplete(request):
         # titles = [product.title for product in qs]
         return JsonResponse(titles, safe=False)
     return render(request, 'post')
+
+def addToWatchlist(request):
+    if request.method == 'POST':
+        postid = int(request.body)
+        try:
+            post = Post.objects.get(pk=postid)
+            user = request.user
+            if post in user.profile.watchlist.all():
+                user.profile.watchlist.remove(post)
+            else:
+                request.user.profile.watchlist.add(post)
+            return HttpResponse(status=200)
+        except Exception as e:
+            return JsonResponse({ 'error': str(e) }, status=500)
