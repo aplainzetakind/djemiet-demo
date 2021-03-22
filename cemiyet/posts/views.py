@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.views.generic.detail import DetailView
 from .models import Post, Tag, Profile
 from .forms import PostForm
@@ -50,4 +50,4 @@ def addToWatchlist(request):
                 request.user.profile.watchlist.add(post)
             return HttpResponse(status=200)
         except Exception as e:
-            return HttpResponse(str(e), status=500)
+            return JsonResponse({ 'error': str(e) }, status=500)
