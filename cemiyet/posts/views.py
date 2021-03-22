@@ -39,7 +39,16 @@ class PostDetailView(DetailView):
 def addToWatchlist(request):
     if request.method == 'POST':
         postid = int(request.body)
-        #  Need logic here to add the post with `postid` to `request.user`s
-        #  watchlist. It would be simple, the problem is with the database: see
-        #  the comment in posts/models.py.
-        return HttpResponse(status=200)
+        try:
+            post = Post.objects.get(pk=postid)
+            user = request.user
+            if post in user.profile.watchlist.all():
+                print('Here')
+                user.profile.watchlist.remove(post)
+            else:
+                print('There')
+                request.user.profile.watchlist.add(post)
+            return HttpResponse(status=200)
+        except Exception as e:
+            print(e)
+            return HttpResponse(status=500)
