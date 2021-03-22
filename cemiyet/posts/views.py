@@ -50,5 +50,4 @@ def addToWatchlist(request):
                 request.user.profile.watchlist.add(post)
             return HttpResponse(status=200)
         except Exception as e:
-            print(e)
-            return HttpResponse(status=500)
+            return HttpResponse(str(e), status=500)
