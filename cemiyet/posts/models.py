@@ -25,10 +25,6 @@ class Post(models.Model):
     def __str__(self):
         return '#' + str(self.pk)
 
-#  This is the recommended way to extend the default user model by some extra
-#  fields. The problem is that an empty profile is not created upon user
-#  creation. This would necessitate checking if a user has a profile before
-#  doing anything with it. There must be a better way.
 class Profile(models.Model):
     user = AutoOneToOneField(User, on_delete=models.CASCADE, unique=True)
     watchlist = models.ManyToManyField(Post, related_name= 'watched_by', blank=True)
