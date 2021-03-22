@@ -34,4 +34,22 @@
     <a href="?page={{ page_obj.paginator.num_pages }}">&gt;&gt;</a>
 </div>
 {% endif %}
+<script>
+    function favourite(id) {
+        options = {
+            method: 'POST',
+            body: id,
+            headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+        };
+        fetch('/watch', options)
+            .then(response => {
+                if (response.status == '200') {
+                    star = document.querySelector('#star-' + id);
+                    current = star.innerHTML;
+                    star.innerHTML = current === '☆' ? '★' : '☆';
+                }
+            }
+                )
+    }
+</script>
 {% endblock content %}

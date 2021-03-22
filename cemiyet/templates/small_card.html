@@ -14,17 +14,9 @@
     </div>
     <div class="title">{{ post.title|titlefilter }}</div>
     <div class="post-body">{{ post.body|postfilter }}</div>
-    <div id="star-{{ post.id }}" class="fineprint bottom left star unselectable" onclick="favourite('{{ post.id }}')">☆</div>
+    <div id="star-{{ post.id }}" class="fineprint bottom left star unselectable"
+        onclick="favourite('{{ post.id }}')">{% if post in favourites %}★{% else %}☆{% endif %}</div>
     <div class="fineprint bottom right star unselectable"><a href="{% url 'post_detail' slug=post.id %}">⋯</a></div>
-    {% comment %} ★ {% endcomment %}
     <div class="fineprint bottom left right justified" style="width: 10em;">
         {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
 </div>
-    <script>
-        function favourite(id) {
-            target = '#star-' + id;
-            star = document.querySelector(target);
-            current = star.innerHTML;
-            star.innerHTML = current === '☆' ? '★' : '☆';
-        }
-    </script>
