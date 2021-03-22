@@ -29,9 +29,12 @@ class PostingFormView(FormView):
     def get_initial(self):
         return {'body' : self.fill }
 
+    #  Test what happens with bad input.
     def form_valid(self, form):
         post = form.save(commit=False)
         post.author = self.request.user
+        taginput = form.cleaned_data.get('tag_text')
+        post.tags = Tag.objects.get(name=taginput)
         post.save()
         form.save_m2m()
         return super().form_valid(form)
