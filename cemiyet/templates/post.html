@@ -28,7 +28,7 @@
                               id="{{ form.body.id_for_label }}">{{ form.body.initial }}</textarea>
                 </div>
                 <div class="row">
-                    <input type="text" name="tags" id="tags" placeholder="Tag">
+                    <input type="text" name="tag_text" id="tag_text" placeholder="Tag">
                 </div>
                 {% for e in form.non_field_errors %}
                 <p class="form-error">{{e}}</p>
@@ -54,7 +54,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
     $( function() {
-        $("#tags").autocomplete({
+        $("#tag_text").autocomplete({
             source: '{% url 'autocomplete' %}',
       });
     } );
