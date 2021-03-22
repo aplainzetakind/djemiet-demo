@@ -43,10 +43,8 @@ def addToWatchlist(request):
             post = Post.objects.get(pk=postid)
             user = request.user
             if post in user.profile.watchlist.all():
-                print('Here')
                 user.profile.watchlist.remove(post)
             else:
-                print('There')
                 request.user.profile.watchlist.add(post)
             return HttpResponse(status=200)
         except Exception as e:
