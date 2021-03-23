@@ -194,3 +194,17 @@ form { margin: 0; }
 .next {
     right: 0;
 }
+
+.ui-front {
+    padding: auto;
+    margin: 0;
+    list-style-type: none;
+    background-color: #ffffff;
+    border-radius: 3px;
+    border: 1px solid #999999;
+    width: max-content;
+    line-height: 1em;
+}
+.ui-autocomplete li {
+    margin: 0.1em;
+}
