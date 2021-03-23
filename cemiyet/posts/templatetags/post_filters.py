@@ -21,7 +21,7 @@ def postfilter(value, autoescape=True):
     # Normally, django.urls.reverse('post_detail', args=(1,)) returns '/p/1',
     # but I don't know how to pass the matched regex to args as an integer.
     # Doing stuff like args=(r'\1',) doesn't seem to work.
-    result = re.sub(r'\[\[([0-9]*)\]\]', r'<a href="/p/\1">\1</a>', result)
+    result = re.sub(r'\[\[([0-9]*)\]\]', r'<a href="posts/p/\1">\1</a>', result)
     result = re.sub(r'[\t\r\f\v]*\n[\t\r\f\v]*\n\s*', r'</p><p>', result)
     result = re.sub(r'[\t\r\f\v]*\n\s*', r'</br>', result)
     result = '<p>' + result + '</p>'

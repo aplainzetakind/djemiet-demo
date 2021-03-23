@@ -21,15 +21,12 @@ import tokens
 from django.contrib.auth.views import LoginView
 
 urlpatterns = [
-    path('', include('posts.urls')),
     path('', views.auth_wall, name='root'),
+    path('content', views.PostList.as_view(), name='content'),
+    path('ac/', posts.views.autocomplete, name='autocomplete'),
+    path('posts/', include('posts.urls')),
     path('admin/', admin.site.urls),
     path('accounts/login', LoginView.as_view(redirect_authenticated_user=True), name='login'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('content', views.PostList.as_view(), name='content'),
     path('reg/', include('tokens.urls')),
-    path('p/<int:slug>', posts.views.PostDetailView.as_view(), name='post_detail'),
-    path('respond/<int:postid>', posts.views.PostingFormView.as_view(),
-        name='respond'),
-    path('watch', posts.views.addToWatchlist, name='watchlist')
 ]

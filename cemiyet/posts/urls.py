@@ -3,5 +3,8 @@ from . import views
 
 urlpatterns = [
     path('post', views.PostingFormView.as_view(), name='post'),
-    path('', views.autocomplete, name='autocomplete'),
+    path('p/<int:slug>', views.PostDetailView.as_view(), name='post_detail'),
+    path('respond/<int:postid>', views.PostingFormView.as_view(),
+        name='respond'),
+    path('watch', views.addToWatchlist, name='watchlist')
 ]
