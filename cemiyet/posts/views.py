@@ -34,7 +34,12 @@ class PostingFormView(FormView):
         post = form.save(commit=False)
         post.author = self.request.user
         taginput = form.cleaned_data.get('tag_text')
-        post.tags = Tag.objects.get(name=taginput)
+        if Tag.objects.filter(name=taginput):
+            post.tags = Tag.objects.get(name=taginput)
+        else:
+            t= Tag(name=taginput)
+            t.save()
+            post.tags = Tag.objects.get(name=taginput)
         post.save()
         form.save_m2m()
         return super().form_valid(form)
