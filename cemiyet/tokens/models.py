@@ -1,8 +1,6 @@
-from django.db import models
 from random import choice
 from string import ascii_letters
-
-# Create your models here.
+from django.db import models
 
 class RegistrationToken(models.Model):
     token = models.CharField(max_length=8, unique=True)

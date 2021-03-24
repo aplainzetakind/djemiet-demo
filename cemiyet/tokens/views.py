@@ -1,10 +1,8 @@
-from django.shortcuts import render
 from django.http import HttpResponseNotFound
-from django.views.generic.edit import FormView
-from .models import RegistrationToken
-from django.contrib.auth.forms import UserCreationForm
-from django.views.defaults import page_not_found
 from django.shortcuts import redirect
+from django.views.generic.edit import FormView
+from django.contrib.auth.forms import UserCreationForm
+from .models import RegistrationToken
 
 class TokenRegView(FormView):
     form_class = UserCreationForm

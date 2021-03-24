@@ -1,6 +1,7 @@
-from .models import Post, Tag
 from django import forms
+from django.core.exceptions import ObjectDoesNotExist
 from posts.utils import get_refs
+from .models import Post
 
 
 class PostForm(forms.ModelForm):
@@ -21,5 +22,5 @@ class PostForm(forms.ModelForm):
         try:
             cd['parents'] = get_refs(title) + get_refs(body)
 
-        except Post.DoesNotExist:
-            raise forms.ValidationError("Non-existent reference.")
+        except ObjectDoesNotExist as exc:
+            raise forms.ValidationError("Non-existent reference.") from exc

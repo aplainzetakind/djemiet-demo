@@ -1,11 +1,10 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-from django.views.generic.detail import DetailView
-from .models import Post, Tag, Profile
-from .forms import PostForm
-from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import FormView
+from django.views.generic.detail import DetailView
+from django.contrib.auth.decorators import login_required
+from .models import Post
+from .forms import PostForm
 
 @method_decorator(login_required, name='dispatch')
 class PostingFormView(FormView):
@@ -47,5 +46,7 @@ def addToWatchlist(request):
             else:
                 request.user.profile.watchlist.add(post)
             return HttpResponse(status=200)
-        except Exception as e:
-            return JsonResponse({ 'error': str(e) }, status=500)
+        except Exception as exp:
+            return JsonResponse({ 'error': str(exp) }, status=500)
+    else:
+        return HttpResponse(status=500)

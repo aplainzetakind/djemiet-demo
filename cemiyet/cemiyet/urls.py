@@ -15,10 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from . import views
-import posts.views
-import tokens
 from django.contrib.auth.views import LoginView
+import posts.views
+from . import views
 
 urlpatterns = [
     path('', views.auth_wall, name='root'),
