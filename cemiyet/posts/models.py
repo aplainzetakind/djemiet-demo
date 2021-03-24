@@ -1,3 +1,6 @@
+"""
+Database models for posts.
+"""
 import django
 from django.db import models
 from django.conf import settings
@@ -15,7 +18,8 @@ try:
         ReverseOneToOneDescriptor,
     )
 except ImportError:
-    from django.db.models.fields.related import SingleRelatedObjectDescriptor as ReverseOneToOneDescriptor
+    from django.db.models.fields.related \
+            import SingleRelatedObjectDescriptor as ReverseOneToOneDescriptor
 
 class AutoSingleRelatedObjectDescriptor(ReverseOneToOneDescriptor):
     """
@@ -70,12 +74,14 @@ class AutoOneToOneField(OneToOneField):
 
 
 class Tag(models.Model):
+    """ A tag is just a word. """
     name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
         return str(self.name)
 
 class Post(models.Model):
+    """ The central model of Djemiet. """
     title = models.CharField(max_length=255, blank=True)
     parents = models.ManyToManyField('self',
             related_name = 'children',
@@ -95,5 +101,8 @@ class Post(models.Model):
         return '#' + str(self.pk)
 
 class Profile(models.Model):
+    """ This follows the advice here:
+    https://docs.djangoproject.com/en/3.1/topics/auth/customizing/#extending-the-existing-user-model
+    """
     user = AutoOneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True)
     watchlist = models.ManyToManyField(Post, related_name= 'watched_by', blank=True)

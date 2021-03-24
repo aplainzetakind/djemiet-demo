@@ -1,4 +1,7 @@
-from django.urls import include, path
+"""
+Token-related urls.
+"""
+from django.urls import path
 from . import views
 
 urlpatterns = [

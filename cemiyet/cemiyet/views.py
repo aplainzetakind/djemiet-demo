@@ -1,3 +1,6 @@
+"""
+The module for top-level views.
+"""
 from django.shortcuts import redirect
 from django.views import generic
 from django.contrib.auth.decorators import login_required
@@ -12,9 +15,9 @@ def auth_wall(request):
         return redirect('content')
     return redirect('login')
 
-#  This belongs under posts/
 @method_decorator(login_required, name='dispatch')
 class PostList(generic.ListView):
+    """ THIS BELONGS UNDER posts/ """
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['favourites'] = self.request.user.profile.watchlist.all()

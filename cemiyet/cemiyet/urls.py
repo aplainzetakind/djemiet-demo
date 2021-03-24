@@ -30,5 +30,5 @@ urlpatterns = [
     path('p/<int:slug>', posts.views.PostDetailView.as_view(), name='post_detail'),
     path('respond/<int:postid>', posts.views.PostingFormView.as_view(),
         name='respond'),
-    path('watch', posts.views.addToWatchlist, name='watchlist')
+    path('watch', posts.views.add_to_watchlist, name='watchlist')
 ]

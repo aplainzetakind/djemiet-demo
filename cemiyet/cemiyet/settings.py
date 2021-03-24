@@ -139,6 +139,6 @@ POSTS_COUNT_PER_PAGE = 9
 # Import settings from '../local_settings.py' if available.
 # This will override settings above.
 try:
-    from local_settings import *
+    from local_settings import * # pylint: disable=wildcard-import, unused-wildcard-import
 except ImportError as err:
     print(f"No local settings were imported: {err}")
