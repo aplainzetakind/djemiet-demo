@@ -2,9 +2,8 @@ from django.db import models
 from django.conf import settings
 
 
-
 #  REFACTOR THIS TO A SEPARATE FILE
-
+#
 #  Below is the code for AutoOneToOneField, copy pasted from the package
 #  django-annoying. I found it redundant to include an entire package for one
 #  class.
@@ -45,14 +44,6 @@ class AutoSingleRelatedObjectDescriptor(ReverseOneToOneDescriptor):
                 setattr(obj, self.related.field.get_cache_name(), instance)
             return obj
 
-#  END OF AutoOneToOneField
-
-
-
-
-
-
-
 class AutoOneToOneField(OneToOneField):
     """
     OneToOneField creates related object on first call if it doesnt exist yet.
@@ -72,6 +63,10 @@ class AutoOneToOneField(OneToOneField):
             related.get_accessor_name(),
             AutoSingleRelatedObjectDescriptor(related)
         )
+#  END OF AutoOneToOneField
+
+
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=255, unique=True)
