@@ -1,3 +1,4 @@
+import django
 from django.db import models
 from django.conf import settings
 
@@ -27,11 +28,11 @@ class AutoSingleRelatedObjectDescriptor(ReverseOneToOneDescriptor):
 
         try:
             return (
-                super(AutoSingleRelatedObjectDescriptor, self)
-                .__get__(instance, instance_type)
+                super().__get__(instance, instance_type)
             )
         except model.DoesNotExist:
-            # Using get_or_create instead() of save() or create() as it better handles race conditions
+            # Using get_or_create instead() of save() or create() as it better
+            # handles race conditions
             obj, _ = model.objects.get_or_create(**{self.related.field.name: instance})
 
             # Update Django's cache, otherwise first 2 calls to obj.relobj
