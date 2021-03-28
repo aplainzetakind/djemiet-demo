@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+"""
+The module for top-level views.
+"""
+from django.shortcuts import redirect
 from django.views import generic
-from posts.models import Post, Tag
-from django.core.paginator import Paginator
-from . import settings
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from posts.models import Post
+from . import settings
 
 def auth_wall(request):
     """ Present the user with a login prompt if not already logged in, else
@@ -14,13 +15,13 @@ def auth_wall(request):
         return redirect('content')
     return redirect('login')
 
-#  This belongs under posts/
 @method_decorator(login_required, name='dispatch')
 class PostList(generic.ListView):
+    """ THIS BELONGS UNDER posts/ """
     def get_context_data(self, **kwargs):
-            context = super().get_context_data(**kwargs)
-            context['favourites'] = self.request.user.profile.watchlist.all()
-            return context
+        context = super().get_context_data(**kwargs)
+        context['favourites'] = self.request.user.profile.watchlist.all()
+        return context
 
     def get_queryset(self):
         queryset = Post.objects.all()

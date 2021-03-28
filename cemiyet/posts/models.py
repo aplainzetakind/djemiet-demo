@@ -1,12 +1,13 @@
+"""
+Database models for posts.
+"""
+import django
 from django.db import models
-from django.template.defaultfilters import slugify
-from django.contrib.auth.models import User
-from django.urls import reverse
-from django.contrib.postgres.fields import ArrayField
+from django.conf import settings
 
 
 #  REFACTOR THIS TO A SEPARATE FILE
-
+#
 #  Below is the code for AutoOneToOneField, copy pasted from the package
 #  django-annoying. I found it redundant to include an entire package for one
 #  class.
@@ -17,7 +18,8 @@ try:
         ReverseOneToOneDescriptor,
     )
 except ImportError:
-    from django.db.models.fields.related import SingleRelatedObjectDescriptor as ReverseOneToOneDescriptor
+    from django.db.models.fields.related \
+            import SingleRelatedObjectDescriptor as ReverseOneToOneDescriptor
 
 class AutoSingleRelatedObjectDescriptor(ReverseOneToOneDescriptor):
     """
@@ -30,11 +32,11 @@ class AutoSingleRelatedObjectDescriptor(ReverseOneToOneDescriptor):
 
         try:
             return (
-                super(AutoSingleRelatedObjectDescriptor, self)
-                .__get__(instance, instance_type)
+                super().__get__(instance, instance_type)
             )
         except model.DoesNotExist:
-            # Using get_or_create instead() of save() or create() as it better handles race conditions
+            # Using get_or_create instead() of save() or create() as it better
+            # handles race conditions
             obj, _ = model.objects.get_or_create(**{self.related.field.name: instance})
 
             # Update Django's cache, otherwise first 2 calls to obj.relobj
@@ -66,24 +68,31 @@ class AutoOneToOneField(OneToOneField):
             related.get_accessor_name(),
             AutoSingleRelatedObjectDescriptor(related)
         )
-
 #  END OF AutoOneToOneField
 
 
 
+
 class Tag(models.Model):
+    """ A tag is just a word. """
     name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
-        return self.name
-
+        return str(self.name)
 
 class Post(models.Model):
+    """ The central model of Djemiet. """
     title = models.CharField(max_length=255, blank=True)
-    parents = models.ManyToManyField('self', related_name = 'children', symmetrical=False, blank=True, null=True)
+    parents = models.ManyToManyField('self',
+            related_name = 'children',
+            symmetrical=False,
+            blank=True,
+            null=True)
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=False,
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+            on_delete=models.SET_NULL,
+            blank=False,
             null=True)
     tags = models.ForeignKey(Tag, on_delete=models.CASCADE, null=True)
     image = models.CharField(max_length=255,blank=True, null=True)
@@ -92,5 +101,8 @@ class Post(models.Model):
         return '#' + str(self.pk)
 
 class Profile(models.Model):
-    user = AutoOneToOneField(User, on_delete=models.CASCADE, unique=True)
+    """ This follows the advice here:
+    https://docs.djangoproject.com/en/3.1/topics/auth/customizing/#extending-the-existing-user-model
+    """
+    user = AutoOneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True)
     watchlist = models.ManyToManyField(Post, related_name= 'watched_by', blank=True)
