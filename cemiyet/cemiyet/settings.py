@@ -33,7 +33,6 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'posts',
     'tokens',
-    'annoying',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -140,6 +139,6 @@ POSTS_COUNT_PER_PAGE = 9
 # Import settings from '../local_settings.py' if available.
 # This will override settings above.
 try:
-    from local_settings import *
-except ImportError as e:
-    print(f"No local settings were imported: {e}")
+    from local_settings import * # pylint: disable=wildcard-import, unused-wildcard-import
+except ImportError as err:
+    print(f"No local settings were imported: {err}")

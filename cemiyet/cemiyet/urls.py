@@ -15,10 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from . import views
-import posts.views
-import tokens
 from django.contrib.auth.views import LoginView
+import posts.views
+from . import views
 
 urlpatterns = [
     path('', views.auth_wall, name='root'),
@@ -31,5 +30,5 @@ urlpatterns = [
     path('p/<int:slug>', posts.views.PostDetailView.as_view(), name='post_detail'),
     path('respond/<int:postid>', posts.views.PostingFormView.as_view(),
         name='respond'),
-    path('watch', posts.views.addToWatchlist, name='watchlist')
+    path('watch', posts.views.add_to_watchlist, name='watchlist')
 ]
