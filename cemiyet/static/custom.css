@@ -17,8 +17,9 @@ form { margin: 0; }
     font-family: 'Forum';
     font-size: 1.5em;
     margin-bottom: 0.4em;
-    line-height: 1;
+    line-height: 1em;
     overflow-x: hidden;
+    scrollbar-width: none;
 }
 
 .fineprint {
