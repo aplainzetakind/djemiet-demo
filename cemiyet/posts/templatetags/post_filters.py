@@ -21,7 +21,7 @@ def postfilter(value, autoescape=True):
     result = re.sub(r'\[\[([0-9]*)\]\]',
         lambda x: '<a href='
         + reverse('post_detail', kwargs={"slug":x.group(1)})
-        + '>' + x.group() + '</a>',
+        + '>#' + x.group(1) + '</a>',
         result)
     result = re.sub(r'[\t\r\f\v]*\n[\t\r\f\v]*\n\s*', r'</p><p>', result)
     result = re.sub(r'[\t\r\f\v]*\n\s*', r'</br>', result)
@@ -38,6 +38,6 @@ def titlefilter(value, autoescape=True):
     result = re.sub(r'\[\[([0-9]*)\]\]',
         lambda x: '<a href='
         + reverse('post_detail', kwargs={"slug":x.group(1)})
-        + '>' + x.group() + '</a>',
+        + '>#' + x.group(1) + '</a>',
         result)
     return mark_safe(result)
