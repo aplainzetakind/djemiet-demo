@@ -3,6 +3,7 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.contrib.postgres.fields import ArrayField
+import django
 
 
 #  REFACTOR THIS TO A SEPARATE FILE
