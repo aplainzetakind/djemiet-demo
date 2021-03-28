@@ -13,12 +13,16 @@ register = template.Library()
 
 @register.filter(needs_autoescape=True)
 def postfilter(value, autoescape=True):
+    """ Markdown for post body. """
     if autoescape:
         result = conditional_escape(value)
     else:
         result = value
     result = re.sub(r'\[\[([0-9]*)\]\]',
-        lambda x: '<a href=' + reverse('post_detail', kwargs={"slug":x.group(1)}) + '>' + x.group() + '</a>', result)
+        lambda x: '<a href='
+        + reverse('post_detail', kwargs={"slug":x.group(1)})
+        + '>' + x.group() + '</a>',
+        result)
     result = re.sub(r'[\t\r\f\v]*\n[\t\r\f\v]*\n\s*', r'</p><p>', result)
     result = re.sub(r'[\t\r\f\v]*\n\s*', r'</br>', result)
     result = '<p>' + result + '</p>'
@@ -26,11 +30,14 @@ def postfilter(value, autoescape=True):
 
 @register.filter(needs_autoescape=True)
 def titlefilter(value, autoescape=True):
-
+    """ Markdown for post title. """
     if autoescape:
         result = conditional_escape(value)
     else:
         result = value
     result = re.sub(r'\[\[([0-9]*)\]\]',
-        lambda x: '<a href=' + reverse('post_detail', kwargs={"slug":x.group(1)}) + '>' + x.group() + '</a>', result)
+        lambda x: '<a href='
+        + reverse('post_detail', kwargs={"slug":x.group(1)})
+        + '>' + x.group() + '</a>',
+        result)
     return mark_safe(result)
