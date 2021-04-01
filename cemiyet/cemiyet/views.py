@@ -21,6 +21,12 @@ class PostList(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['favourites'] = self.request.user.profile.watchlist.all()
+        posts = context['post_list']
+        parents = Post.objects.none()
+        for post in posts:
+            parents = parents.union(post.parents.all())
+        context['hovers'] = parents
+        print(parents)
         return context
 
     def get_queryset(self):
