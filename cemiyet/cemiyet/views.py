@@ -26,7 +26,6 @@ class PostList(generic.ListView):
         for post in posts:
             parents = parents.union(post.parents.all())
         context['hovers'] = parents
-        print(parents)
         return context
 
     def get_queryset(self):
