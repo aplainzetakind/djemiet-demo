@@ -90,6 +90,7 @@ class Post(models.Model):
             null=True)
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
+    popularity = models.BigIntegerField(blank=False, null=False)
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
             on_delete=models.SET_NULL,
             blank=False,
@@ -99,6 +100,27 @@ class Post(models.Model):
 
     def __str__(self):
         return '#' + str(self.pk)
+
+def init_popularity(post):
+    ctime = post.created_on.timestamp()
+    pop = int(ctime * 10)
+
+    post.popularity = pop
+
+def update_popularity(post, response):
+    # MOVE THIS PARAMETER TO A SETTING FILE
+    parameter = 0.25
+    pop = post.popularity
+    newtime = response.created_on.timestamp()
+
+    post.popularity = parameter * newtime + (1 - parameter) * pop
+
+def reset_popularities():
+    for post in Post.objects.all():
+        init_popularity(post)
+        for response in post.children.all():
+            update_popularity(post, response)
+        post.save()
 
 class Profile(models.Model):
     """ This follows the advice here:

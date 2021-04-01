@@ -11,7 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic.edit import FormView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
-from .models import Post
+from .models import Post, update_popularity
 from .forms import PostForm
 
 @method_decorator(login_required, name='dispatch')
@@ -41,6 +41,9 @@ class PostingFormView(FormView):
         post.author = self.request.user
         post.save()
         form.save_m2m()
+        for parent in post.parents.all():
+            update_popularity(parent, post)
+            parent.save()
         return super().form_valid(form)
 
 @method_decorator(login_required, name='dispatch')
