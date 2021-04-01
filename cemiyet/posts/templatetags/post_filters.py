@@ -19,14 +19,11 @@ def render(num, user):
         output = output + '★'
     if post.author == user:
         output = '<i>' + output + '</i>'
-    return output
+    return '<a class="reflink" reftarget=' + num + ' href=' \
+            + reverse('post_detail', kwargs={"slug":num}) + '>' + output + '</a>'
 
 def linkify_nums(result, user):
-    return re.sub(r'\[\[([0-9]*)\]\]',
-            lambda x: '<a href='
-            + reverse('post_detail', kwargs={"slug":x.group(1)})
-            + '>' + render(x.group(1), user) + '</a>',
-            result)
+    return re.sub(r'\[\[([0-9]*)\]\]', lambda x: render(x.group(1), user), result)
 
 @register.filter(needs_autoescape=True)
 def postfilter(value, user, autoescape=True):

@@ -6,6 +6,19 @@
 
 {% include 'topbar.html' %}
 <div class="bg-div">
+    {% for post in hovers %}
+    <div id="pop-{{ post.id }}"
+         class="popup content-card">
+        <div class="fineprint top left">#{{ post.id }}</div>
+        <div class="fineprint top right">&lt;{{ post.tags }}&gt;</div>
+        <div class="title">{{ post.title|titlefilter:request.user }}</div>
+        <div class="post-body">{{ post.body|postfilter:request.user }}</div>
+        <div class="fineprint bottom left star">☆</div>
+        <div class="fineprint bottom right">
+            {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
+    </div>
+    {% endfor %}
+
     <div class="container width-60">
         <div class="row">
             {% for post in post_list %}
@@ -13,7 +26,7 @@
             {% include 'small_card.html' %}
         </div>
         {% if not forloop.last %}
-        <div class="row postsrow">
+        <div class="row">
             {% endif %}
             {% else %}
             {% include 'small_card.html' %}
@@ -34,6 +47,8 @@
     <a href="?page={{ page_obj.paginator.num_pages }}">&gt;&gt;</a>
 </div>
 {% endif %}
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script>
     function favourite(id) {
         options = {
@@ -51,5 +66,46 @@
             }
                 )
     }
+
+	var postid, target, card, topoffset, leftoffset;
+    $(".popup").hide();//This hides all the pop-ups when page loads
+	$(".reflink").hover(function() {//This executes when you hover ON the box
+		 refid = $(this).attr("reftarget");
+         target = "#pop-" + refid;
+         card = $(this).closest(".content-card");
+         topoffset = $(this).offset().top - card.offset().top;
+         leftoffset = $(this).offset().left - card.offset().left +
+            $(this).width();
+         $(target).appendTo(card);
+         $(target).css({top: topoffset, left: leftoffset});
+         $(target).show();
+    }, function() {
+        {% comment %} $(target).prependTo($(window).find(".bg-div")); {% endcomment %}
+        $(target).hide()
+    });
+		 {% comment %} targetedBox = "#" + boxHovered;//creates a value of "#box1", "#box2", etc for future use {% endcomment %}
+		 {% comment %} boxNumber = boxHovered.substr(3,5);//extracts the # from the id, such as 1, 2, 3 {% endcomment %}
+		 {% comment %} selector = "#popup"+boxNumber;//creates a value of "#popup1", "#popup2", etc for future use {% endcomment %}
+		 {% comment %} $(selector).show();//This reveals the popup inside the hovered box {% endcomment %}
+		 {% comment %} moveBox();//This calls on the function below to execute {% endcomment %}
+	{% comment %} },function(){//This executes when you hover OFF the box {% endcomment %}
+		 {% comment %} $(selector).hide();//This hides the popup inside the hovered box {% endcomment %}
+	{% comment %} }); {% endcomment %}
+	{% comment %} function moveBox(){ {% endcomment %}
+		{% comment %} $(targetedBox).bind('mousemove',function(event){//Executes when the mouse MOVES {% endcomment %}
+			{% comment %} adjustX = $(this).find(".popup").outerWidth(true);//gets the width of the targeted popup {% endcomment %}
+			{% comment %} adjustY = $(this).find(".popup").outerHeight(true);//gets the height of the targeted popup {% endcomment %}
+			{% comment %} if(targetedBox == "#box1") {//example of moving popup relative to mouse {% endcomment %}
+				{% comment %} adjustX = $(this).find(".popup").outerWidth(true)-12;//creates a more unique value {% endcomment %}
+				{% comment %} adjustY = $(this).find(".popup").outerHeight(true)-12; {% endcomment %}
+			{% comment %} } {% endcomment %}
+			{% comment %} //event.pageY or evet.pageX = the mouse position relative to the top left of the targeted box {% endcomment %}
+			{% comment %} var my = event.pageY-$(this).offset().top-adjustY;//my = mouse y position with some adjustment relateive to top of box {% endcomment %}
+			{% comment %} var mx = event.pageX-$(this).offset().left-adjustX; //mx = mouse x position with some adjustment relateive to left of box {% endcomment %}
+			{% comment %} $(selector).css({//set the selected popup box coordinates near the mouse as the mouse moves {% endcomment %}
+				{% comment %} "left":mx, {% endcomment %}
+				{% comment %} "top":my {% endcomment %}
+			{% comment %} }); {% endcomment %}
+		{% comment %} }); {% endcomment %}
 </script>
 {% endblock content %}
