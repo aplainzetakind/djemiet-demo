@@ -80,7 +80,8 @@ form { margin: 0; }
 
 .popup {
     position: absolute;
-    min-width: 300px;
+    min-width: 400px;
+    z-index: 10;
 }
 
 .form-box {
