@@ -8,10 +8,11 @@ The views pertaining to posts. These are:
 from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import render
 from django.views.generic.edit import FormView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
-from .models import Post, update_popularity, init_popularity
+from .models import Post, Tag, update_popularity, init_popularity
 from .forms import PostForm
 
 @method_decorator(login_required, name='dispatch')
@@ -26,6 +27,7 @@ class PostingFormView(FormView):
     success_url = '/content'
     fill = ''
 
+
     #  Probably better to do this by overriding __init__
     def get(self, request, *args, **kwargs):
         postid = kwargs.get('postid')
@@ -36,9 +38,18 @@ class PostingFormView(FormView):
     def get_initial(self):
         return {'body' : self.fill }
 
+    #  Test what happens with bad input.
     def form_valid(self, form):
         post = form.save(commit=False)
         post.author = self.request.user
+        taginput = form.cleaned_data.get('tag_text')
+
+        if Tag.objects.filter(name=taginput):
+            post.tags = Tag.objects.get(name=taginput)
+        else:
+            tag = Tag(name=taginput)
+            tag.save()
+            post.tags = Tag.objects.get(name=taginput)
         post.save()
         init_popularity(post)
         post.save()
@@ -53,6 +64,20 @@ class PostDetailView(DetailView):
     """ Shows a single post. """
     slug_field = 'pk'
     model = Post
+
+
+@login_required
+def autocomplete(request):
+    """ Respond to GET requests for autocomplete suggestions. """
+    if 'term' in request.GET:
+        term = request.GET.get('term').lower()
+        qs = Tag.objects.filter(name__icontains=term)
+        titles = list()
+        for tag in qs:
+            titles.append(tag.name)
+        return JsonResponse(titles, safe=False)
+    return render(request, 'post')
+
 
 @login_required
 def add_to_watchlist(request):
