@@ -11,7 +11,9 @@
             <div class="ten columns offset-by-one content-card small-square">
                 <div class="fineprint top left">#{{ object.id }}</div>
                 <div class="fineprint top right">&lt;{{ object.tags }}&gt;</div>
+                {% if post.title %}
                 <div class="title">{{ object.title|titlefilter:request.user }}</div>
+                {% endif %}
                 <div class="post-body">{{ object.body|postfilter:request.user }}</div>
                 <div class="fineprint bottom left star">☆</div>
                 <div class="fineprint bottom right">

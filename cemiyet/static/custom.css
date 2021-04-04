@@ -16,13 +16,12 @@ form { margin: 0; }
 .title {
     font-family: 'Forum';
     font-size: 1.5em;
-    margin-bottom: 0.4em;
     line-height: 1em;
     overflow-x: hidden;
     scrollbar-width: none;
-    height: -moz-fit-content;    /* Firefox/Gecko */
-    height: -webkit-fit-content; /* Chrome */
-    height: fit-content;
+    height: -moz-min-content;    /* Firefox/Gecko */
+    height: -webkit-min-content; /* Chrome */
+    height: min-content;
     max-height: 3em;
     min-height: 1em;
     padding-top: 0.1em;
@@ -155,6 +154,7 @@ form { margin: 0; }
 
 .post-body {
     position: relative;
+    margin-top: 0.4em;
     margin-bottom: 5pt;
     overflow-y: scroll;
     overflow-x: hidden;
