@@ -5,6 +5,7 @@ from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 from posts.utils import get_refs
 from .models import Post
+from .utils import TagError, normalize_tag
 
 
 class PostForm(forms.ModelForm):
@@ -35,8 +36,14 @@ class PostForm(forms.ModelForm):
 
         body = cln_data['body']
         title= cln_data['title']
+
+        taginput = cln_data['tag_text']
+        try:
+            cln_data['tag_text'] = normalize_tag(taginput)
+        except TagError as exc:
+            raise forms.ValidationError(str(exc)) from exc
+
         try:
             cln_data['parents'] = get_refs(title) + get_refs(body)
-
         except ObjectDoesNotExist as exc:
             raise forms.ValidationError("Non-existent reference.") from exc

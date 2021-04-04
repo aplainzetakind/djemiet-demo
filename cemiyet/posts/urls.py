@@ -1,3 +1,4 @@
+""" URLs pertaining to posts. """
 from django.urls import path
 from . import views
 

@@ -13,6 +13,9 @@ from posts.models import Post
 register = template.Library()
 
 def render(num, user):
+    """ Turns a number into a link, italicizes it and/or puts a star at the end
+    depending on whether the referenced post is user's own or is on user's
+    watchlist. """
     post = Post.objects.get(pk=int(num))
     output = '#' + num
     if post in user.profile.watchlist.all():
@@ -23,6 +26,7 @@ def render(num, user):
             + reverse('post_detail', kwargs={"slug":num}) + '>' + output + '</a>'
 
 def linkify_nums(result, user):
+    """ Applies post citation markdown. """
     return re.sub(r'\[\[([0-9]*)\]\]', lambda x: render(x.group(1), user), result)
 
 @register.filter(needs_autoescape=True)

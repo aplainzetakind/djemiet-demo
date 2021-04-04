@@ -43,11 +43,12 @@ class PostingFormView(FormView):
         post = form.save(commit=False)
         post.author = self.request.user
         taginput = form.cleaned_data.get('tag_text')
+
         if Tag.objects.filter(name=taginput):
             post.tags = Tag.objects.get(name=taginput)
         else:
-            t= Tag(name=taginput)
-            t.save()
+            tag = Tag(name=taginput)
+            tag.save()
             post.tags = Tag.objects.get(name=taginput)
         post.save()
         init_popularity(post)
@@ -65,13 +66,15 @@ class PostDetailView(DetailView):
     model = Post
 
 
+@login_required
 def autocomplete(request):
+    """ Respond to GET requests for autocomplete suggestions. """
     if 'term' in request.GET:
-        qs = Tag.objects.filter(name__icontains=request.GET.get('term'))
+        term = request.GET.get('term').lower()
+        qs = Tag.objects.filter(name__icontains=term)
         titles = list()
         for tag in qs:
             titles.append(tag.name)
-        # titles = [product.title for product in qs]
         return JsonResponse(titles, safe=False)
     return render(request, 'post')
 
