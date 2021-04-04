@@ -24,6 +24,9 @@ form { margin: 0; }
     height: -webkit-fit-content; /* Chrome */
     height: fit-content;
     max-height: 3em;
+    min-height: 1em;
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
 }
 
 .fineprint {
