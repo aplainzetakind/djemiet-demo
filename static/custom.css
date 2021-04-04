@@ -10,13 +10,20 @@ form { margin: 0; }
     min-height: 100vh;
     width: 100vw;
     padding: 120px 0 50px 0;
+    background-image: url('bg1.png');
 }
 
 .title {
     font-family: 'Forum';
-    font-size: 2em;
+    font-size: 1.5em;
     margin-bottom: 0.4em;
-    line-height: 1;
+    line-height: 1em;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    height: -moz-max-content;    /* Firefox/Gecko */
+    height: -webkit-max-content; /* Chrome */
+    height: max-content;
+    max-height: 3em;
 }
 
 .fineprint {
@@ -25,12 +32,28 @@ form { margin: 0; }
     font-size: 11pt;
     color: #777777;
     padding: 7pt 10pt 7pt 10pt;
+    display: inline-block;
+    text-align: center;
+}
+
+.star {
+    font-size: 25px;
+    margin: auto;
+    width: 30px;
+    padding-bottom: 5px;
+    cursor: pointer;
 }
 
 .fineprint a {
     color: #777777;
     font-family: 'Montserrat';
     text-decoration: none;
+}
+
+.unselectable {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
 .top { top: 0; }
@@ -53,18 +76,28 @@ form { margin: 0; }
     padding: 2em 1.5em 1.5em 1.5em;
     background-color: #ffffff;
     border-radius: 3px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 3px 6px 20px 0 rgba(0, 0, 0, 0.25);
     box-sizing: border-box;
     margin-top: 1em;
     margin-bottom: 1em;
 }
 
+.popup {
+    position: absolute;
+    min-width: 400px;
+    z-index: 10;
+}
+
 .form-box {
-    width: 500px;
+    width: intrinsic;           /* Safari/WebKit uses a non-standard name */
+    width: -moz-max-content;    /* Firefox/Gecko */
+    width: -webkit-max-content; /* Chrome */
+    width: max-content;
     padding: 2em;
     padding-top: 1.5em;
     text-align: center;
     margin: auto;
+    resize: both;
 }
 
 .width500 { width: 700; }
@@ -120,6 +153,7 @@ form { margin: 0; }
     position: relative;
     margin-bottom: 5pt;
     overflow-y: scroll;
+    overflow-x: hidden;
     scrollbar-width: none;
     font-size: 20px;
     line-height: 1.2em;
@@ -169,6 +203,8 @@ form { margin: 0; }
     margin: 0.3em;
     text-decoration: none;
     color: #444444;
+    padding-right: 0.3em;
+    margin-right: -0.1em;
 }
 
 .prev {

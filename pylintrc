@@ -1,0 +1,7 @@
+[MASTER]
+load-plugins=pylint_django
+django-settings-module=cemiyet.settings
+ignore-patterns=manage.py
+
+[DESIGN]
+max-parents=15
