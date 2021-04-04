@@ -20,9 +20,9 @@ form { margin: 0; }
     line-height: 1em;
     overflow-x: hidden;
     scrollbar-width: none;
-    height: -moz-max-content;    /* Firefox/Gecko */
-    height: -webkit-max-content; /* Chrome */
-    height: max-content;
+    height: -moz-fit-content;    /* Firefox/Gecko */
+    height: -webkit-fit-content; /* Chrome */
+    height: fit-content;
     max-height: 3em;
 }
 
@@ -86,6 +86,7 @@ form { margin: 0; }
     position: absolute;
     min-width: 400px;
     z-index: 10;
+    left: 100%;
 }
 
 .form-box {
