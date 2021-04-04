@@ -8,7 +8,7 @@ import posts.models
 
 class Migration(migrations.Migration):
 
-    replaces = [('posts', '0001_initial'), ('posts', '0002_auto_20210302_0923'), ('posts', '0003_auto_20210302_0924'), ('posts', '0004_auto_20210302_1244'), ('posts', '0005_auto_20210309_2036'), ('posts', '0006_auto_20210316_1936'), ('posts', '0007_auto_20210316_2233'), ('posts', '0008_watchlist'), ('posts', '0009_auto_20210322_0819'), ('posts', '0010_auto_20210324_2018')]
+    replaces = [('posts', '0001_initial'), ('posts', '0002_auto_20210302_0923'), ('posts', '0003_auto_20210302_0924'), ('posts', '0004_auto_20210302_1244'), ('posts', '0005_auto_20210309_2036'), ('posts', '0006_auto_20210316_1936'), ('posts', '0007_auto_20210316_2233'), ('posts', '0008_watchlist'), ('posts', '0009_auto_20210322_0819')]
 
     initial = True
 
