@@ -90,15 +90,43 @@ class Post(models.Model):
             null=True)
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
+    popularity = models.BigIntegerField(blank=False, null=False, default=0)
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
             on_delete=models.SET_NULL,
             blank=False,
             null=True)
-    tags = models.ForeignKey(Tag, on_delete=models.CASCADE, null=True)
+    tags = models.ForeignKey(Tag,
+            related_name = 'tagged_posts',
+            on_delete=models.CASCADE,
+            null=True)
     image = models.CharField(max_length=255,blank=True, null=True)
 
     def __str__(self):
         return '#' + str(self.pk)
+
+def init_popularity(post):
+    """ Sets initial popularity based on the created_on field. """
+    ctime = post.created_on.timestamp()
+    pop = int(ctime * 10) - 36000
+
+    post.popularity = pop
+
+def update_popularity(post, response):
+    """ Bumps the popularity of a post based on the response. """
+    # MOVE THIS PARAMETER TO A SETTING FILE
+    parameter = 0.2
+    pop = post.popularity
+    newtime = response.created_on.timestamp() * 10
+
+    post.popularity = int((parameter * newtime) + ((1 - parameter) * pop))
+
+def reset_popularities():
+    """ To be used to apply any changes to the entire db table. """
+    for post in Post.objects.all():
+        init_popularity(post)
+        for response in post.children.all():
+            update_popularity(post, response)
+        post.save()
 
 class Profile(models.Model):
     """ This follows the advice here:
