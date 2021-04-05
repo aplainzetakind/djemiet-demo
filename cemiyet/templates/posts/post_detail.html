@@ -5,19 +5,14 @@
 {% block content %}
 
 {% include 'topbar.html' %}
+{% with user=request.user favourites=request.user.profile.watchlist.all %}
 <div class="bg-div">
     <div class="container width-60">
         <div class="row">
             <div class="ten columns offset-by-one content-card small-square">
-                <div class="fineprint top left">#{{ object.id }}</div>
-                <div class="fineprint top right">&lt;{{ object.tags }}&gt;</div>
-                {% if post.title %}
-                <div class="title">{{ object.title|titlefilter:request.user }}</div>
-                {% endif %}
-                <div class="post-body">{{ object.body|postfilter:request.user }}</div>
-                <div class="fineprint bottom left star">☆</div>
-                <div class="fineprint bottom right">
-                    {{ object.created_on|date:"SHORT_DATE_FORMAT"}}, {{object.created_on|time:"H:i"}}</div>
+    {% with post=object is_detail=True %}
+    {% include 'post_contents.html' %}
+    {% endwith %}
             </div>
         </div>
         <div class="row">
@@ -35,4 +30,5 @@
         </div>
     </div>
 </div>
+{% endwith %}
 {% endblock content %}
