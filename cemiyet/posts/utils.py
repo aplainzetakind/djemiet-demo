@@ -19,6 +19,7 @@ def normalize_tag(text):
     hyphens. """
     text = text.strip().lower()
     text = re.sub(r'\s+', ' ', text)
+
     if len(text) > 30:
         raise TagError("Tag too long.")
 
