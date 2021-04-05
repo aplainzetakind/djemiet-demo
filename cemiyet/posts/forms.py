@@ -37,6 +37,9 @@ class PostForm(forms.ModelForm):
         body = cln_data['body']
         title= cln_data['title']
 
+        if not cln_data.get('tag_text'):
+            raise forms.ValidationError("Provide a tag for the post.")
+
         taginput = cln_data['tag_text']
         try:
             cln_data['tag_text'] = normalize_tag(taginput)
