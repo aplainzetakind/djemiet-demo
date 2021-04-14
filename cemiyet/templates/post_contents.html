@@ -2,7 +2,7 @@
 {% load post_filters %}
 
 <div class="fineprint top left">
-    <a href="{% url 'respond' postid=post.id %}">
+    <a href="{% url 'respond' postid=post.id %}?sub={{post.title}}&tag={{post.tags}}">
         #{{ post.id }}
     </a>
 </div>
