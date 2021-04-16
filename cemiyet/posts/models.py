@@ -98,6 +98,7 @@ class Post(models.Model):
     tags = models.ForeignKey(Tag,
             related_name = 'tagged_posts',
             on_delete=models.CASCADE,
+            blank=True,
             null=True)
     image = models.CharField(max_length=255,blank=True, null=True)
 
