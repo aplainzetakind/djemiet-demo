@@ -52,7 +52,6 @@ class PostingFormView(FormView):
         post = form.save(commit=False)
         post.author = self.request.user
         taginput = form.cleaned_data.get('tag_text')
-        print("testtttt",flush=True)
         if Tag.objects.filter(name=taginput):
             post.tags = Tag.objects.get(name=taginput)
         else:
