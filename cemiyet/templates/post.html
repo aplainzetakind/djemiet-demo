@@ -12,8 +12,7 @@
                     {% endfor %}
                     <input type="text"
                            placeholder="Subject" id="{{ form.title.id_for_label }}"
-                                                 name="{{ form.title.html_name }}"
-                                                 value="{{ form.title.initial }}">
+                                                 name="{{ form.title.html_name }}">
                 </div>
                 <div class="row">
                     {% for e in form.body.errors %}
