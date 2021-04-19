@@ -26,24 +26,32 @@ class PostingFormView(FormView):
     template_name = 'post.html'
     success_url = '/content'
     fill = ''
-
+    tag = ''
 
     #  Probably better to do this by overriding __init__
     def get(self, request, *args, **kwargs):
         postid = kwargs.get('postid')
         if postid is not None:
-            self.fill = '[[' + str(postid) + ']]\n'
-        return super().get(request, *args, **kwargs)
+            try:
+                post = Post.objects.get(pk=postid)
+                self.fill = '[[' + str(postid) + ']]\n'
+                self.tag = post.tags
+                return super().get(request, *args, **kwargs)
+            except ObjectDoesNotExist:
+                # This needs to be handled in a more polished manner.
+                return HttpResponse(status=500)
+        else:
+            return super().get(request, *args, **kwargs)
 
     def get_initial(self):
-        return {'body' : self.fill }
+        return {'body':self.fill,
+                'tags':self.tag}
 
     #  Test what happens with bad input.
     def form_valid(self, form):
         post = form.save(commit=False)
         post.author = self.request.user
         taginput = form.cleaned_data.get('tag_text')
-
         if Tag.objects.filter(name=taginput):
             post.tags = Tag.objects.get(name=taginput)
         else:
