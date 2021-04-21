@@ -17,11 +17,12 @@
 
     {# Insert posting form here #}
 
-    {% comment %}
-    Focus div
-    {% endcomment %}
+
 
     <div class="container width-60">
+        <div class="row">
+        <div id="focusdiv"></div>
+        </div>
         <div class="row">
             {% for post in post_list %}
             {% if forloop.counter|divisibleby:3 %}
@@ -76,6 +77,12 @@
                 }
             }
                 )
+    }
+
+    function focus_post(id) {
+        post = document.getElementById('card-' + id);
+        post.className = "ten columns offset-by-one content-card small-square";
+        document.getElementById('focusdiv').append(post);
     }
 
 	var postid, target, card, topoffset, leftoffset;

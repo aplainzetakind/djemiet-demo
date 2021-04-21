@@ -18,9 +18,12 @@
     <div class="post-body">{{ post.body|postfilter:request.user|urlize }}</div>
     <div id="star-{{ post.id }}" class="fineprint bottom left star unselectable"
                                  onclick="favourite('{{ post.id }}')">{% if post in favourites %}★{% else %}☆{% endif %}</div>
+
     {% if is_card %}
-    <div class="fineprint bottom right star unselectable"><a href="{% url 'post_detail' slug=post.id %}">⋯</a></div>
+    <div id="star-{{ post.id }}" class="fineprint bottom right star unselectable"
+                                 onclick="focus_post('{{ post.id }}')">⋯</div>
     {% endif %}
+
     <div class="fineprint bottom left right justified" style="width: 10em;">
         {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
 </div>
