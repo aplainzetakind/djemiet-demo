@@ -1,0 +1,20 @@
+{% load static %}
+{% load post_filters %}
+
+<div class="row">
+    {% for post in post_list %}
+    {% if forloop.counter|divisibleby:3 %}
+    {% with is_card=True style="four columns content-card small-square" postdivid="card-"|concat_str:post.id %}
+    {% include 'post_contents.html' %}
+    {% endwith %}
+</div>
+{% if not forloop.last %}
+<div class="row">
+    {% endif %}
+    {% else %}
+    {% with is_card=True style="four columns content-card small-square" postdivid="card-"|concat_str:post.id %}
+    {% include 'post_contents.html' %}
+    {% endwith %}
+    {% endif %}
+    {% endfor %}
+</div>

@@ -9,11 +9,40 @@ from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
+from django.views.generic import ListView
 from django.views.generic.edit import FormView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
+from cemiyet import settings
 from .models import Post, Tag, update_popularity, init_popularity
 from .forms import PostForm
+
+@method_decorator(login_required, name='dispatch')
+class GalleryView(ListView):
+    paginate_by = settings.POSTS_COUNT_PER_PAGE
+    template_name = 'posts/gallery.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['favourites'] = self.request.user.profile.watchlist.all()
+        posts = context['post_list']
+        parents = Post.objects.none()
+        for post in posts:
+            parents = parents.union(post.parents.all())
+        context['hovers'] = parents
+        return context
+
+    def get_queryset(self):
+        #  This should be extended to accept multiple tags.
+        queryset = Post.objects.all()
+        parent = self.request.GET.get('parents')
+        if parent:
+            print(parent)
+            queryset = queryset.filter(parents=parent)
+        if self.request.GET.get('tag'):
+            queryset = queryset.filter(tags=self.request.GET.get('tag'))
+
+        return queryset.order_by('-popularity', '-created_on')
 
 @method_decorator(login_required, name='dispatch')
 class PostingFormView(FormView):
