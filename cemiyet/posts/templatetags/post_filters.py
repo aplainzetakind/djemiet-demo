@@ -12,6 +12,11 @@ from posts.models import Post
 
 register = template.Library()
 
+@register.filter
+def concat_str(str1, str2):
+    """ The filter `add` coerces arguments to integers, so this is needed. """
+    return str(str1) + str(str2)
+
 def render(num, user):
     """ Turns a number into a link, italicizes it and/or puts a star at the end
     depending on whether the referenced post is user's own or is on user's

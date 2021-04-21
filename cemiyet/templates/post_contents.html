@@ -1,24 +1,26 @@
 {% load static %}
 {% load post_filters %}
 
-<div class="fineprint top left">
-    <a href="{% url 'respond' postid=post.id %}">
-        #{{ post.id }}
-    </a>
+<div class="{{ style }}" id="{{ postdivid }}">
+    <div class="fineprint top left">
+        <a href="{% url 'respond' postid=post.id %}">
+            #{{ post.id }}
+        </a>
+    </div>
+    <div class="fineprint top right">
+        <a href="{% url 'content' %}?t={{ post.tags }}">
+            &lt;{{ post.tags }}&gt;
+        </a>
+    </div>
+    {% if post.title %}
+    <div class="title">{{ post.title|titlefilter:request.user }}</div>
+    {% endif %}
+    <div class="post-body">{{ post.body|postfilter:request.user|urlize }}</div>
+    <div id="star-{{ post.id }}" class="fineprint bottom left star unselectable"
+                                 onclick="favourite('{{ post.id }}')">{% if post in favourites %}★{% else %}☆{% endif %}</div>
+    {% if is_card %}
+    <div class="fineprint bottom right star unselectable"><a href="{% url 'post_detail' slug=post.id %}">⋯</a></div>
+    {% endif %}
+    <div class="fineprint bottom left right justified" style="width: 10em;">
+        {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
 </div>
-<div class="fineprint top right">
-    <a href="{% url 'content' %}?t={{ post.tags }}">
-        &lt;{{ post.tags }}&gt;
-    </a>
-</div>
-{% if post.title %}
-<div class="title">{{ post.title|titlefilter:request.user }}</div>
-{% endif %}
-<div class="post-body">{{ post.body|postfilter:request.user|urlize }}</div>
-<div id="star-{{ post.id }}" class="fineprint bottom left star unselectable"
-                             onclick="favourite('{{ post.id }}')">{% if post in favourites %}★{% else %}☆{% endif %}</div>
-{% if not is_detail %}
-<div class="fineprint bottom right star unselectable"><a href="{% url 'post_detail' slug=post.id %}">⋯</a></div>
-{% endif %}
-<div class="fineprint bottom left right justified" style="width: 10em;">
-    {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
