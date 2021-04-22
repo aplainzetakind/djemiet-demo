@@ -44,6 +44,25 @@ class GalleryView(ListView):
 
         return queryset.order_by('-popularity', '-created_on')
 
+
+
+@method_decorator(login_required, name='dispatch')
+class PopupsView(ListView):
+    template_name = 'posts/hovers.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['favourites'] = self.request.user.profile.watchlist.all()
+        return context
+
+    def get_queryset(self):
+        idlist = self.request.GET.getlist('id')
+
+        queryset = Post.objects.filter(pk__in=idlist)
+        return queryset.order_by('-popularity', '-created_on')
+
+
+
 @method_decorator(login_required, name='dispatch')
 class PostingFormView(FormView):
     """

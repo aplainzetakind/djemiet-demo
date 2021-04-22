@@ -89,6 +89,7 @@ form { margin: 0; }
     min-width: 400px;
     z-index: 10;
     left: 100%;
+    display: none;
 }
 
 .form-box {

@@ -30,6 +30,7 @@ urlpatterns = [
     path('reg/', include('tokens.urls')),
     path('post', posts.views.PostingFormView.as_view(), name='post'),
     path('gallery', posts.views.GalleryView.as_view(), name='gallery'),
+    path('popups', posts.views.PopupsView.as_view(), name='popups'),
     path('p/<int:slug>', posts.views.PostDetailView.as_view(), name='post_detail'),
     path('respond/<int:postid>', posts.views.PostingFormView.as_view(),
         name='respond'),

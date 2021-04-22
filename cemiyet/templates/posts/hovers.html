@@ -1,0 +1,8 @@
+{% load static %}
+{% load post_filters %}
+
+{% for post in post_list %}
+        {% with style="popup content-card" postdivid="pop-"|concat_str:post.id %}
+        {% include 'post_contents.html' %}
+        {% endwith %}
+{% endfor %}
