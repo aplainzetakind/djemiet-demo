@@ -49,7 +49,14 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="{% static 'custom.js' %}"></script>
 <script>
-enable_hovers();
 get_hovers();
+enable_hovers();
+
+$('.content-card .reflink').on("click", function(e) {
+    e.preventDefault();
+    id = parseInt($(this).attr('reftarget'));
+    focus_post(id);
+});
+
 </script>
 {% endblock content %}
