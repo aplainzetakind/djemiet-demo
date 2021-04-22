@@ -52,7 +52,6 @@ class SingleCard(DetailView):
     slug_field = 'pk'
 
     def get_context_data(self, **kwargs):
-        print("get_context_data called")
         context = super().get_context_data(**kwargs)
         context['class'] = "ten columns offset-by-one content-card small-square"
         context['style'] = "display: none"
