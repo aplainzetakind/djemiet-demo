@@ -68,17 +68,29 @@ function favourite(id) {
 }
 
 function focus_post(id) {
-    post = document.getElementById('card-' + id);
-    post.className = "ten columns offset-by-one content-card small-square";
-    document.getElementById('focusdiv').append(post);
-    fetch('/gallery?parents=' + id, { method: 'GET' })
-        .then(response => {
-            if (response.status == '200') {
-                return response.text();
+    post = $('#card-' + id);
+
+    $('#gallerydiv').hide();
+    post.hide();
+
+    post.attr("class", "ten columns offset-by-one content-card small-square");
+    post.appendTo($('#focusdiv'));
+
+    post.slideDown("slow", () => {
+        fetch('/gallery?parents=' + id, { method: 'GET' })
+            .then(response => {
+                if (response.status == '200') {
+                    return response.text();
+                }
             }
-        }
-        ).then(html => {
-            document.querySelector('#gallerydiv').innerHTML = html;
-        }
-        ).then(get_hovers).then(enable_hovers)
+            ).then(newgallery => {
+                $('#gallerydiv').html(newgallery);
+            }
+            ).then(
+                get_hovers
+            ).then( () => {
+                enable_hovers;
+                $('#gallerydiv').fadeIn("slow");
+            });
+    });
 }
