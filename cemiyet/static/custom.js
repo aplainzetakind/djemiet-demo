@@ -77,7 +77,7 @@ function focus_post(id) {
     post.appendTo($('#focusdiv'));
 
     post.slideDown("slow", () => {
-        fetch('/gallery?parents=' + id, { method: 'GET' })
+        fetch('/gallery?parent=' + id, { method: 'GET' })
             .then(response => {
                 if (response.status == '200') {
                     return response.text();

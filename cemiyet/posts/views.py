@@ -35,9 +35,8 @@ class GalleryView(ListView):
     def get_queryset(self):
         #  This should be extended to accept multiple tags.
         queryset = Post.objects.all()
-        parent = self.request.GET.get('parents')
+        parent = self.request.GET.get('parent')
         if parent:
-            print(parent)
             queryset = queryset.filter(parents=parent)
         if self.request.GET.get('tag'):
             queryset = queryset.filter(tags=self.request.GET.get('tag'))
