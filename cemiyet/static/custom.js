@@ -5,7 +5,6 @@ function get_hovers() {
 
     $('.popup').each(function() {
         have.add(parseInt($(this).attr('id').replace("pop-","")));
-        console.log(have);
     });
 
     $('.reflink:visible').each(function() {
@@ -14,13 +13,10 @@ function get_hovers() {
         if (!have.has(id)) {
             qlist.push("id=" + target);
             have.add(id);
-            console.log(qlist);
-            console.log(have);
         };
     });
 
     if (qlist.length) {
-        console.log(qlist);
         query = qlist.join('&');
 
         fetch('/popups?' + query, { method : 'GET' })
@@ -54,21 +50,21 @@ function enable_hovers() {
     });
 }
 
-function favourite(id) {
+function favourite(id, token) {
     options = {
         method: 'POST',
         body: id,
-        headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+        headers: { 'X-CSRFToken': token }
     };
     fetch('/watch', options)
         .then(response => {
             if (response.status == '200') {
-                star = document.querySelector('#star-' + id);
-                current = star.innerHTML;
-                star.innerHTML = current === '☆' ? '★' : '☆';
+                $('.star-' + id).each( function() {
+                current = $(this).text();
+                $(this).text(current === '☆' ? '★' : '☆');
+                });
             }
-        }
-        )
+        });
 }
 
 function override_refs() {

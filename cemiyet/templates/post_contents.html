@@ -16,11 +16,11 @@
     <div class="title">{{ post.title|titlefilter:request.user }}</div>
     {% endif %}
     <div class="post-body">{{ post.body|postfilter:request.user|urlize }}</div>
-    <div id="star-{{ post.id }}" class="fineprint bottom left star unselectable"
-                                 onclick="favourite('{{ post.id }}')">{% if post in favourites %}★{% else %}☆{% endif %}</div>
+    <div class="star-{{ post.id }} fineprint bottom left star unselectable"
+                                 onclick="favourite('{{ post.id }}', '{{ csrf_token }}')">{% if post in favourites %}★{% else %}☆{% endif %}</div>
 
     {% if is_card %}
-    <div id="star-{{ post.id }}" class="fineprint bottom right star unselectable"
+    <div class="fineprint bottom right star unselectable"
                                  onclick="focus_post('{{ post.id }}', false)">⋯</div>
     {% endif %}
 
