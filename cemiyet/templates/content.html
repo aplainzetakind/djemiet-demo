@@ -1,4 +1,3 @@
-<!-- templates/content.html -->
 {% extends 'base.html' %}
 {% load static %}
 {% load post_filters %}
@@ -10,7 +9,7 @@
 
     {# Create pop-up cards for all reference-linked posts in the view #}
     {% for post in hovers %}
-            {% with style="popup content-card" postdivid="pop-"|concat_str:post.id %}
+            {% with class="popup content-card" postdivid="pop-"|concat_str:post.id %}
             {% include 'post_contents.html' %}
             {% endwith %}
     {% endfor %}
@@ -51,12 +50,7 @@
 <script>
 get_hovers();
 enable_hovers();
-
-$('.content-card .reflink').on("click", function(e) {
-    e.preventDefault();
-    id = parseInt($(this).attr('reftarget'));
-    focus_post(id);
-});
+override_refs();
 
 </script>
 {% endblock content %}

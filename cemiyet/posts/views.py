@@ -9,7 +9,7 @@ from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import FormView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
@@ -44,6 +44,20 @@ class GalleryView(ListView):
         return queryset.order_by('-popularity', '-created_on')
 
 
+
+@method_decorator(login_required, name='dispatch')
+class SingleCard(DetailView):
+    template_name = "posts/post_card.html"
+    model = Post
+    slug_field = 'pk'
+
+    def get_context_data(self, **kwargs):
+        print("get_context_data called")
+        context = super().get_context_data(**kwargs)
+        context['class'] = "ten columns offset-by-one content-card small-square"
+        context['style'] = "display: none"
+        context['postdivid'] = "card-" + str(self.object.pk)
+        return context
 
 @method_decorator(login_required, name='dispatch')
 class PopupsView(ListView):
@@ -119,6 +133,7 @@ class PostDetailView(DetailView):
     """ Shows a single post. """
     slug_field = 'pk'
     model = Post
+
 
 
 @login_required

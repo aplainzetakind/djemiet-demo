@@ -1,7 +1,7 @@
 {% load static %}
 {% load post_filters %}
 
-<div class="{{ style }}" id="{{ postdivid }}">
+<div class="{{ class }}" id="{{ postdivid }}" style="{{ style }}">
     <div class="fineprint top left">
         <a href="{% url 'respond' postid=post.id %}">
             #{{ post.id }}
@@ -21,7 +21,7 @@
 
     {% if is_card %}
     <div id="star-{{ post.id }}" class="fineprint bottom right star unselectable"
-                                 onclick="focus_post('{{ post.id }}')">⋯</div>
+                                 onclick="focus_post('{{ post.id }}', false)">⋯</div>
     {% endif %}
 
     <div class="fineprint bottom left right justified" style="width: 10em;">

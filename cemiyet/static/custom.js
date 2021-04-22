@@ -5,6 +5,7 @@ function get_hovers() {
 
     $('.popup').each(function() {
         have.add(parseInt($(this).attr('id').replace("pop-","")));
+        console.log(have);
     });
 
     $('.reflink:visible').each(function() {
@@ -13,10 +14,13 @@ function get_hovers() {
         if (!have.has(id)) {
             qlist.push("id=" + target);
             have.add(id);
+            console.log(qlist);
+            console.log(have);
         };
     });
 
-    if (qlist) {
+    if (qlist.length) {
+        console.log(qlist);
         query = qlist.join('&');
 
         fetch('/popups?' + query, { method : 'GET' })
@@ -67,15 +71,15 @@ function favourite(id) {
         )
 }
 
-function focus_post(id) {
-    post = $('#card-' + id);
+function override_refs() {
+    $('.content-card .reflink').on("click", function(e) {
+        e.preventDefault();
+        id = parseInt($(this).attr('reftarget'));
+        focus_post(id, true);
+    });
+}
 
-    $('#gallerydiv').hide();
-    post.hide();
-
-    post.attr("class", "ten columns offset-by-one content-card small-square");
-    post.appendTo($('#focusdiv'));
-
+function chain_post(post, id) {
     post.slideDown("slow", () => {
         fetch('/gallery?parent=' + id, { method: 'GET' })
             .then(response => {
@@ -85,12 +89,36 @@ function focus_post(id) {
             }
             ).then(newgallery => {
                 $('#gallerydiv').html(newgallery);
+                $('#gallerydiv').fadeIn("slow");
+                override_refs();
             }
             ).then(
                 get_hovers
             ).then( () => {
-                enable_hovers;
-                $('#gallerydiv').fadeIn("slow");
+                enable_hovers();
             });
     });
+}
+
+async function focus_post(id, clear) {
+    post = $('#card-' + id);
+
+    $('#gallerydiv').hide();
+    post.hide();
+    if (clear) {
+        $('#focusdiv').empty();
+    }
+
+    if (post.length) {
+        post.attr("class", "ten columns offset-by-one content-card small-square");
+        post.appendTo($('#focusdiv'));
+    } else {
+        let resp = await fetch('/card/' + id, { method: 'GET' });
+        let html = await resp.text();
+        let current = $('#focusdiv').html();
+        $('#focusdiv').html(current + html);
+        post = $('#card-' + id);
+    }
+
+    chain_post(post, id);
 }

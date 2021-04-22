@@ -29,6 +29,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('reg/', include('tokens.urls')),
     path('post', posts.views.PostingFormView.as_view(), name='post'),
+    path('card/<int:slug>', posts.views.SingleCard.as_view(), name='card'),
     path('gallery', posts.views.GalleryView.as_view(), name='gallery'),
     path('popups', posts.views.PopupsView.as_view(), name='popups'),
     path('p/<int:slug>', posts.views.PostDetailView.as_view(), name='post_detail'),

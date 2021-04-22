@@ -1,0 +1,6 @@
+{% load static %}
+{% load post_filters %}
+
+{% with post=object is_detail=True %}
+{% include 'post_contents.html' %}
+{% endwith %}
