@@ -58,7 +58,7 @@ function dotscis(id) {
         });
     }
     if (post.closest('#gallerydiv').length) {
-    focus_post(id);
+        focus_post(id);
     }
 }
 
@@ -91,7 +91,6 @@ async function refclick(card, id) {
     if (!flag) {
         let dummy = await remove_prevs(card);
     }
-    console.log('calling');
     focus_post(id, (flag), (!flag));
 }
 
@@ -161,7 +160,6 @@ async function refresh_gallery() {
 }
 
 async function post_to_focus(id, clear, prepend) {
-    console.log('called');
     post = $('#card-' + id);
 
     post.hide();
@@ -183,15 +181,11 @@ async function post_to_focus(id, clear, prepend) {
     post.children('.dotscis').text('✂');
     post.children('.dotscis').hide();
 
-    console.log($(html).attr('id'));
-
     if (prepend) {
         post.children('.dotscis').fadeIn('fast');
-        console.log('here1');
         post.children('.dotscis').fadeIn('fast');
         post.prependTo($('#focusdiv'))
     } else {
-        console.log('here2');
         post.appendTo($('#focusdiv'))
     }
 

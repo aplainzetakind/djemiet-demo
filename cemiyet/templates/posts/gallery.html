@@ -4,7 +4,7 @@
 <div class="row">
     {% for post in post_list %}
     {% if forloop.counter|divisibleby:3 %}
-    {% with is_card=True class="four columns content-card small-square" postdivid="card-"|concat_str:post.id %}
+    {% with class="four columns content-card small-square" postdivid="card-"|concat_str:post.id %}
     {% include 'post_contents.html' %}
     {% endwith %}
 </div>
@@ -12,7 +12,7 @@
 <div class="row">
     {% endif %}
     {% else %}
-    {% with is_card=True class="four columns content-card small-square" postdivid="card-"|concat_str:post.id %}
+    {% with class="four columns content-card small-square" postdivid="card-"|concat_str:post.id %}
     {% include 'post_contents.html' %}
     {% endwith %}
     {% endif %}
