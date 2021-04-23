@@ -27,7 +27,6 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['favourites'] = self.request.user.profile.watchlist.all()
         context['posts'] = self.request.GET.getlist('postid')
-        print(context)
         return context
 
     def get_queryset(self):
@@ -76,14 +75,12 @@ class SingleCard(ListView):
         context['class'] = "ten columns offset-by-one content-card small-square"
         context['style'] = "display: none"
         context['favourites'] = self.request.user.profile.watchlist.all()
-        print(context)
         return context
 
     def get_queryset(self):
         idlist = self.request.GET.getlist('id')
 
         queryset = Post.objects.filter(pk__in=idlist)
-        print(queryset)
         return queryset.order_by('-popularity', '-created_on')
 
 
