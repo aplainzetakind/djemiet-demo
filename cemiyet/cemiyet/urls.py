@@ -20,8 +20,8 @@ import posts.views
 from . import views
 
 urlpatterns = [
-    path('', views.auth_wall, name='root'),
-    path('content', views.PostList.as_view(), name='content'),
+    path('', views.auth_wall, name='root'), #  Redirect
+    path('content', posts.views.IndexView.as_view(), name='content'),
     path('ac/', posts.views.autocomplete, name='autocomplete'),
     path('posts/', include('posts.urls')),
     path('admin/', admin.site.urls),
@@ -29,11 +29,11 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('reg/', include('tokens.urls')),
     path('post', posts.views.PostingFormView.as_view(), name='post'),
-    path('card/<int:slug>', posts.views.SingleCard.as_view(), name='card'),
+    path('card', posts.views.SingleCard.as_view(), name='card'),
     path('gallery', posts.views.GalleryView.as_view(), name='gallery'),
     path('popups', posts.views.PopupsView.as_view(), name='popups'),
     path('p/<int:slug>', posts.views.PostDetailView.as_view(), name='post_detail'),
     path('respond/<int:postid>', posts.views.PostingFormView.as_view(),
         name='respond'),
-    path('watch', posts.views.add_to_watchlist, name='watchlist')
+    path('watch', posts.views.add_to_watchlist, name='watchlist'),
 ]

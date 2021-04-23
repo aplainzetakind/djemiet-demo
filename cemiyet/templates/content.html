@@ -8,11 +8,13 @@
 <div class="bg-div">
 
     {# Create pop-up cards for all reference-linked posts in the view #}
+    {% comment %}
     {% for post in hovers %}
             {% with class="popup content-card" postdivid="pop-"|concat_str:post.id %}
             {% include 'post_contents.html' %}
             {% endwith %}
     {% endfor %}
+    {% endcomment %}
 
     {# Insert posting form here #}
 
@@ -23,13 +25,14 @@
         <div id="focusdiv"></div>
         </div>
         <div id="gallerydiv">
-        {% include 'posts/gallery.html' %}
+        {% comment %} {% include 'posts/gallery.html' %} {% endcomment %}
         </div>
     </div>
 </div>
 
 
 {# Navigation #}
+{% comment %}
 {% if page_obj.has_previous %}
 <div class="nav prev">
     <a class="arrows" href="?page=1">&lt;&lt;</a>
@@ -44,13 +47,17 @@
     <a href="?page={{ page_obj.paginator.num_pages }}">&gt;&gt;</a>
 </div>
 {% endif %}
+{% endcomment %}
 
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{% static 'custom.js' %}"></script>
 <script>
-get_hovers();
-enable_hovers();
-override_refs();
-
+    $(document).ready( () => {
+        let ids = []
+        {% for post in posts %}
+        ids.push({{ post }});
+        {% endfor %}
+        init_index(ids);
+    });
 </script>
 {% endblock content %}

@@ -19,11 +19,8 @@
     <div class="star-{{ post.id }} fineprint bottom left star unselectable"
                                  onclick="favourite('{{ post.id }}', '{{ csrf_token }}')">{% if post in favourites %}★{% else %}☆{% endif %}</div>
 
-    {% if is_card %}
-    <div class="fineprint bottom right star unselectable"
-                                 onclick="focus_post('{{ post.id }}', false)">⋯</div>
-    {% endif %}
-
+    <div class="fineprint bottom right dotscis star unselectable"
+                                 onclick="dotscis('{{ post.id }}')">+</div>
     <div class="fineprint bottom left right justified" style="width: 10em;">
         {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
 </div>

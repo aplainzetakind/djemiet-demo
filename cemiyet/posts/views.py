@@ -18,6 +18,31 @@ from .models import Post, Tag, update_popularity, init_popularity
 from .forms import PostForm
 
 @method_decorator(login_required, name='dispatch')
+class IndexView(TemplateView):
+    """ THIS BELONGS UNDER posts/ """
+    paginate_by = settings.POSTS_COUNT_PER_PAGE
+    template_name = 'content.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['favourites'] = self.request.user.profile.watchlist.all()
+        context['posts'] = self.request.GET.getlist('postid')
+        print(context)
+        return context
+
+    def get_queryset(self):
+        #  This should be extended to accept multiple tags.
+        if self.request.GET.get('t'):
+            tag = Tag.objects.get(name=self.request.GET.get('t'))
+            queryset = tag.tagged_posts.all()
+        else:
+            queryset = Post.objects.all()
+
+        return queryset.order_by('-popularity', '-created_on')
+
+
+
+@method_decorator(login_required, name='dispatch')
 class GalleryView(ListView):
     paginate_by = settings.POSTS_COUNT_PER_PAGE
     template_name = 'posts/gallery.html'
@@ -26,10 +51,6 @@ class GalleryView(ListView):
         context = super().get_context_data(**kwargs)
         context['favourites'] = self.request.user.profile.watchlist.all()
         posts = context['post_list']
-        parents = Post.objects.none()
-        for post in posts:
-            parents = parents.union(post.parents.all())
-        context['hovers'] = parents
         return context
 
     def get_queryset(self):
@@ -46,17 +67,25 @@ class GalleryView(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
-class SingleCard(DetailView):
+class SingleCard(ListView):
     template_name = "posts/post_card.html"
     model = Post
-    slug_field = 'pk'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['class'] = "ten columns offset-by-one content-card small-square"
         context['style'] = "display: none"
-        context['postdivid'] = "card-" + str(self.object.pk)
+        context['favourites'] = self.request.user.profile.watchlist.all()
+        print(context)
         return context
+
+    def get_queryset(self):
+        idlist = self.request.GET.getlist('id')
+
+        queryset = Post.objects.filter(pk__in=idlist)
+        print(queryset)
+        return queryset.order_by('-popularity', '-created_on')
+
 
 @method_decorator(login_required, name='dispatch')
 class PopupsView(ListView):
@@ -88,7 +117,6 @@ class PostingFormView(FormView):
     fill = ''
     tag = ''
 
-    #  Probably better to do this by overriding __init__
     def get(self, request, *args, **kwargs):
         postid = kwargs.get('postid')
         if postid is not None:

@@ -1,6 +1,8 @@
 {% load static %}
 {% load post_filters %}
 
-{% with post=object is_detail=True %}
+{% for post in post_list %}
+{% with is_detail=True postdivid="card-"|concat_str:post.pk %}
 {% include 'post_contents.html' %}
 {% endwith %}
+{% endfor %}
