@@ -128,6 +128,7 @@ function home() {
     $('#gallerydiv').fadeOut('fast', () => {
     $('#focusdiv').empty();
     refresh_gallery();
+    $('#focusdiv').fadeIn();
     });
 }
 
