@@ -108,7 +108,7 @@ function override_refs() {
 function slide_new_post(post, id) {
     post.children('.dotscis').text('✂');
     post.children('.dotscis').hide();
-    post.slideDown("slow", refresh_gallery);
+    post.slideDown("fast", refresh_gallery);
 }
 
 async function fetch_posts(ids) {
@@ -121,6 +121,14 @@ async function fetch_posts(ids) {
     let resp = await fetch(query, { method: 'GET' });
     let html = await resp.text();
     return html;
+}
+
+function home() {
+    $('#focusdiv').fadeOut('fast');
+    $('#gallerydiv').fadeOut('fast', () => {
+    $('#focusdiv').empty();
+    refresh_gallery();
+    });
 }
 
 async function init_index(ids) {
@@ -141,7 +149,7 @@ async function refresh_gallery() {
     } else {
         query = '/gallery'
     }
-    $('#gallerydiv').fadeOut("slow", () => {
+    $('#gallerydiv').fadeOut("fast", () => {
         fetch(query, { method: 'GET' })
             .then(response => {
                 if (response.status == '200') {
@@ -151,7 +159,7 @@ async function refresh_gallery() {
             .then(newgallery => {
                 $('#gallerydiv').html(newgallery);
                 override_refs(); //This needs to be specific to the container.
-                $('#gallerydiv').fadeIn("slow", () => {
+                $('#gallerydiv').fadeIn("fast", () => {
                     get_hovers();
                     enable_hovers();
                 });
