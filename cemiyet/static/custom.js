@@ -164,6 +164,7 @@ function togglenavs() {
 }
 
 async function refresh_gallery(page) {
+    $('.nav').fadeOut('fast');
     if (page) {
         pageq = '?page=' + page
     } else {
