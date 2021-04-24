@@ -1,6 +1,16 @@
 {% load static %}
 {% load post_filters %}
 
+<div id="navigation"
+    page="{{ page_obj.number }}"
+    total="{{ page_obj.paginator.num_pages }}"
+    {% if page_obj.has_previous %}
+    prev="{{ page_obj.previous_page_number }}"
+    {% endif %}
+    {% if page_obj.has_next %}
+    next="{{ page_obj.next_page_number }}"
+    {% endif %}>
+</div>
 <div class="row">
     {% for post in post_list %}
     {% if forloop.counter|divisibleby:3 %}

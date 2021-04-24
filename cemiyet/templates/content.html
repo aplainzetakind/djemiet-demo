@@ -7,47 +7,33 @@
 
 <div class="bg-div">
 
-    {# Create pop-up cards for all reference-linked posts in the view #}
-    {% comment %}
-    {% for post in hovers %}
-            {% with class="popup content-card" postdivid="pop-"|concat_str:post.id %}
-            {% include 'post_contents.html' %}
-            {% endwith %}
-    {% endfor %}
-    {% endcomment %}
-
-    {# Insert posting form here #}
-
-
 
     <div class="container width-60">
         <div class="row">
-        <div id="focusdiv"></div>
-        </div>
-        <div id="gallerydiv">
-        {% comment %} {% include 'posts/gallery.html' %} {% endcomment %}
+            <div id="focusdiv">
+            </div>
         </div>
     </div>
+
+    <div class="container width-80">
+
+        <div id="leftnav" class="content-card nav">
+            <span class="arrows left" onclick="nav('prev')">❬❬</span>
+            <span class="arrows left" onclick="nav('1')">❬</span>
+        </div>
+
+        <div class="container width-60">
+            <div id="gallerydiv">
+            </div>
+        </div>
+
+        <div id="rightnav" class="content-card nav">
+            <span class="arrows" onclick="nav('next')">❭</span>
+            <span class="arrows" onclick="nav('total')">❭❭</span>
+        </div>
+
+    </div>
 </div>
-
-
-{# Navigation #}
-{% comment %}
-{% if page_obj.has_previous %}
-<div class="nav prev">
-    <a class="arrows" href="?page=1">&lt;&lt;</a>
-    <a class="arrows" href="?page={{ page_obj.previous_page_number }}">&lt;</a>
-</div>
-{% endif %}
-
-
-{% if page_obj.has_next %}
-<div class="nav next">
-    <a class="arrows" href="?page={{ page_obj.next_page_number }}">&gt;</a>
-    <a href="?page={{ page_obj.paginator.num_pages }}">&gt;&gt;</a>
-</div>
-{% endif %}
-{% endcomment %}
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{% static 'custom.js' %}"></script>

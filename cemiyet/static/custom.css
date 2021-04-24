@@ -5,6 +5,7 @@ html, body {
 }
 
 form { margin: 0; }
+
 .bg-div {
     background-color: #f3f3f3;
     min-height: 100vh;
@@ -63,6 +64,13 @@ form { margin: 0; }
 .bottom { bottom: 0; }
 .left { left: 0; }
 
+.width-80 {
+    min-width: 80vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
 .width-60 {
     min-width: 60vw;
 }
@@ -80,7 +88,7 @@ form { margin: 0; }
     border-radius: 3px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 3px 6px 20px 0 rgba(0, 0, 0, 0.25);
     box-sizing: border-box;
-    margin-top: 1em;
+    margin-top: 0;
     margin-bottom: 1em;
 }
 
@@ -194,14 +202,33 @@ form { margin: 0; }
 }
 
 .nav {
-    position: fixed;
-    top: 50%;
-    font-size: 60px;
+    font-size: 1.7em;
     font-family: 'VollkornRegular';
-    width: 20vw;
     text-align: center;
-    text-shadow: 3px 3px 3px #999999;
-    letter-spacing: -0.3em;
+    /* text-shadow: 3px 3px 3px #999999; */
+    letter-spacing: -0.5em;
+    display: inline-block;
+    margin: 0;
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 50%;
+    display: none;
+}
+
+#leftnav {
+    left: 10%;
+    padding: 0em 0.15em 0.15em 0.1em;
+}
+
+#rightnav {
+    right: 10%;
+    padding: 0em 0.1em 0.15em 0.15em;
+}
+
+.arrows {
+    padding: 0 0.5em 0.2em 0;
+    margin: 0.1em;
+    cursor: pointer;
 }
 
 .nav a {
@@ -213,11 +240,11 @@ form { margin: 0; }
 }
 
 .prev {
-    left: 0;
+    float: left;
 }
 
 .next {
-    right: 0;
+    float: right;
 }
 
 .ui-front {

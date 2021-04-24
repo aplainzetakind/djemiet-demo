@@ -19,7 +19,6 @@ from .forms import PostForm
 
 @method_decorator(login_required, name='dispatch')
 class IndexView(TemplateView):
-    """ THIS BELONGS UNDER posts/ """
     paginate_by = settings.POSTS_COUNT_PER_PAGE
     template_name = 'content.html'
 
@@ -27,6 +26,7 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['favourites'] = self.request.user.profile.watchlist.all()
         context['posts'] = self.request.GET.getlist('postid')
+        print(self.request.GET)
         return context
 
     def get_queryset(self):
@@ -38,7 +38,6 @@ class IndexView(TemplateView):
             queryset = Post.objects.all()
 
         return queryset.order_by('-popularity', '-created_on')
-
 
 
 @method_decorator(login_required, name='dispatch')

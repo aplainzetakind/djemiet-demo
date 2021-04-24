@@ -138,18 +138,47 @@ async function init_index(ids) {
         $('#focusdiv .dotscis').text('✂');
         $('#focusdiv .dotscis').last().hide();
         $('#focusdiv > div').fadeIn();
+        /* $(window).bind("scroll resize", placenavs); */
         refresh_gallery();
     });
 }
 
-async function refresh_gallery() {
+function nav(target) {
+    page = $('#navigation').attr(target);
+    refresh_gallery(page);
+}
+
+function togglenavs() {
+    hasprev = $('#navigation').attr('prev');
+    hasnext = $('#navigation').attr('next');
+    if (hasprev) {
+        $('#leftnav').fadeIn('fast');
+    } else {
+        $('#leftnav').fadeOut('fast');
+    }
+    if (hasnext) {
+        $('#rightnav').fadeIn('fast');
+    } else {
+        $('#rightnav').fadeOut('fast');
+    }
+}
+
+async function refresh_gallery(page) {
+    if (page) {
+        pageq = '?page=' + page
+    } else {
+        pageq = ''
+    }
+
     focused = $('#focusdiv').children();
+
     if (focused.length) {
         id = focused.last().attr('id').replace('card-','');
-        query = '/gallery?parent=' + id
+        query = '/gallery?parent=' + id + pageq
     } else {
-        query = '/gallery'
+        query = '/gallery' + pageq
     }
+
     $('#gallerydiv').fadeOut("fast", () => {
         fetch(query, { method: 'GET' })
             .then(response => {
@@ -159,12 +188,13 @@ async function refresh_gallery() {
             })
             .then(newgallery => {
                 $('#gallerydiv').html(newgallery);
-                override_refs(); //This needs to be specific to the container.
+                override_refs();
                 $('#gallerydiv').fadeIn("fast", () => {
                     get_hovers();
                     enable_hovers();
                 });
-            });
+            })
+            .then(togglenavs);
     })
 }
 
@@ -205,6 +235,7 @@ async function post_to_focus(id, clear, prepend) {
 
 
 async function focus_post(id, clear, prepend) {
+    $('.nav').fadeOut('fast');
     $('#gallerydiv').fadeOut('fast', () => {
         post_to_focus(id, clear, prepend)
         post = $('#card-' + id);
