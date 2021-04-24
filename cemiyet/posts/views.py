@@ -26,7 +26,6 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['favourites'] = self.request.user.profile.watchlist.all()
         context['posts'] = self.request.GET.getlist('postid')
-        print(self.request.GET)
         return context
 
     def get_queryset(self):
