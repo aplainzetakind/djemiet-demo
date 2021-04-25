@@ -155,7 +155,7 @@ form { margin: 0; }
     height: 70px;
 }
 
-.justified { margin-left, margin-right: auto; }
+.justified { margin: auto; }
 
 .centering {
     align-items: center;
