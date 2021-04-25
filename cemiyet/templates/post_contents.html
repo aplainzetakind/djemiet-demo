@@ -1,11 +1,20 @@
 {% load static %}
 {% load post_filters %}
 
-<div class="{{ class }}" id="{{ postdivid }}" style="{{ style }}">
+<div class="{{ class }}"
+     id="{{ postdivid }}"
+     postid="{{ post.id }}"
+     posttag="{{ post.tags }}"
+     style="{{ style }}">
     <div class="fineprint top left">
-        <a href="{% url 'respond' postid=post.id %}">
+        <div
+            id={{"id-"|concat_str:post.id}}
+            class="idcode"
+            postid="{{ post.id }}"
+            posttag="{{ post.tags }}"
+            style="cursor: pointer">
             #{{ post.id }}
-        </a>
+        </div>
     </div>
     <div class="fineprint top right">
         <a href="{% url 'content' %}?t={{ post.tags }}">

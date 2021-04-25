@@ -9,13 +9,25 @@ from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
-from django.views.generic import ListView, TemplateView
+from django.views.generic import View, ListView, TemplateView
 from django.views.generic.edit import FormView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
 from cemiyet import settings
 from .models import Post, Tag, update_popularity, init_popularity
 from .forms import PostForm
+
+@method_decorator(login_required, name='dispatch')
+class ContentView(View):
+
+    def get(self, request, *args, **kwargs):
+        view = IndexView.as_view()
+        return view(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        view = PostingFormView.as_view()
+        return view(request, *args, **kwargs)
+
 
 @method_decorator(login_required, name='dispatch')
 class IndexView(TemplateView):
@@ -26,6 +38,7 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['favourites'] = self.request.user.profile.watchlist.all()
         context['posts'] = self.request.GET.getlist('postid')
+        context['form'] = PostForm()
         return context
 
     def get_queryset(self):

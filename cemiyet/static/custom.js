@@ -103,6 +103,20 @@ function override_refs() {
         card = $(this).closest('.content-card');
         refclick(card, id);
     });
+
+    $('.idcode').unbind('click');
+    $('.idcode').click(function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        id = $(this).attr('postid');
+        tag = $(this).attr('posttag');
+        current_body = $('#id_body').val();
+        current_tag = $('#tag_text').val();
+        $('#id_body').val(current_body + '[[' + id + ']]\n');
+        if (!current_tag) {
+            $('#tag_text').val(tag);
+        }
+    });
 }
 
 function slide_new_post(post, id) {
@@ -151,20 +165,29 @@ function nav(target) {
 function togglenavs() {
     hasprev = $('#navigation').attr('prev');
     hasnext = $('#navigation').attr('next');
-    if (hasprev) {
-        $('#leftnav').fadeIn('fast');
-    } else {
-        $('#leftnav').fadeOut('fast');
+
+    if ((hasprev) && ($('#leftnav').css('visibility') === 'hidden'))
+    {
+        $('#leftnav')
+        .css({'opacity': '0', 'visibility': 'visible'}).fadeTo('fast', 100);
+    } else if ((!hasprev) && (!$('#leftnav').css('visibility') === 'hidden'))
+    {
+        $('#leftnav').fadeTo('fast', 0).css({'visibility': 'hidden'});
     }
-    if (hasnext) {
-        $('#rightnav').fadeIn('fast');
-    } else {
-        $('#rightnav').fadeOut('fast');
+
+    if ((hasnext) && ($('#rightnav').css('visibility') === 'hidden'))
+    {
+        $('#rightnav')
+        .css({'opacity': '0', 'visibility': 'visible'}).fadeTo('fast', 100);
+    } else if ((!hasnext) && (!$('#rightnav').css('visibility') === 'hidden'))
+    {
+        $('#rightnav').fadeTo('fast', 0).css({'visibility': 'hidden'});
     }
+
 }
 
 async function refresh_gallery(page) {
-    $('.nav').fadeOut('fast');
+    $('.nav').fadeTo('fast', 0).css({'visibility': 'hidden'});
     if (page) {
         pageq = '?page=' + page
     } else {
@@ -233,10 +256,30 @@ async function post_to_focus(id, clear, prepend) {
     slide_new_post($('#card-' + id));
 }
 
+function clear_form() {
+    $('#formdiv').find("input[type=text], textarea").val('');
+}
 
+function toggle_form() {
+    if ($('#formdiv').css('display') === 'none') {
+        lastfocus = $('#focusdiv').children().last()
+        if ((!$('#id_body').val()) &&
+            (!$('#tag_text').val()) && (lastfocus.length)) {
+            $('#id_body').val('[[' + lastfocus.attr('postid') + ']]\n')
+            $('#tag_text').val(lastfocus.attr('posttag') )
+        }
+        $('#formswitch').slideUp('fast', () => {
+            $('#formdiv').slideDown('fast');
+        });
+    } else {
+        $('#formdiv').slideUp('fast', () => {
+            $('#formswitch').slideDown('fast');
+        });
+    }
+}
 
 async function focus_post(id, clear, prepend) {
-    $('.nav').fadeOut('fast');
+    $('.nav').fadeTo('fast', 0).css({'visibility': 'hidden'});
     $('#gallerydiv').fadeOut('fast', () => {
         post_to_focus(id, clear, prepend)
         post = $('#card-' + id);

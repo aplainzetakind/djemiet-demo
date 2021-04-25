@@ -21,7 +21,7 @@ from . import views
 
 urlpatterns = [
     path('', views.auth_wall, name='root'), #  Redirect
-    path('content', posts.views.IndexView.as_view(), name='content'),
+    path('content', posts.views.ContentView.as_view(), name='content'),
     path('ac/', posts.views.autocomplete, name='autocomplete'),
     path('posts/', include('posts.urls')),
     path('admin/', admin.site.urls),
