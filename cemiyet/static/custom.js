@@ -110,12 +110,18 @@ function override_refs() {
         e.preventDefault();
         id = $(this).attr('postid');
         tag = $(this).attr('posttag');
+        if ($('#formdiv').css('display') === 'none') {
+            toggle_form();
+        }
         current_body = $('#id_body').val();
         current_tag = $('#tag_text').val();
         $('#id_body').val(current_body + '[[' + id + ']]\n');
         if (!current_tag) {
             $('#tag_text').val(tag);
         }
+        $('html, body').animate({
+            scrollTop: ($("#formdiv").offset().top - 40)
+        }, 200);
     });
 }
 
