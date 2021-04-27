@@ -180,6 +180,9 @@ function add_tag_div(value) {
         e.stopPropagation();
         e.preventDefault();
         $(this).remove();
+        if (!$('#taglist').children().length) {
+            $('#cleartags').fadeOut('fast');
+        }
         refresh_gallery();
     });
     $(function() {
