@@ -297,6 +297,7 @@ form { margin: 0; }
 
 #tagfilter {
     width: 13em;
+    margin-left: 0;
 }
 
 #taglist {
@@ -325,5 +326,16 @@ form { margin: 0; }
     width: -moz-max-content;    /* Firefox/Gecko */
     width: -webkit-max-content; /* Chrome */
     width: max-content;
+    cursor: pointer;
+}
+
+#favtoggle {
+    display: flex;
+    line-height: 0.8em;
+    margin: auto;
+    margin-right: 0.2em;
+    font-family: 'Montserrat';
+    font-size: 30pt;
+    color: #777777;
     cursor: pointer;
 }

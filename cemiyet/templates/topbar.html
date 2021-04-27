@@ -5,7 +5,9 @@
         <img src="{% static 'logos/50x102.png'%}"
             style="cursor: pointer" onclick="home()"></img>
     </div>
-    <div class="justified rightmost" style="display: flex">
+    <div id="favtoggle" onclick="toggle_favfilter()">☆</div>
+    <div class="justified leftmost" style="display: flex; align-items: center;">
+    <div class="justified leftmost" style="display: flex">
     <input id="tagfilter" class="taginput" style="margin: 0;" type="text" placeholder="Tag filter">
     </div>
     <div id="taglist">
@@ -14,6 +16,7 @@
     <div id="cleartags"
          class="leftmost fineprint corner-widget"
          onclick="clear_tags()">Ø</div>
+    </div>
     </div>
     <a class="button justified rightmost" href="{% url 'logout' %}">Sign out</a>
 </div>

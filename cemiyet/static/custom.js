@@ -62,6 +62,12 @@ function dotscis(id) {
     }
 }
 
+function toggle_favfilter() {
+    current = $('#favtoggle').text();
+    $('#favtoggle').text(current === '☆' ? '★' : '☆');
+    refresh_gallery();
+}
+
 function favourite(id, token) {
     options = {
         method: 'POST',
@@ -244,6 +250,10 @@ async function refresh_gallery(page) {
     if (focused.length) {
         id = focused.last().attr('id').replace('card-','');
         params.push('parent=' + id);
+    }
+
+    if ($('#favtoggle').text() === '★') {
+        params.push('watch=true');
     }
 
     params = params.concat(get_tags().map(function(tag) { return 'tag=' + tag }));

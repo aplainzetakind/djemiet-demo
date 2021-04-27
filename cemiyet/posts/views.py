@@ -65,9 +65,16 @@ class GalleryView(ListView):
 
     def get_queryset(self):
         queryset = Post.objects.all()
+
+        watch = self.request.GET.get('watch')
+        if watch:
+            wlist = self.request.user.profile.watchlist.all()
+            queryset = queryset.filter(parents__in=wlist)
+
         parent = self.request.GET.get('parent')
         if parent:
             queryset = queryset.filter(parents=parent)
+
         tags = self.request.GET.getlist('tag')
         if tags:
             queryset = queryset.filter(tags__name__in=tags)
