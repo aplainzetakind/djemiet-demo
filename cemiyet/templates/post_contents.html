@@ -16,10 +16,10 @@
             #{{ post.id }}
         </div>
     </div>
-    <div class="fineprint top right">
-        <a href="{% url 'content' %}?t={{ post.tags }}">
-            &lt;{{ post.tags }}&gt;
-        </a>
+    <div class="fineprint top right"
+         onclick="add_tag_div('{{ post.tags }}')"
+         style="cursor: pointer">
+        &lt;{{ post.tags }}&gt;
     </div>
     {% if post.title %}
     <div class="title">{{ post.title|titlefilter:request.user }}</div>

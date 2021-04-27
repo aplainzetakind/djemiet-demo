@@ -137,7 +137,7 @@ form { margin: 0; }
     padding: 0
 }
 
-.topbar {
+#topbar {
     background-color: #ffffff;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     position: fixed;
@@ -167,8 +167,8 @@ form { margin: 0; }
 .rightmost {
     position: relative;
     right: 0;
-    margin: 0;
-    margin-left: auto;
+    margin: auto;
+    margin-right: 0;
 }
 
 .leftmost {
@@ -293,4 +293,37 @@ form { margin: 0; }
     padding: 6px;
     padding-left: 10px;
     margin-bottom: 0.1em;
+}
+
+#tagfilter {
+    width: 13em;
+}
+
+#taglist {
+    font-size: 1em;
+    line-height: 1em;
+    display: flex;
+    flex-wrap: wrap;
+    padding: auto;
+    width: 15rem;
+    margin-left: 0.3em;
+}
+
+#cleartags {
+    display: none;
+}
+
+.tag {
+    background-color: #e4e4e4;
+    border-radius: 0.4em;
+    padding: 0.1em 0.4em 0.3em 0.4em;
+    margin: 2px;
+    white-space: nowrap;
+    height: -moz-min-content;    /* Firefox/Gecko */
+    height: -webkit-min-content; /* Chrome */
+    height: min-content;
+    width: -moz-max-content;    /* Firefox/Gecko */
+    width: -webkit-max-content; /* Chrome */
+    width: max-content;
+    cursor: pointer;
 }

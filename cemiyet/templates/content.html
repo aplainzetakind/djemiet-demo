@@ -56,9 +56,11 @@
         init_index(ids);
     });
     $( function() {
-        $("#tag_text").autocomplete({
+        $(".taginput").autocomplete({
             source: '{% url 'autocomplete' %}',
         });
+        $(".taginput").autocomplete('widget').css("z-index", "100");
+        $('#tagfilter').on('autocompleteselect', add_tag_from_autocomplete);
     } );
 </script>
 {% endblock content %}

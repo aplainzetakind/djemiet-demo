@@ -152,6 +152,49 @@ function home() {
     });
 }
 
+function get_tags() {
+    result = []
+    $('.tag').each(function() {
+        result.push($(this).attr('tagname'));
+    });
+    return result;
+}
+
+function clear_tags() {
+    $('#taglist').empty();
+    $('#cleartags').fadeOut('fast');
+    refresh_gallery();
+}
+
+function add_tag_div(value) {
+    current = get_tags();
+    if (!current.includes(value)) {
+    $('<div class="tag" tagname="' + value +'">' + value + '</div>').appendTo('#taglist')
+    $('#taglist .tag').last().click(function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        $(this).remove();
+        refresh_gallery();
+    });
+    $(function() {
+        while( $('#taglist').height() > $('#topbar').height() ) {
+            $('#taglist').css('font-size', (parseInt($('#taglist').css('font-size')) - 1) + "px" );
+        }
+    });
+    if ($('#cleartags').css('display') === 'none') {
+        $('#cleartags').fadeIn('fast');
+    }
+    refresh_gallery();
+    }
+}
+
+function add_tag_from_autocomplete(e, ui) {
+    e.preventDefault();
+    $('#tagfilter').val('');
+    value = ui.item.value;
+    add_tag_div(value);
+}
+
 async function init_index(ids) {
     fetch_posts(ids).then((html) => {
         $('#focusdiv').html(html);
@@ -194,20 +237,24 @@ function togglenavs() {
 
 async function refresh_gallery(page) {
     $('.nav').fadeTo('fast', 0).css({'visibility': 'hidden'});
-    if (page) {
-        pageq = '?page=' + page
-    } else {
-        pageq = ''
-    }
+
+    params = []
 
     focused = $('#focusdiv').children();
-
     if (focused.length) {
         id = focused.last().attr('id').replace('card-','');
-        query = '/gallery?parent=' + id + pageq
-    } else {
-        query = '/gallery' + pageq
+        params.push('parent=' + id);
     }
+
+    params = params.concat(get_tags().map(function(tag) { return 'tag=' + tag }));
+
+    if (page) {
+        params.push('page=' + page);
+    }
+
+    query = ['/gallery', params.join('&')].join('?');
+
+    console.log(query);
 
     $('#gallerydiv').fadeOut("fast", () => {
         fetch(query, { method: 'GET' })

@@ -64,13 +64,13 @@ class GalleryView(ListView):
         return context
 
     def get_queryset(self):
-        #  This should be extended to accept multiple tags.
         queryset = Post.objects.all()
         parent = self.request.GET.get('parent')
         if parent:
             queryset = queryset.filter(parents=parent)
-        if self.request.GET.get('tag'):
-            queryset = queryset.filter(tags=self.request.GET.get('tag'))
+        tags = self.request.GET.getlist('tag')
+        if tags:
+            queryset = queryset.filter(tags__name__in=tags)
 
         return queryset.order_by('-popularity', '-created_on')
 
@@ -120,7 +120,7 @@ class PostingFormView(FormView):
     the post being replied to.
     """
     form_class = PostForm
-    template_name = 'post.html'
+    template_name = 'content.html'
     success_url = '/content'
     fill = ''
     tag = ''
