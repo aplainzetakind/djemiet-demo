@@ -4,6 +4,8 @@ Database models for posts.
 import django
 from django.db import models
 from django.conf import settings
+import os
+import time
 
 
 #  REFACTOR THIS TO A SEPARATE FILE
@@ -80,6 +82,10 @@ class Tag(models.Model):
     def __str__(self):
         return str(self.name)
 
+def assign_filename(instance, filename):
+    temp = os.path.splitext(filename)
+    return str(time.time_ns()) + temp[1]
+
 class Post(models.Model):
     """ The central model of Djemiet. """
     title = models.CharField(max_length=255, blank=True)
@@ -91,6 +97,7 @@ class Post(models.Model):
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     popularity = models.BigIntegerField(blank=False, null=False, default=0)
+    image = models.ImageField(null=True, blank=True, upload_to=assign_filename)
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
             on_delete=models.SET_NULL,
             blank=False,
@@ -100,7 +107,6 @@ class Post(models.Model):
             on_delete=models.CASCADE,
             blank=True,
             null=True)
-    image = models.CharField(max_length=255,blank=True, null=True)
 
     def __str__(self):
         return '#' + str(self.pk)

@@ -89,7 +89,7 @@ form { margin: 0; }
     position: relative;
     display: flex;
     flex-flow: column;
-    padding: 2em 1.5em 1.5em 1.5em;
+    padding: 2em 1.5em 2em 1.5em;
     background-color: #ffffff;
     border-radius: 3px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 3px 6px 20px 0 rgba(0, 0, 0, 0.25);
@@ -338,4 +338,37 @@ form { margin: 0; }
     font-size: 30pt;
     color: #777777;
     cursor: pointer;
+}
+
+.focus {
+    height: -moz-min-content;    /* Firefox/Gecko */
+    height: -webkit-min-content; /* Chrome */
+    height: min-content;
+    min-height: 3em;
+}
+
+.focus img {
+    width: 40%;
+    margin: 0 1em 0 0;
+    float: left;
+}
+
+.galcard img {
+    width: 3em;
+    margin: 0 1em 0 0;
+    float: left;
+}
+
+#uploaddiv {
+    width: 15em;
+    margin: auto;
+    text-align: left;
+}
+
+input {
+    width: 15em;
+}
+
+input[type="file"] {
+    display: none;
 }

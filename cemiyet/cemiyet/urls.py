@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.contrib.auth.views import LoginView
+from django.conf import settings
+from django.conf.urls.static import static
 import posts.views
 from . import views
 
@@ -36,4 +38,4 @@ urlpatterns = [
     path('respond/<int:postid>', posts.views.PostingFormView.as_view(),
         name='respond'),
     path('watch', posts.views.add_to_watchlist, name='watchlist'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -288,6 +288,12 @@ async function refresh_gallery(page) {
     })
 }
 
+function update_filename() {
+  file = $('#id_image').val()
+  fileName = file.split("\\");
+  $('#filename').text(fileName[fileName.length - 1]);
+}
+
 async function post_to_focus(id, clear, prepend) {
     post = $('#card-' + id);
 
@@ -301,7 +307,7 @@ async function post_to_focus(id, clear, prepend) {
     }
 
     if (post.length) {
-        post.attr("class", "ten columns offset-by-one content-card small-square");
+        post.attr("class", "focus ten columns offset-by-one content-card small-square");
     } else {
         html = await fetch_posts(id);
         post = $(html);
@@ -309,6 +315,9 @@ async function post_to_focus(id, clear, prepend) {
 
     post.children('.dotscis').text('✂');
     post.children('.dotscis').hide();
+    imgurl = post.find('img').attr('source');
+    post.find('img').attr('src', '');
+    post.find('img').attr('src', imgurl);
 
     if (prepend) {
         post.children('.dotscis').fadeIn('fast');
@@ -323,7 +332,8 @@ async function post_to_focus(id, clear, prepend) {
 }
 
 function clear_form() {
-    $('#formdiv').find("input[type=text], textarea").val('');
+    $('#formdiv').find("input[type=text], input[type=file], textarea").val('');
+    $('#filename').text('No image selected.');
 }
 
 function toggle_form() {

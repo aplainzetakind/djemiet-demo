@@ -24,7 +24,11 @@
     {% if post.title %}
     <div class="title">{{ post.title|titlefilter:request.user }}</div>
     {% endif %}
-    <div class="post-body">{{ post.body|postfilter:request.user|urlize }}</div>
+    <div class="post-body">
+        {% if post.image %}
+        <img source="{{ post.image.url }}" src="{% static 'img.png'%}">
+        {% endif %}
+        <div>{{ post.body|postfilter:request.user|urlize }}</div></div>
     <div class="star-{{ post.id }} fineprint bottom left star unselectable"
                                  onclick="favourite('{{ post.id }}', '{{ csrf_token }}')">{% if post in favourites %}★{% else %}☆{% endif %}</div>
 

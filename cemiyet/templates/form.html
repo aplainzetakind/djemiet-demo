@@ -7,7 +7,7 @@
             onclick="toggle_form()">X</div>
     </div>
     <div class="formfields">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
             {% for e in form.title.errors %}
@@ -17,6 +17,22 @@
                    placeholder="Subject"
                    id="{{ form.title.id_for_label }}"
                    name="{{ form.title.html_name }}">
+        </div>
+        <div class="row">
+            <div id="uploaddiv">
+            <div id="filelabel"
+                 class="button"
+                 onclick="$('#{{ form.image.id_for_label }}').click()">
+            ⇧
+            </div>
+            <span id="filename">No image selected.</span>
+            <input class="submitfile"
+                   type="file"
+                   name="image"
+                   accept="image/*"
+                   onchange="update_filename()"
+                   id="{{ form.image.id_for_label }}">
+            </div>
         </div>
         <div class="row">
             {% for e in form.body.errors %}
