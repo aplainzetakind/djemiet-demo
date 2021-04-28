@@ -38,4 +38,7 @@ urlpatterns = [
     path('respond/<int:postid>', posts.views.PostingFormView.as_view(),
         name='respond'),
     path('watch', posts.views.add_to_watchlist, name='watchlist'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
