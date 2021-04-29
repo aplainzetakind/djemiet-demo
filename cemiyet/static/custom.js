@@ -311,6 +311,7 @@ async function post_to_focus(id, clear, prepend) {
     } else {
         html = await fetch_posts(id);
         post = $(html);
+        post.addClass('focus');
     }
 
     post.children('.dotscis').text('✂');
