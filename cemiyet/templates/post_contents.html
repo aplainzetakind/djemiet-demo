@@ -1,39 +1,47 @@
 {% load static %}
 {% load post_filters %}
 
-<div class="{{ class }}"
+<div class="post {{ class }}"
      id="{{ postdivid }}"
      postid="{{ post.id }}"
-     posttag="{{ post.tags }}"
-     style="{{ style }}">
-    <div class="fineprint top left">
-        <div
-            id={{"id-"|concat_str:post.id}}
-            class="idcode"
-            postid="{{ post.id }}"
-            posttag="{{ post.tags }}"
-            style="cursor: pointer">
-            #{{ post.id }}
+     posttag="{{ post.tags }}">
+        <div class="postheader">
+            <span
+                id={{"id-"|concat_str:post.id}}
+                class="idcode widget montserrat floatleft"
+                postid="{{ post.id }}"
+                posttag="{{ post.tags }}">
+                #{{ post.id }}
+            </span>
+            <span class="tagwidget widget montserrat floatright" onclick="add_tag_div('{{ post.tags }}')">
+                &lt;{{ post.tags }}&gt;
+            </span>
         </div>
-    </div>
-    <div class="fineprint top right"
-         onclick="add_tag_div('{{ post.tags }}')"
-         style="cursor: pointer">
-        &lt;{{ post.tags }}&gt;
-    </div>
-    {% if post.title %}
-    <div class="title">{{ post.title|titlefilter:request.user }}</div>
-    {% endif %}
-    <div class="post-body">
-        {% if post.image %}
-        <img source="{{ post.image.url }}" src="{% static 'img.png'%}">
-        {% endif %}
-        <div>{{ post.body|postfilter:request.user|urlize }}</div></div>
-    <div class="star-{{ post.id }} fineprint bottom left star unselectable"
-                                 onclick="favourite('{{ post.id }}', '{{ csrf_token }}')">{% if post in favourites %}★{% else %}☆{% endif %}</div>
 
-    <div class="fineprint bottom right dotscis star unselectable"
-                                 onclick="dotscis('{{ post.id }}')">+</div>
-    <div class="fineprint bottom left right justified" style="width: 10em;">
-        {{ post.created_on|date:"SHORT_DATE_FORMAT"}}, {{post.created_on|time:"H:i"}}</div>
+        <div class="postcontent">
+            {% if post.title %}
+            <div class="title">{{ post.title|titlefilter:request.user }}</div>
+            {% endif %}
+
+            <div class="post-body">
+                {% if post.image %}
+                <img source="{{ post.image.url }}" src="{% static 'img.png'%}">
+                {% endif %}
+                <div>{{ post.body|postfilter:request.user|urlize }}</div>
+            </div>
+        </div>
+
+
+        <div class="postfooter">
+            <div class="star star-{{ post.id }} widget left"
+                 onclick="favourite('{{ post.id }}', '{{ csrf_token }}')">{% if post in favourites %}★{% else %}☆{% endif %}</div>
+
+            <div>
+                {{ post.created_on|date:"SHORT_DATE_FORMAT"}},
+                {{post.created_on|time:"H:i"}}</div>
+
+            <div class="dotscis widget right"
+                 onclick="dotscis('{{ post.id }}')">+</div>
+
+        </div>
 </div>

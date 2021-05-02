@@ -5,43 +5,37 @@
 
 {% include 'topbar.html' %}
 
-<div class="bg-div">
+<div id="contents">
 
+    <div id="focusdiv"></div>
 
-    <div class="container width-60">
-        <div class="row">
-            <div id="focusdiv">
-            </div>
-        </div>
-        <div class="row formrow centering">
-            <button
-                id="formswitch"
-                class="button justified"
-                onclick="toggle_form()">
-                Create Post
-            </button>
-            {% include 'form.html' %}
-        </div>
+    <div id="postingdiv">
+        <button
+            id="formswitch"
+            class="button justified"
+            onclick="toggle_form()">
+            Create Post
+        </button>
+        {% include 'form.html' %}
     </div>
 
-    <div class="container width-80">
+    <div id="carousel">
 
-        <div id="leftnav" class="content-card nav">
-            <span class="arrows left" onclick="nav('1')">❬❬</span>
-            <span class="arrows left" onclick="nav('prev')">❬</span>
+        <div id="leftnav" class="nav">
+            <div class="arrow larrows" onclick="nav('1')"></div>
+            <div class="arrow larrow" onclick="nav('prev')"></div>
         </div>
 
-        <div class="container width-60">
-            <div id="gallerydiv">
-            </div>
+        <div id="gallerydiv">
         </div>
 
-        <div id="rightnav" class="content-card nav">
-            <span class="arrows" onclick="nav('next')">❭</span>
-            <span class="arrows" onclick="nav('total')">❭❭</span>
+        <div id="rightnav" class="nav">
+            <div class="arrow rarrow" onclick="nav('next')"></div>
+            <div class="arrow rarrows" onclick="nav('total')"></div>
         </div>
 
     </div>
+    <div id="bench"></div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

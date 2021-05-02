@@ -2,7 +2,7 @@
 {% load post_filters %}
 
 {% for post in post_list %}
-        {% with class="popup content-card" postdivid="pop-"|concat_str:post.id %}
+        {% with class="hoverpost" postdivid="pop-"|concat_str:post.id %}
         {% include 'post_contents.html' %}
         {% endwith %}
 {% endfor %}

@@ -25,7 +25,7 @@ function get_hovers() {
                 }
             }
             ).then(html => {
-                $('.bg-div').prepend(html);
+                $('#bench').append(html);
             }
             )
     }
@@ -35,7 +35,7 @@ function enable_hovers() {
     $(".reflink").hover(function() {
         refid = $(this).attr("reftarget");
         target = "#pop-" + refid;
-        card = $(this).closest(".content-card");
+        card = $(this).closest(".post");
         topoffset = $(this).offset().top - card.offset().top;
         leftoffset = $(this).offset().left - card.offset().left +
             $(this).width();
@@ -43,15 +43,14 @@ function enable_hovers() {
         $(target).css({top: topoffset, left: leftoffset});
         $(target).show();
     }, function() {
-        $(target).hide();
-        $(target).prependTo($(".bg-div"));
+        $(target).prependTo($("#bench"));
     });
 }
 
 function dotscis(id) {
-    post = $('#card-' + id);
+    post = $('#post-' + id);
     if (post.closest('#focusdiv').length) {
-        post.children('.dotscis').fadeOut('fast');
+        post.find('.dotscis').fadeOut('fast');
         post.nextAll().slideUp("fast", () => {
             post.nextAll().remove();
             refresh_gallery();
@@ -106,7 +105,7 @@ function override_refs() {
         e.stopPropagation();
         e.preventDefault();
         id = parseInt($(this).attr('reftarget'));
-        card = $(this).closest('.content-card');
+        card = $(this).closest('.post');
         refclick(card, id);
     });
 
@@ -251,7 +250,7 @@ async function refresh_gallery(page) {
 
     focused = $('#focusdiv').children();
     if (focused.length) {
-        id = focused.last().attr('id').replace('card-','');
+        id = focused.last().attr('id').replace('post-','');
         params.push('parent=' + id);
     }
 
@@ -266,8 +265,6 @@ async function refresh_gallery(page) {
     }
 
     query = ['/gallery', params.join('&')].join('?');
-
-    console.log(query);
 
     $('#gallerydiv').fadeOut("fast", () => {
         fetch(query, { method: 'GET' })
@@ -295,7 +292,7 @@ function update_filename() {
 }
 
 async function post_to_focus(id, clear, prepend) {
-    post = $('#card-' + id);
+    post = $('#post-' + id);
 
     post.hide();
     if (clear) {
@@ -306,30 +303,28 @@ async function post_to_focus(id, clear, prepend) {
         $('#focusdiv .dotscis').last().fadeIn('fast');
     }
 
-    if (post.length) {
-        post.attr("class", "focus ten columns offset-by-one content-card small-square");
-    } else {
+    if (!post.length) {
         html = await fetch_posts(id);
         post = $(html);
-        post.addClass('focus');
+        post.css('display', 'none');
     }
 
-    post.children('.dotscis').text('✂');
-    post.children('.dotscis').hide();
+    post.find('.dotscis').text('✂');
+    post.find('.dotscis').hide();
     imgurl = post.find('img').attr('source');
     post.find('img').attr('src', '');
     post.find('img').attr('src', imgurl);
 
     if (prepend) {
-        post.children('.dotscis').fadeIn('fast');
-        post.children('.dotscis').fadeIn('fast');
+        post.find('.dotscis').fadeIn('fast');
+        post.find('.dotscis').fadeIn('fast');
         post.prependTo($('#focusdiv'))
     } else {
         post.appendTo($('#focusdiv'))
     }
 
     override_refs();
-    slide_new_post($('#card-' + id));
+    slide_new_post($('#post-' + id));
 }
 
 function clear_form() {
@@ -359,6 +354,6 @@ async function focus_post(id, clear, prepend) {
     $('.nav').fadeTo('fast', 0).css({'visibility': 'hidden'});
     $('#gallerydiv').fadeOut('fast', () => {
         post_to_focus(id, clear, prepend)
-        post = $('#card-' + id);
+        post = $('#post-' + id);
     });
 }

@@ -1,22 +1,15 @@
-<!-- templates/topbar.html-->
 {% load static %}
-<div id="topbar">
-    <div style="display: flex;">
-        <img src="{% static 'logos/50x102.png'%}"
-            style="cursor: pointer" onclick="home()"></img>
-    </div>
+<div id="topbar" class="shadow-white">
+    <div id="topbar-logo"
+         style="cursor: pointer" onclick="home()"></div>
     <div id="favtoggle" onclick="toggle_favfilter()">☆</div>
-    <div class="justified leftmost" style="display: flex; align-items: center;">
-    <div class="justified leftmost" style="display: flex">
-    <input id="tagfilter" class="taginput" style="margin: 0;" type="text" placeholder="Tag filter">
-    </div>
+    <input id="tagfilter" class="taginput" type="text" placeholder="Tag filter">
     <div id="taglist">
     </div>
-    <div style="width:2em">
-    <div id="cleartags"
-         class="leftmost fineprint corner-widget"
-         onclick="clear_tags()">Ø</div>
+    <div id="cleartagsbox">
+        <div id="cleartags"
+             class="leftmost fineprint corner-widget"
+             onclick="clear_tags()">Ø</div>
     </div>
-    </div>
-    <a class="button justified rightmost" href="{% url 'logout' %}">Sign out</a>
+    <a class="button" href="{% url 'logout' %}">Sign out</a>
 </div>

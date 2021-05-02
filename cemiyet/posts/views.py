@@ -90,7 +90,7 @@ class SingleCard(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['class'] = "ten columns offset-by-one content-card small-square"
+        context['class'] = "post"
         context['style'] = "display: none"
         context['favourites'] = self.request.user.profile.watchlist.all()
         return context

@@ -11,20 +11,9 @@
     next="{{ page_obj.next_page_number }}"
     {% endif %}>
 </div>
-<div class="row">
+
     {% for post in post_list %}
-    {% if forloop.counter|divisibleby:3 %}
-    {% with is_Focus=False class="galcard four columns content-card small-square" postdivid="card-"|concat_str:post.id %}
+    {% with postdivid="post-"|concat_str:post.id %}
     {% include 'post_contents.html' %}
     {% endwith %}
-</div>
-{% if not forloop.last %}
-<div class="row">
-    {% endif %}
-    {% else %}
-    {% with class="galcard four columns content-card small-square" postdivid="card-"|concat_str:post.id %}
-    {% include 'post_contents.html' %}
-    {% endwith %}
-    {% endif %}
     {% endfor %}
-</div>

@@ -2,7 +2,7 @@
 {% load post_filters %}
 
 {% for post in post_list %}
-{% with postdivid="card-"|concat_str:post.pk %}
+{% with postdivid="post-"|concat_str:post.pk %}
 {% include 'post_contents.html' %}
 {% endwith %}
 {% endfor %}
