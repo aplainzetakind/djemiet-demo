@@ -22,13 +22,12 @@ def render(num, user):
     depending on whether the referenced post is user's own or is on user's
     watchlist. """
     post = Post.objects.get(pk=int(num))
-    output = '#' + num
+    cls = "reflink star-" + str(num)
     if post in user.profile.watchlist.all():
-        output = output + '★'
+        cls += " watched"
     if post.author == user:
-        output = '<i>' + output + '</i>'
-    return '<a class="reflink" reftarget=' + num + ' href=' \
-            + reverse('post_detail', kwargs={"slug":num}) + '>' + output + '</a>'
+        cls += " ownref"
+    return '<span class="'+ cls +'" reftarget=' + num + '>' + num + '</span>'
 
 def linkify_nums(result, user):
     """ Applies post citation markdown. """

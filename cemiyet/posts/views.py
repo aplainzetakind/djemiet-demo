@@ -1,7 +1,6 @@
 """
 The views pertaining to posts. These are:
     - PostingFormView: Called from post and respond pages.
-    - PostDetailView: To display a single post.
     - add_to_watchlist: This expects POST requests from the frontend to add posts
       to the user's watchlist.
 """
@@ -11,7 +10,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 from django.views.generic import View, ListView, TemplateView
 from django.views.generic.edit import FormView
-from django.views.generic.detail import DetailView
 from django.contrib.auth.decorators import login_required
 from cemiyet import settings
 from .models import Post, Tag, update_popularity, init_popularity
@@ -169,14 +167,6 @@ class PostingFormView(FormView):
             update_popularity(parent, post)
             parent.save()
         return super().form_valid(form)
-
-@method_decorator(login_required, name='dispatch')
-class PostDetailView(DetailView):
-    """ Shows a single post. """
-    slug_field = 'pk'
-    model = Post
-
-
 
 @login_required
 def autocomplete(request):

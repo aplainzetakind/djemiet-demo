@@ -33,8 +33,8 @@
 
 
         <div class="postfooter">
-            <div class="star star-{{ post.id }} widget left"
-                 onclick="favourite('{{ post.id }}', '{{ csrf_token }}')">{% if post in favourites %}★{% else %}☆{% endif %}</div>
+            <div class="star star-{{ post.id }} widget left{% if post in favourites %} watched{% endif %}"
+                 onclick="favourite('{{ post.id }}', '{{ csrf_token }}')"></div>
 
             <div>
                 {{ post.created_on|date:"SHORT_DATE_FORMAT"}},

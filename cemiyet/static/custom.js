@@ -77,8 +77,7 @@ function favourite(id, token) {
         .then(response => {
             if (response.status == '200') {
                 $('.star-' + id).each( function() {
-                current = $(this).text();
-                $(this).text(current === '☆' ? '★' : '☆');
+                    $(this).toggleClass("watched");
                 });
             }
         });

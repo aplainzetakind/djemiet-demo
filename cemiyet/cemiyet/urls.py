@@ -22,22 +22,22 @@ import posts.views
 from . import views
 
 urlpatterns = [
-    path('', views.auth_wall, name='root'), #  Redirect
+    path('', views.redirect_root, name='root'), #  Redirect
     path('content', posts.views.ContentView.as_view(), name='content'),
-    path('ac/', posts.views.autocomplete, name='autocomplete'),
-    path('posts/', include('posts.urls')),
-    path('admin/', admin.site.urls),
-    path('accounts/login', LoginView.as_view(redirect_authenticated_user=True), name='login'),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('reg/', include('tokens.urls')),
-    path('post', posts.views.PostingFormView.as_view(), name='post'),
     path('card', posts.views.SingleCard.as_view(), name='card'),
     path('gallery', posts.views.GalleryView.as_view(), name='gallery'),
     path('popups', posts.views.PopupsView.as_view(), name='popups'),
-    path('p/<int:slug>', posts.views.PostDetailView.as_view(), name='post_detail'),
-    path('respond/<int:postid>', posts.views.PostingFormView.as_view(),
-        name='respond'),
+    path('ac/', posts.views.autocomplete, name='autocomplete'),
     path('watch', posts.views.add_to_watchlist, name='watchlist'),
+    #  path('posts/', include('posts.urls')),
+    path('admin/', admin.site.urls),
+    path('accounts/login', LoginView.as_view(redirect_authenticated_user=True), name='login'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('reg/', include('tokens.urls'))
+    #  path('post', posts.views.PostingFormView.as_view(), name='post'),
+    #  path('p/<int:slug>', posts.views.PostDetailView.as_view(), name='post_detail'),
+    #  path('respond/<int:postid>', posts.views.PostingFormView.as_view(),
+        #  name='respond'),
 ]
 
 if settings.DEBUG:

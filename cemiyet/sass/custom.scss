@@ -437,10 +437,26 @@ form { margin: 0; }
     margin-bottom: 0.5em;
 }
 
-.post-body a {
+.reflink {
     color: #238cbc;
     font-family: 'VollkornSemibold';
-    text-decoration: none;
+    cursor: pointer;
+}
+
+.ownref {
+    font-style: italic;
+}
+
+.star::after {
+    content: "☆";
+}
+
+.watched::after {
+    content: "★";
+}
+
+.reflink::before {
+    content: "#";
 }
 
 .small-square {

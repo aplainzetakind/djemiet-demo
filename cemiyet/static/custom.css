@@ -1,3 +1,4 @@
+@charset "UTF-8";
 html, body {
   scrollbar-width: none;
   font-family: 'VollkornRegular';
@@ -396,10 +397,22 @@ form {
 .post-body p {
   margin-bottom: 0.5em; }
 
-.post-body a {
+.reflink {
   color: #238cbc;
   font-family: 'VollkornSemibold';
-  text-decoration: none; }
+  cursor: pointer; }
+
+.ownref {
+  font-style: italic; }
+
+.star::after {
+  content: "☆"; }
+
+.watched::after {
+  content: "★"; }
+
+.reflink::before {
+  content: "#"; }
 
 .small-square {
   height: 20em; }
