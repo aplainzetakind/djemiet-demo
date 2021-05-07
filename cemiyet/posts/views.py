@@ -58,7 +58,6 @@ class GalleryView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['favourites'] = self.request.user.profile.watchlist.all()
-        posts = context['post_list']
         return context
 
     def get_queryset(self):

@@ -29,15 +29,10 @@ urlpatterns = [
     path('popups', posts.views.PopupsView.as_view(), name='popups'),
     path('ac/', posts.views.autocomplete, name='autocomplete'),
     path('watch', posts.views.add_to_watchlist, name='watchlist'),
-    #  path('posts/', include('posts.urls')),
     path('admin/', admin.site.urls),
     path('accounts/login', LoginView.as_view(redirect_authenticated_user=True), name='login'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('reg/', include('tokens.urls'))
-    #  path('post', posts.views.PostingFormView.as_view(), name='post'),
-    #  path('p/<int:slug>', posts.views.PostDetailView.as_view(), name='post_detail'),
-    #  path('respond/<int:postid>', posts.views.PostingFormView.as_view(),
-        #  name='respond'),
 ]
 
 if settings.DEBUG:
