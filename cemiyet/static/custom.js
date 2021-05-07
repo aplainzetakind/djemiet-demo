@@ -211,6 +211,9 @@ async function init_index(ids) {
         $('#focusdiv > div').fadeIn();
         /* $(window).bind("scroll resize", placenavs); */
         refresh_gallery();
+        if ($('.form-error').length) {
+            toggle_form();
+        }
     });
 }
 
@@ -330,6 +333,7 @@ async function post_to_focus(id, clear, prepend) {
 function clear_form() {
     $('#formdiv').find("input[type=text], input[type=file], textarea").val('');
     $('#filename').text('No image selected.');
+    $('.form-error').hide();
 }
 
 function toggle_form() {

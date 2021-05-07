@@ -3,7 +3,11 @@ html, body {
   font-family: 'VollkornRegular';
   font-size: 20px; }
 
-@media (max-width: 500px) {
+@media screen and (max-width: 900px) {
+  html, body {
+    font-size: 15px; } }
+
+@media screen and (max-width: 800px) {
   html, body {
     font-size: 10px; } }
 
@@ -13,7 +17,8 @@ html, body {
 
 .shadow-white, .nav div {
   background-color: #ffffff;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 3px; }
 
 .widget {
   cursor: pointer;
@@ -126,6 +131,15 @@ input[type="text"] {
   background-image: url("bg1.png");
   text-align: center; }
 
+#regcontents {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  background-image: url("bg1.png");
+  text-align: center; }
+
 /* POSTING */
 #focusdiv {
   width: 60%;
@@ -151,6 +165,21 @@ input[type="text"] {
   margin: 0 auto 2em auto;
   resize: both; }
 
+#regformdiv {
+  width: intrinsic;
+  /* Safari/WebKit uses a non-standard name */
+  width: -moz-max-content;
+  /* Firefox/Gecko */
+  width: -webkit-max-content;
+  /* Chrome */
+  width: max-content;
+  display: block;
+  margin: auto;
+  padding: 2em 5em;
+  text-align: center;
+  margin: 0 auto 2em auto;
+  resize: both; }
+
 form {
   margin: 0; }
 
@@ -158,7 +187,11 @@ form {
   font-size: 1rem; }
 
 #filelabel {
-  margin-right: 1em; }
+  font-size: 1.2rem;
+  height: 1.6em;
+  margin-right: 1em;
+  line-height: 0.5em;
+  padding-top: 0.5em; }
 
 #formdiv .title {
   line-height: 1em;
@@ -384,15 +417,15 @@ form {
   width: 20rem; }
 
 .form-error {
-  font-size: 0.8em;
   color: #cc5555;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 0.3em;
-  margin-bottom: 0;
   width: 50%;
   text-align: left;
   width: 224px; }
+
+.non-field-error {
+  margin: -1em auto 1em;
+  width: 15em;
+  padding: 0 1em; }
 
 .signin-input {
   position: relative;
@@ -496,7 +529,7 @@ input {
 input[type="file"] {
   display: none; }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
   #contents {
     padding-top: 40px; }
   #carousel {
