@@ -63,10 +63,10 @@ function enable_hovers() {
         target.appendTo(card);
         if ($(this).offset().left < $(window).width() / 2) {
             leftoffset = offset + $(this).width();
-            target.css({top: topoffset, left: leftoffse, maxWidth: maxwidtht});
+            target.css({top: topoffset, left: leftoffse, maxWidth: maxwidtht + "px"});
         } else {
             rightoffset = card.width() - offset
-            target.css({top: topoffset, right: rightoffset, maxWidth: maxwidth});
+            target.css({top: topoffset, right: rightoffset, maxWidth: maxwidth + "px"});
         }
         target.show();
     }, function() {
