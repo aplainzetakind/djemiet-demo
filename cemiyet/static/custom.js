@@ -1,51 +1,72 @@
 const animation_speed = 300
 
+
+
+// Determine the missing hover divs for citations on the page to fetch them and
+// insert into the #bench div.
 function get_hovers() {
     have = new Set();
-    qlist = [];
+    need = new Set();
 
-    $('.popup').each(function() {
+    // Take stock of the hover divs we already have.
+    $('.hoverpost').each(function() {
         have.add(parseInt($(this).attr('id').replace("pop-","")));
     });
 
-    $('.reflink').each(function() {
-        target = $(this).attr("reftarget");
-        id = parseInt(target);
-        if (!have.has(id)) {
-            qlist.push("id=" + target);
-            have.add(id);
-        };
+    // Determine which hover divs are needed.
+    $('#gallerydiv .reflink').each(function() {
+        need.add(parseInt($(this).attr('reftarget')));
+    });
+    $('#focusdiv .reflink').each(function() {
+        need.add(parseInt($(this).attr('reftarget')));
     });
 
-    if (qlist.length) {
-        query = qlist.join('&');
+    // Remove the intersection from each.
+    for (let x of need) {
+        if (have.has(x)) {
+            need.delete(x);
+            have.delete(x);
+        }
+    }
 
-        fetch('/posts?as=hover&' + query, { method : 'GET' })
-            .then(response => {
-                if (response.status == '200') {
-                    return response.text();
-                }
-            }
-            ).then(html => {
+    // Get the needed posts and append to #bench
+    if (need.size) {
+        query = Array.from(need)
+            .map(x => "id=" + x);
+        query.unshift('/posts?as=hover');
+        query = query.join('&');
+        $.get(query, function(html, status) {
+            if (status == 'success') {
                 $('#bench').append(html);
             }
-            )
+        });
+    }
+
+    // Remove those no longer needed.
+    for (let id of have) {
+        $('#pop-' + id).remove();
     }
 }
 
+
+
+// Enable post display when citation links are hovered.
+// TODO: implement bounds check for the sides.
 function enable_hovers() {
+    $(".reflink").unbind('hover');
     $(".reflink").hover(function() {
         refid = $(this).attr("reftarget");
-        target = "#pop-" + refid;
+        target = $("#pop-" + refid);
         card = $(this).closest(".post");
         topoffset = $(this).offset().top - card.offset().top;
         leftoffset = $(this).offset().left - card.offset().left +
             $(this).width();
-        $(target).appendTo(card);
-        $(target).css({top: topoffset, left: leftoffset});
-        $(target).show();
+        target.appendTo(card);
+        target.css({top: topoffset, left: leftoffset});
+        target.show();
     }, function() {
-        $(target).prependTo($("#bench"));
+        target.prependTo($("#bench"));
+        target.hide();
     });
 }
 

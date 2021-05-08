@@ -39,7 +39,6 @@ class IndexView(TemplateView):
         context['form'] = PostForm()
         query = self.request.GET
         context['query'] = json.dumps({k: query.getlist(k) for k in query.keys()})
-        print(context['query'])
         return context
 
     def get_queryset(self):
