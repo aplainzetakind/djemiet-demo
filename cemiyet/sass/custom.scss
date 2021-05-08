@@ -283,6 +283,7 @@ form { margin: 0; }
 
     .hoverpost {
         min-width: 15em;
+        max-width: 30em;
         @include w_max_c;
         min-height: 6em;
         height: auto;
