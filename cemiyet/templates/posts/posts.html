@@ -1,6 +1,7 @@
 {% load static %}
 {% load post_filters %}
 
+{% if gallery %}
 <div id="navigation"
     page="{{ page_obj.number }}"
     total="{{ page_obj.paginator.num_pages }}"
@@ -11,9 +12,10 @@
     next="{{ page_obj.next_page_number }}"
     {% endif %}>
 </div>
+{% endif %}
 
-    {% for post in post_list %}
-    {% with postdivid="post-"|concat_str:post.id %}
-    {% include 'post_contents.html' %}
-    {% endwith %}
-    {% endfor %}
+{% for post in post_list %}
+{% with postdivid=idprefix|concat_str:post.id %}
+{% include 'post_contents.html' %}
+{% endwith %}
+{% endfor %}

@@ -43,11 +43,8 @@
 <script src="{% static 'custom.js' %}"></script>
 <script>
     $(document).ready( () => {
-        let ids = []
-        {% for post in posts %}
-        ids.push({{ post }});
-        {% endfor %}
-        init_index(ids);
+        query = JSON.parse('{{ query | escapejs }}');
+        init_index(query);
     });
     $( function() {
         $(".taginput").autocomplete({

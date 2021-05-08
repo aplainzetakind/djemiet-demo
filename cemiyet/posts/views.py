@@ -11,6 +11,8 @@ from django.shortcuts import render
 from django.views.generic import View, ListView, TemplateView
 from django.views.generic.edit import FormView
 from django.contrib.auth.decorators import login_required
+from django.core.serializers import serialize
+import json
 from cemiyet import settings
 from .models import Post, Tag, update_popularity, init_popularity
 from .forms import PostForm
@@ -34,9 +36,10 @@ class IndexView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['favourites'] = self.request.user.profile.watchlist.all()
-        context['posts'] = self.request.GET.getlist('postid')
         context['form'] = PostForm()
+        query = self.request.GET
+        context['query'] = json.dumps({k: query.getlist(k) for k in query.keys()})
+        print(context['query'])
         return context
 
     def get_queryset(self):
@@ -51,13 +54,26 @@ class IndexView(TemplateView):
 
 
 @method_decorator(login_required, name='dispatch')
-class GalleryView(ListView):
-    paginate_by = settings.POSTS_COUNT_PER_PAGE
-    template_name = 'posts/gallery.html'
+class PostsView(ListView):
+    template_name = 'posts/posts.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.GET.get('as') == "gallery":
+            self.paginate_by = settings.POSTS_COUNT_PER_PAGE
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['favourites'] = self.request.user.profile.watchlist.all()
+        context['gallery'] = False
+        context['idprefix'] = "post-"
+        mode = self.request.GET.get('as')
+        if mode == "gallery":
+            context['gallery'] = True
+            context['class'] = ""
+        elif mode == "hover":
+            context['class'] = " hoverpost"
+            context['idprefix'] = "pop-"
         return context
 
     def get_queryset(self):
@@ -76,44 +92,11 @@ class GalleryView(ListView):
         if tags:
             queryset = queryset.filter(tags__name__in=tags)
 
+        ids = self.request.GET.getlist('id')
+        if ids:
+            queryset = queryset.filter(pk__in=ids)
+
         return queryset.order_by('-popularity', '-created_on')
-
-
-
-@method_decorator(login_required, name='dispatch')
-class SingleCard(ListView):
-    template_name = "posts/post_card.html"
-    model = Post
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['class'] = "post"
-        context['style'] = "display: none"
-        context['favourites'] = self.request.user.profile.watchlist.all()
-        return context
-
-    def get_queryset(self):
-        idlist = self.request.GET.getlist('id')
-
-        queryset = Post.objects.filter(pk__in=idlist)
-        return queryset.order_by('-popularity', '-created_on')
-
-
-@method_decorator(login_required, name='dispatch')
-class PopupsView(ListView):
-    template_name = 'posts/hovers.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['favourites'] = self.request.user.profile.watchlist.all()
-        return context
-
-    def get_queryset(self):
-        idlist = self.request.GET.getlist('id')
-
-        queryset = Post.objects.filter(pk__in=idlist)
-        return queryset.order_by('-popularity', '-created_on')
-
 
 
 @method_decorator(login_required, name='dispatch')

@@ -521,6 +521,9 @@ form {
   padding-left: 10px;
   margin-bottom: 0.1em; }
 
+.ui-helper-hidden-accessible {
+  display: none; }
+
 #gallerydiv img {
   height: 2em;
   margin: 0 0.5em 0.2em 0;

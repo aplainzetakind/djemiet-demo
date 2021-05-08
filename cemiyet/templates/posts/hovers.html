@@ -1,8 +1,0 @@
-{% load static %}
-{% load post_filters %}
-
-{% for post in post_list %}
-        {% with class="hoverpost" postdivid="pop-"|concat_str:post.id %}
-        {% include 'post_contents.html' %}
-        {% endwith %}
-{% endfor %}

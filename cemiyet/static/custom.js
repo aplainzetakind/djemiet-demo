@@ -1,3 +1,5 @@
+const animation_speed = 300
+
 function get_hovers() {
     have = new Set();
     qlist = [];
@@ -18,7 +20,7 @@ function get_hovers() {
     if (qlist.length) {
         query = qlist.join('&');
 
-        fetch('/popups?' + query, { method : 'GET' })
+        fetch('/posts?as=hover&' + query, { method : 'GET' })
             .then(response => {
                 if (response.status == '200') {
                     return response.text();
@@ -50,8 +52,8 @@ function enable_hovers() {
 function dotscis(id) {
     post = $('#post-' + id);
     if (post.closest('#focusdiv').length) {
-        post.find('.dotscis').fadeOut('fast');
-        post.nextAll().slideUp("fast", () => {
+        post.find('.dotscis').fadeOut(animation_speed);
+        post.nextAll().slideUp(animation_speed, () => {
             post.nextAll().remove();
             refresh_gallery();
         });
@@ -84,7 +86,7 @@ function favourite(id, token) {
 }
 
 async function remove_prevs(card) {
-    card.prevAll().fadeOut("fast", () => {
+    card.prevAll().fadeOut(animation_speed, () => {
         card.prevAll().remove();
         return true
     });
@@ -132,24 +134,29 @@ function override_refs() {
 function slide_new_post(post, id) {
     post.children('.dotscis').text('✂');
     post.children('.dotscis').hide();
-    post.slideDown("fast", refresh_gallery);
+    post.slideDown(animation_speed, refresh_gallery);
 }
 
 async function fetch_posts(ids) {
-    if (typeof(ids) === 'number') {
-        query = 'id=' + ids
+    console.log(ids)
+    if (!ids == []) {
+        if (typeof(ids) === 'number') {
+            query = 'id=' + ids
+        } else {
+            query = ids.map((n) => { return 'id=' + n }).join('&');
+        }
+        query = '/posts?' + query
+        let resp = await fetch(query, { method: 'GET' });
+        let html = await resp.text();
+        return html;
     } else {
-    query = ids.map((n) => { return 'id=' + n }).join('&');
+        return '';
     }
-    query = '/card?' + query
-    let resp = await fetch(query, { method: 'GET' });
-    let html = await resp.text();
-    return html;
 }
 
 function home() {
-    $('#focusdiv').fadeOut('fast');
-    $('#gallerydiv').fadeOut('fast', () => {
+    $('#focusdiv').fadeOut(animation_speed);
+    $('#gallerydiv').fadeOut(animation_speed, () => {
     $('#focusdiv').empty();
     refresh_gallery();
     $('#focusdiv').fadeIn();
@@ -166,7 +173,7 @@ function get_tags() {
 
 function clear_tags() {
     $('#taglist').empty();
-    $('#cleartags').fadeOut('fast');
+    $('#cleartags').fadeOut(animation_speed);
     refresh_gallery();
 }
 
@@ -179,7 +186,7 @@ function add_tag_div(value) {
         e.preventDefault();
         $(this).remove();
         if (!$('#taglist').children().length) {
-            $('#cleartags').fadeOut('fast');
+            $('#cleartags').fadeOut(animation_speed);
         }
         refresh_gallery();
     });
@@ -189,7 +196,7 @@ function add_tag_div(value) {
         }
     });
     if ($('#cleartags').css('display') === 'none') {
-        $('#cleartags').fadeIn('fast');
+        $('#cleartags').fadeIn(animation_speed);
     }
     refresh_gallery();
     }
@@ -202,8 +209,8 @@ function add_tag_from_autocomplete(e, ui) {
     add_tag_div(value);
 }
 
-async function init_index(ids) {
-    fetch_posts(ids).then((html) => {
+async function init_index(obj) {
+    fetch_posts(obj.id).then((html) => {
         $('#focusdiv').html(html);
         $('#focusdiv .dotscis').text('✂');
         $('#focusdiv .dotscis').last().hide();
@@ -228,25 +235,25 @@ function togglenavs() {
     if ((hasprev) && ($('#leftnav').css('visibility') === 'hidden'))
     {
         $('#leftnav')
-        .css({'opacity': '0', 'visibility': 'visible'}).fadeTo('fast', 100);
+        .css({'opacity': '0', 'visibility': 'visible'}).fadeTo(animation_speed, 100);
     } else if ((!hasprev) && (!$('#leftnav').css('visibility') === 'hidden'))
     {
-        $('#leftnav').fadeTo('fast', 0).css({'visibility': 'hidden'});
+        $('#leftnav').fadeTo(animation_speed, 0).css({'visibility': 'hidden'});
     }
 
     if ((hasnext) && ($('#rightnav').css('visibility') === 'hidden'))
     {
         $('#rightnav')
-        .css({'opacity': '0', 'visibility': 'visible'}).fadeTo('fast', 100);
+        .css({'opacity': '0', 'visibility': 'visible'}).fadeTo(animation_speed, 100);
     } else if ((!hasnext) && (!$('#rightnav').css('visibility') === 'hidden'))
     {
-        $('#rightnav').fadeTo('fast', 0).css({'visibility': 'hidden'});
+        $('#rightnav').fadeTo(animation_speed, 0).css({'visibility': 'hidden'});
     }
 
 }
 
 async function refresh_gallery(page) {
-    $('.nav').fadeTo('fast', 0).css({'visibility': 'hidden'});
+    $('.nav').fadeTo(animation_speed, 0).css({'visibility': 'hidden'});
 
     params = []
 
@@ -266,9 +273,10 @@ async function refresh_gallery(page) {
         params.push('page=' + page);
     }
 
-    query = ['/gallery', params.join('&')].join('?');
+    params.unshift('/posts?as=gallery');
+    query = params.join('&');
 
-    $('#gallerydiv').fadeOut("fast", () => {
+    $('#gallerydiv').fadeOut(animation_speed, () => {
         fetch(query, { method: 'GET' })
             .then(response => {
                 if (response.status == '200') {
@@ -278,7 +286,7 @@ async function refresh_gallery(page) {
             .then(newgallery => {
                 $('#gallerydiv').html(newgallery);
                 override_refs();
-                $('#gallerydiv').fadeIn("fast", () => {
+                $('#gallerydiv').fadeIn(animation_speed, () => {
                     get_hovers();
                     enable_hovers();
                 });
@@ -302,7 +310,7 @@ async function post_to_focus(id, clear, prepend) {
     }
 
     if (!prepend) {
-        $('#focusdiv .dotscis').last().fadeIn('fast');
+        $('#focusdiv .dotscis').last().fadeIn(animation_speed);
     }
 
     if (!post.length) {
@@ -318,8 +326,8 @@ async function post_to_focus(id, clear, prepend) {
     post.find('img').attr('src', imgurl);
 
     if (prepend) {
-        post.find('.dotscis').fadeIn('fast');
-        post.find('.dotscis').fadeIn('fast');
+        post.find('.dotscis').fadeIn(animation_speed);
+        post.find('.dotscis').fadeIn(animation_speed);
         post.prependTo($('#focusdiv'))
     } else {
         post.appendTo($('#focusdiv'))
@@ -343,19 +351,19 @@ function toggle_form() {
             $('#id_body').val('[[' + lastfocus.attr('postid') + ']]\n')
             $('#tag_text').val(lastfocus.attr('posttag') )
         }
-        $('#formswitch').slideUp('fast', () => {
-            $('#formdiv').slideDown('fast');
+        $('#formswitch').slideUp(animation_speed, () => {
+            $('#formdiv').slideDown(animation_speed);
         });
     } else {
-        $('#formdiv').slideUp('fast', () => {
-            $('#formswitch').slideDown('fast');
+        $('#formdiv').slideUp(animation_speed, () => {
+            $('#formswitch').slideDown(animation_speed);
         });
     }
 }
 
 async function focus_post(id, clear, prepend) {
-    $('.nav').fadeTo('fast', 0).css({'visibility': 'hidden'});
-    $('#gallerydiv').fadeOut('fast', () => {
+    $('.nav').fadeTo(animation_speed, 0).css({'visibility': 'hidden'});
+    $('#gallerydiv').fadeOut(animation_speed, () => {
         post_to_focus(id, clear, prepend)
         post = $('#post-' + id);
     });

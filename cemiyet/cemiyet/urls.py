@@ -24,9 +24,7 @@ from . import views
 urlpatterns = [
     path('', views.redirect_root, name='root'), #  Redirect
     path('content', posts.views.ContentView.as_view(), name='content'),
-    path('card', posts.views.SingleCard.as_view(), name='card'),
-    path('gallery', posts.views.GalleryView.as_view(), name='gallery'),
-    path('popups', posts.views.PopupsView.as_view(), name='popups'),
+    path('posts', posts.views.PostsView.as_view(), name='posts'),
     path('ac/', posts.views.autocomplete, name='autocomplete'),
     path('watch', posts.views.add_to_watchlist, name='watchlist'),
     path('admin/', admin.site.urls),
