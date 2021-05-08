@@ -51,18 +51,25 @@ function get_hovers() {
 
 
 // Enable post display when citation links are hovered.
-// TODO: implement bounds check for the sides.
 function enable_hovers() {
     $(".reflink").unbind('hover');
     $(".reflink").hover(function() {
         refid = $(this).attr("reftarget");
         target = $("#pop-" + refid);
         card = $(this).closest(".post");
+        maxwidth = $(window).width / 4
         topoffset = $(this).offset().top - card.offset().top;
-        leftoffset = $(this).offset().left - card.offset().left +
-            $(this).width();
+        offset = $(this).offset().left - card.offset().left
         target.appendTo(card);
-        target.css({top: topoffset, left: leftoffset});
+        if ($(this).offset().left < $(window).width() / 2) {
+            leftoffset = offset + $(this).width();
+            target.css({top: topoffset, left: leftoffset});
+            target.css("max-width", maxwidth);
+        } else {
+            rightoffset = card.width() - offset
+            target.css({top: topoffset, right: rightoffset});
+            target.css("max-width", maxwidth);
+        }
         target.show();
     }, function() {
         target.prependTo($("#bench"));
