@@ -59,7 +59,7 @@ html, body {
     font-size: 0.8em;
 }
 
-input[type="text"] {
+input[type="text"], input[type="password"] {
     height: 1.9rem;
 }
 
@@ -88,7 +88,7 @@ input[type="text"] {
     height: 50px;
     width: 112px;
     box-sizing: content-box;
-    background-image: url('/static/logos/50x102.png');
+    background-image: url('/static/logos/50x112.png');
 }
 
 #favtoggle {
@@ -145,6 +145,25 @@ input[type="text"] {
     margin: 0;
     padding: 0;
 }
+
+#logout {
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    padding: 0 0.5em;
+}
+
+#logout::before {
+    content: "";
+    display: inline-block;
+    height: 1.2rem;
+    width: 1.6rem;
+    opacity: 0.8;
+    background-image: url('/static/logout.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
 
 /* /TOPBAR */
 
@@ -672,14 +691,19 @@ input[type="file"] {
         height: 40px;
     }
 
+    #topbar-logo {
+        margin-right: 1rem;
+    }
+
     #topbar-logo::before {
         height: 25px;
         width: 56px;
-        background-image: url('/static/logos/25x56.png');
+        background-image: url('/static/logos/50x112.png');
+        background-size: 56px 25px;
     }
 
     #tagfilter {
-        width: 8rem;
+        width: 6.5rem;
     }
 
     #taglist {
