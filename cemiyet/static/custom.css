@@ -565,6 +565,8 @@ input[type="file"] {
 @media screen and (max-width: 700px) {
   #contents {
     padding-top: 40px; }
+  #postingdiv {
+    width: 90%; }
   #carousel {
     width: 100%;
     display: grid;
