@@ -22,7 +22,7 @@ class TokenRegView(FormView):
             return redirect('/')
         token = kwargs['token']
         query = RegistrationToken.objects.filter(token=token)
-        if query.exists():
+        if query.exists() and query.first().uses > 0:
             return super().get(request, *args, **kwargs)
         return HttpResponseNotFound('You have been misled.')
 
@@ -30,7 +30,14 @@ class TokenRegView(FormView):
         form = self.get_form()
         token = kwargs['token']
         if form.is_valid():
-            form.save()
-            RegistrationToken.objects.filter(token=token).first().delete()
+            tkn = RegistrationToken.objects.get(token=token)
+            user = form.save()
+            user.profile.invited_by = tkn.owner
+            user.save()
+            if tkn.uses > 1:
+                tkn.uses -= 1
+                tkn.save()
+            else:
+                tkn.delete()
             return self.form_valid(form)
         return self.form_invalid(form)

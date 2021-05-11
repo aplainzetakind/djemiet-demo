@@ -92,8 +92,7 @@ class Post(models.Model):
     parents = models.ManyToManyField('self',
             related_name = 'children',
             symmetrical=False,
-            blank=True,
-            null=True)
+            blank=True)
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     popularity = models.BigIntegerField(blank=False, null=False, default=0)
@@ -141,3 +140,9 @@ class Profile(models.Model):
     """
     user = AutoOneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True)
     watchlist = models.ManyToManyField(Post, related_name= 'watched_by', blank=True)
+    invited_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+            related_name='invitees',
+            on_delete=models.SET_NULL,
+            default=1,
+            blank=True,
+            null=True)
