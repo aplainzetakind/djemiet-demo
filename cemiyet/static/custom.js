@@ -1,12 +1,236 @@
 const animation_speed = 300
 
+class UrlState {
+    constructor(obj) {
+        this.ids = obj.id ? obj.id.map(Number) : [];
+        this.tags = [];
+        this.watched = obj.watched ? obj.watched[0] == ['true'] : false;
+        if (obj.page && Number(obj.page[0])) {
+            this.page = Number(obj.page[0]);
+        }
+    }
+
+    get id_params() { return this.ids.map((n) => 'id=' + n).join('&'); }
+
+    get tag_params() {
+        return this.tags.map((t) => 'tag=' + t).join('&');
+    }
+
+    get watched_param() { return this.watched ? 'watched=' + this.watched : ''; }
+
+    get page_param() { return this.page ? 'page=' + this.page : ''; }
+
+    get gallery_url() {
+        let parent = this.ids.length ? 'parent=' + this.ids[this.ids.length - 1] : ''
+
+        return ['/posts?as=gallery',
+            parent,
+            this.tag_params,
+            this.watched_param,
+            this.page_param]
+            .filter((s) => s.length)
+            .join('&');
+    }
+
+    get content_url() {
+        let q = [this.id_params,
+            this.tag_params,
+            this.watched_param,
+            this.page_param].filter(s => s.length).join('&');
+        return ['content', q].filter((s) => s.length).join('?');
+    }
+
+    set_url() {
+        return history.pushState(null, null, this.content_url);
+    }
+}
+
+// A global variable to track the url parameters for the page.
+var urlstate;
+
+// The initialization function. The argument is passed as JSON from the
+// template.
+async function init_index(obj) {
+    urlstate = new UrlState(obj);
+    if (obj.tag) { obj.tag.map(add_tag); }
+    fetch_posts(urlstate.ids).then((html) => {
+        $('#focusdiv').html(html);
+        $('#focusdiv .plusscis').last().hide();
+        $('#focusdiv > div').fadeIn();
+        refresh_gallery();
+        if ($('.form-error').length) {
+            toggle_form();
+        }
+    });
+}
+
+async function refresh_gallery() {
+    $('.nav').fadeTo(animation_speed, 0).css({'visibility': 'hidden'});
+    togglenavs();
+
+    $.ajax({url: urlstate.gallery_url, success: (result) => {
+        $('#gallerydiv').fadeOut(animation_speed, () => {
+            $('#gallerydiv').html(result);
+            get_hovers();
+            enable_hovers();
+            $('#gallerydiv').fadeIn(animation_speed);
+            $('.nav').fadeTo(animation_speed, 100).css({'visibility': 'hidden'});
+        });
+    }});
+}
+
+// The main functions which are called directly from the UI to manipulate the
+// DOM are:
+//
+// corner_widget
+// add_tag
+// add_tag_from_autocomplete
+// home
+//
+// refclick
+// toggle_favfilter
+
+function corner_widget(elem) {
+    post = elem.closest('.post')
+    postid = Number(post.attr('postid'));
+    if (post.closest('#focusdiv').length) {
+        elem.fadeOut(animation_speed);
+        post.nextAll().slideUp(animation_speed, () => {
+            post.nextAll().remove();
+            console.log(postid);
+            for (let [i, val] of urlstate.ids.entries()) {
+                if (val === postid) {
+                    urlstate.ids = urlstate.ids.slice(0,i + 1);
+                    urlstate.set_url();
+                    break;
+                }
+            }
+            refresh_gallery();
+        });
+    }
+    if (post.closest('#gallerydiv').length) {
+        $('#gallerydiv').fadeOut(animation_speed, () => {
+            post.find('.plusscis').hide();
+            post.hide();
+            append_post(post);
+            urlstate.ids.push(postid);
+            urlstate.set_url();
+            refresh_gallery();
+        });
+    }
+}
+
+function append_post(post) {
+            img = post.find('img');
+            img.attr('src', img.attr('source'));
+            $('#focusdiv').children().last().find('.plusscis').fadeIn(animation_speed);
+            post.appendTo('#focusdiv');
+            post.slideDown(animation_speed);
+}
+
+async function clickref(ref) {
+    let target = Number(ref.attr('reftarget'));
+    if ($('#post-' + target).length) {
+        post = $('#post-' + target);
+    } else {
+        let html = await fetch_posts([target]);
+        post = $(html);
+    }
+    post.hide();
+    if (ref.closest('#gallerydiv').length) {
+        $('#gallerydiv').fadeOut(animation_speed, () => {
+            $('#focusdiv').slideUp(animation_speed, () => {
+                $('#focusdiv').empty();
+                $('#focusdiv').show();
+                post.find('.plusscis').hide();
+                append_post(post);
+                urlstate.ids = [target];
+                urlstate.set_url();
+                refresh_gallery();
+            });
+        });
+    }
+    if (ref.closest('#focusdiv').length) {
+        thispostid = ref.closest('.post').attr('postid');
+        console.log(thispostid);
+        console.log($('#focusdiv').children().first().attr('postid'));
+        while ($('#focusdiv').children().first().attr('postid') !== thispostid) {
+            urlstate.ids.shift();
+            $('#focusdiv').children().first().slideUp(animation_speed);
+            $('#focusdiv').children().first().remove();
+        }
+        post.prependTo('#focusdiv');
+        post.slideDown(animation_speed);
+        urlstate.ids.unshift(target);
+        urlstate.set_url();
+    }
+}
+
+function add_tag(value) {
+    value = value.toLowerCase();
+    if (!urlstate.tags.includes(value)) {
+    $('<div class="tag" tagname="' + value +'">' + value + '</div>').appendTo('#taglist')
+    urlstate.tags.push(value);
+    $('#taglist .tag').last().click(function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        let tagname = $(this).attr('tagname')
+        $(this).remove();
+        urlstate.tags = urlstate.tags.filter(name => name !== tagname)
+        if (!$('#taglist').children().length) {
+            $('#cleartags').fadeOut(animation_speed);
+        }
+        refresh_gallery();
+        urlstate.set_url();
+    });
+    $(function() {
+        while( $('#taglist').height() > $('#topbar').height() ) {
+            $('#taglist').css('font-size', (parseInt($('#taglist').css('font-size')) - 1) + "px" );
+        }
+    });
+    if ($('#cleartags').css('display') === 'none') {
+        $('#cleartags').fadeIn(animation_speed);
+    }
+    refresh_gallery();
+    urlstate.set_url();
+    }
+}
+
+function add_tag_from_autocomplete(e, ui) {
+    e.preventDefault();
+    $('#tagfilter').val('');
+    value = ui.item.value;
+    add_tag(value);
+}
+
+function home() {
+    $('#focusdiv').fadeOut(animation_speed);
+    $('#gallerydiv').fadeOut(animation_speed, () => {
+        $('#focusdiv').empty();
+        urlstate.ids = [];
+        urlstate.tags = [];
+        urlstate.watched = false;
+        delete urlstate.page;
+        urlstate.set_url();
+        $('#focusdiv').fadeIn();
+        refresh_gallery();
+    });
+}
+
+function toggle_favfilter() {
+    current = $('#favtoggle').text();
+    $('#favtoggle').text(current === '☆' ? '★' : '☆');
+    refresh_gallery();
+}
+
+
 
 
 // Determine the missing hover divs for citations on the page to fetch them and
 // insert into the #bench div.
 function get_hovers() {
-    have = new Set();
-    need = new Set();
+    let have = new Set();
+    let need = new Set();
 
     // Take stock of the hover divs we already have.
     $('.hoverpost').each(function() {
@@ -31,7 +255,7 @@ function get_hovers() {
 
     // Get the needed posts and append to #bench
     if (need.size) {
-        query = Array.from(need)
+        let query = Array.from(need)
             .map(x => "id=" + x);
         query.unshift('/posts?as=hover');
         query = query.join('&');
@@ -75,26 +299,6 @@ function enable_hovers() {
     });
 }
 
-function dotscis(id) {
-    post = $('#post-' + id);
-    if (post.closest('#focusdiv').length) {
-        post.find('.dotscis').fadeOut(animation_speed);
-        post.nextAll().slideUp(animation_speed, () => {
-            post.nextAll().remove();
-            refresh_gallery();
-        });
-    }
-    if (post.closest('#gallerydiv').length) {
-        focus_post(id);
-    }
-}
-
-function toggle_favfilter() {
-    current = $('#favtoggle').text();
-    $('#favtoggle').text(current === '☆' ? '★' : '☆');
-    refresh_gallery();
-}
-
 function favourite(id, token) {
     options = {
         method: 'POST',
@@ -111,90 +315,33 @@ function favourite(id, token) {
         });
 }
 
-async function remove_prevs(card) {
-    card.prevAll().fadeOut(animation_speed, () => {
-        card.prevAll().remove();
-        return true
-    });
-}
-
-async function refclick(card, id) {
-    flag = card.closest('#gallerydiv').length
-    if (!flag) {
-        let dummy = await remove_prevs(card);
+function clickid(elem) {
+    id = elem.closest('.post').attr('postid');
+    tag = elem.closest('.post').attr('posttag');
+    if ($('#formdiv').css('display') === 'none') {
+        toggle_form();
     }
-    focus_post(id, (flag), (!flag));
+    current_body = $('#id_body').val();
+    current_tag = $('#tag_text').val();
+    $('#id_body').val(current_body + '[[' + id + ']]\n');
+    if (!current_tag) {
+        $('#tag_text').val(tag);
+    }
+    $('html, body').animate({
+        scrollTop: ($("#formdiv").offset().top - 40)
+    }, 200);
 }
 
-function override_refs() {
-    $('.reflink').unbind('click');
-    $('.reflink').click(function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        id = parseInt($(this).attr('reftarget'));
-        card = $(this).closest('.post');
-        refclick(card, id);
-    });
-
-    $('.idcode').unbind('click');
-    $('.idcode').click(function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        id = $(this).attr('postid');
-        tag = $(this).attr('posttag');
-        if ($('#formdiv').css('display') === 'none') {
-            toggle_form();
-        }
-        current_body = $('#id_body').val();
-        current_tag = $('#tag_text').val();
-        $('#id_body').val(current_body + '[[' + id + ']]\n');
-        if (!current_tag) {
-            $('#tag_text').val(tag);
-        }
-        $('html, body').animate({
-            scrollTop: ($("#formdiv").offset().top - 40)
-        }, 200);
-    });
-}
-
-function slide_new_post(post, id) {
-    post.children('.dotscis').text('✂');
-    post.children('.dotscis').hide();
-    post.slideDown(animation_speed, refresh_gallery);
-}
-
+// Fetches the html for the posts with given ids. The argument is always an
+// Array.
 async function fetch_posts(ids) {
-    console.log(ids)
-    if (!ids == []) {
-        if (typeof(ids) === 'number') {
-            query = 'id=' + ids
-        } else {
-            query = ids.map((n) => { return 'id=' + n }).join('&');
-        }
-        query = '/posts?' + query
+    if (ids.length) {
+        query = '/posts?' + ids.map((n) => { return 'id=' + n }).join('&');
         let resp = await fetch(query, { method: 'GET' });
-        let html = await resp.text();
-        return html;
+        return resp.text();
     } else {
         return '';
     }
-}
-
-function home() {
-    $('#focusdiv').fadeOut(animation_speed);
-    $('#gallerydiv').fadeOut(animation_speed, () => {
-    $('#focusdiv').empty();
-    refresh_gallery();
-    $('#focusdiv').fadeIn();
-    });
-}
-
-function get_tags() {
-    result = []
-    $('.tag').each(function() {
-        result.push($(this).attr('tagname'));
-    });
-    return result;
 }
 
 function clear_tags() {
@@ -203,55 +350,9 @@ function clear_tags() {
     refresh_gallery();
 }
 
-function add_tag_div(value) {
-    current = get_tags();
-    if (!current.includes(value)) {
-    $('<div class="tag" tagname="' + value +'">' + value + '</div>').appendTo('#taglist')
-    $('#taglist .tag').last().click(function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        $(this).remove();
-        if (!$('#taglist').children().length) {
-            $('#cleartags').fadeOut(animation_speed);
-        }
-        refresh_gallery();
-    });
-    $(function() {
-        while( $('#taglist').height() > $('#topbar').height() ) {
-            $('#taglist').css('font-size', (parseInt($('#taglist').css('font-size')) - 1) + "px" );
-        }
-    });
-    if ($('#cleartags').css('display') === 'none') {
-        $('#cleartags').fadeIn(animation_speed);
-    }
-    refresh_gallery();
-    }
-}
-
-function add_tag_from_autocomplete(e, ui) {
-    e.preventDefault();
-    $('#tagfilter').val('');
-    value = ui.item.value;
-    add_tag_div(value);
-}
-
-async function init_index(obj) {
-    fetch_posts(obj.id).then((html) => {
-        $('#focusdiv').html(html);
-        $('#focusdiv .dotscis').text('✂');
-        $('#focusdiv .dotscis').last().hide();
-        $('#focusdiv > div').fadeIn();
-        /* $(window).bind("scroll resize", placenavs); */
-        refresh_gallery();
-        if ($('.form-error').length) {
-            toggle_form();
-        }
-    });
-}
-
 function nav(target) {
-    page = $('#navigation').attr(target);
-    refresh_gallery(page);
+    urlstate.page = $('#navigation').attr(target);
+    refresh_gallery();
 }
 
 function togglenavs() {
@@ -278,49 +379,6 @@ function togglenavs() {
 
 }
 
-async function refresh_gallery(page) {
-    $('.nav').fadeTo(animation_speed, 0).css({'visibility': 'hidden'});
-
-    params = []
-
-    focused = $('#focusdiv').children();
-    if (focused.length) {
-        id = focused.last().attr('id').replace('post-','');
-        params.push('parent=' + id);
-    }
-
-    if ($('#favtoggle').text() === '★') {
-        params.push('watch=true');
-    }
-
-    params = params.concat(get_tags().map(function(tag) { return 'tag=' + tag }));
-
-    if (page) {
-        params.push('page=' + page);
-    }
-
-    params.unshift('/posts?as=gallery');
-    query = params.join('&');
-
-    $('#gallerydiv').fadeOut(animation_speed, () => {
-        fetch(query, { method: 'GET' })
-            .then(response => {
-                if (response.status == '200') {
-                    return response.text();
-                }
-            })
-            .then(newgallery => {
-                $('#gallerydiv').html(newgallery);
-                override_refs();
-                $('#gallerydiv').fadeIn(animation_speed, () => {
-                    get_hovers();
-                    enable_hovers();
-                });
-            })
-            .then(togglenavs);
-    })
-}
-
 function update_filename() {
   file = $('#id_image').val()
   fileName = file.split("\\");
@@ -336,24 +394,23 @@ async function post_to_focus(id, clear, prepend) {
     }
 
     if (!prepend) {
-        $('#focusdiv .dotscis').last().fadeIn(animation_speed);
+        $('#focusdiv .plusscis').last().fadeIn(animation_speed);
     }
 
     if (!post.length) {
-        html = await fetch_posts(id);
+        html = await fetch_posts([id]);
         post = $(html);
         post.css('display', 'none');
     }
 
-    post.find('.dotscis').text('✂');
-    post.find('.dotscis').hide();
+    post.find('.plusscis').hide();
     imgurl = post.find('img').attr('source');
     post.find('img').attr('src', '');
     post.find('img').attr('src', imgurl);
 
     if (prepend) {
-        post.find('.dotscis').fadeIn(animation_speed);
-        post.find('.dotscis').fadeIn(animation_speed);
+        post.find('.plusscis').fadeIn(animation_speed);
+        post.find('.plusscis').fadeIn(animation_speed);
         post.prependTo($('#focusdiv'))
     } else {
         post.appendTo($('#focusdiv'))

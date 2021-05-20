@@ -88,7 +88,6 @@ input[type="text"], input[type="password"] {
   font-size: 1em;
   line-height: 1em;
   flex-wrap: wrap;
-  padding: auto;
   width: 15rem;
   margin: auto 0.3em auto 0.3em;
   height: -moz-min-content;
@@ -317,14 +316,26 @@ form {
   line-height: 1.4em;
   padding: 0.2em 0.4em; }
 
-.star, .dotscis {
-  font-size: 1.25rem; }
+.star, .plussciscont {
+  font-size: 1.25rem;
+  width: 1em; }
 
 .star {
   margin-right: auto; }
 
-.dotscis {
-  margin-left: auto; }
+.plussciscont {
+  margin-left: auto;
+  text-align: right; }
+
+.plusscis {
+  position: relative;
+  right: 0; }
+
+.plusscis::before {
+  content: "+"; }
+
+#focusdiv .plusscis::before {
+  content: "✂"; }
 
 .tagwidget {
   overflow: hidden; }
@@ -536,7 +547,8 @@ form {
 .ui-autocomplete li {
   padding: 6px;
   padding-left: 10px;
-  margin-bottom: 0.1em; }
+  margin-bottom: 0.1em;
+  cursor: pointer; }
 
 .ui-helper-hidden-accessible {
   display: none; }
@@ -549,6 +561,12 @@ form {
 #focusdiv img {
   width: 40%;
   margin: 0 1em 0.5em 0;
+  float: left; }
+
+#focusdiv .hoverpost img {
+  height: 2em;
+  width: auto;
+  margin: 0 0.5em 0.2em 0;
   float: left; }
 
 #uploaddiv {

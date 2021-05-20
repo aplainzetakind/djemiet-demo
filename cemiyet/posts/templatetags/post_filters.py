@@ -27,7 +27,8 @@ def render(num, user):
         cls += " watched"
     if post.author == user:
         cls += " ownref"
-    return '<span class="'+ cls +'" reftarget=' + num + '>' + num + '</span>'
+    return '<span class="'+ cls +'" reftarget=' + num +\
+            ' onclick="clickref($(this))">' + num + '</span>'
 
 def linkify_nums(result, user):
     """ Applies post citation markdown. """

@@ -38,18 +38,10 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['form'] = PostForm()
         query = self.request.GET
+        #  We pass the query parameters to the frontend as a JSON object.
         context['query'] = json.dumps({k: query.getlist(k) for k in query.keys()})
         return context
 
-    def get_queryset(self):
-        #  This should be extended to accept multiple tags.
-        if self.request.GET.get('t'):
-            tag = Tag.objects.get(name=self.request.GET.get('t'))
-            queryset = tag.tagged_posts.all()
-        else:
-            queryset = Post.objects.all()
-
-        return queryset.order_by('-popularity', '-created_on')
 
 
 @method_decorator(login_required, name='dispatch')
@@ -95,7 +87,12 @@ class PostsView(ListView):
         if ids:
             queryset = queryset.filter(pk__in=ids)
 
-        return queryset.order_by('-popularity', '-created_on')
+        if self.request.GET.get('as') == 'gallery':
+            sorting = ('-popularity','-created_on')
+        else:
+            sorting = ('created_on',)
+
+        return queryset.order_by(*sorting)
 
 
 @method_decorator(login_required, name='dispatch')

@@ -7,13 +7,11 @@
      posttag="{{ post.tags }}">
         <div class="postheader">
             <span
-                id={{"id-"|concat_str:post.id}}
                 class="idcode widget montserrat floatleft"
-                postid="{{ post.id }}"
-                posttag="{{ post.tags }}">
+                onclick="clickid($(this))">
                 #{{ post.id }}
             </span>
-            <span class="tagwidget widget montserrat floatright" onclick="add_tag_div('{{ post.tags }}')">
+            <span class="tagwidget widget montserrat floatright" onclick="add_tag('{{ post.tags }}')">
                 &lt;{{ post.tags }}&gt;
             </span>
         </div>
@@ -40,8 +38,10 @@
                 {{ post.created_on|date:"SHORT_DATE_FORMAT"}},
                 {{post.created_on|time:"H:i"}}</div>
 
-            <div class="dotscis widget right"
-                 onclick="dotscis('{{ post.id }}')">+</div>
+            <div class="plussciscont">
+            <div class="plusscis widget right"
+                 onclick="corner_widget($(this))"></div>
+            </div>
 
         </div>
 </div>

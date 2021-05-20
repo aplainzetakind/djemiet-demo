@@ -360,16 +360,31 @@ form { margin: 0; }
     padding: 0.2em 0.4em;
 }
 
-.star, .dotscis {
+.star, .plussciscont {
     font-size: 1.25rem;
+    width: 1em;
 }
 
 .star {
     margin-right: auto;
 }
 
-.dotscis {
+.plussciscont {
     margin-left: auto;
+    text-align: right;
+}
+
+.plusscis {
+    position: relative;
+    right: 0;
+}
+
+.plusscis::before {
+    content: "+";
+}
+
+#focusdiv .plusscis::before {
+    content: "✂";
 }
 
 .tagwidget { overflow: hidden; }
@@ -609,6 +624,7 @@ form { margin: 0; }
     padding: 6px;
     padding-left: 10px;
     margin-bottom: 0.1em;
+    cursor: pointer;
 }
 
 .ui-helper-hidden-accessible {
@@ -626,6 +642,13 @@ form { margin: 0; }
 #focusdiv img {
     width: 40%;
     margin: 0 1em 0.5em 0;
+    float: left;
+}
+
+#focusdiv .hoverpost img {
+    height: 2em;
+    width: auto;
+    margin: 0 0.5em 0.2em 0;
     float: left;
 }
 
