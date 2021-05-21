@@ -198,6 +198,7 @@ async function clickref(ref) {
                 $('#focusdiv').children().first().remove();
             }
             post.prependTo('#focusdiv');
+            render_image(post);
             post.slideDown(animation_speed);
         });
         urlstate.ids.unshift(target);
