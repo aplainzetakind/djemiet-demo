@@ -7,21 +7,18 @@
              onclick="toggle_form()">X</div>
     </div>
     <div class="formfields">
-        <form method="post" enctype="multipart/form-data">
+        <form id="theform" method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
-            {% for e in form.title.errors %}
-            <p class="form-error">{{e}}</p>
-            {% endfor %}
             <input type="text"
                    placeholder="Subject"
-                   id="{{ form.title.id_for_label }}"
-                   name="{{ form.title.html_name }}">
+                   id="id_title"
+                   name="title">
 
             <div id="uploaddiv">
                 <div id="filelabel"
                      class="button"
-                     onclick="$('#{{ form.image.id_for_label }}').click()">
+                     onclick="$('#id_image').click()">
                     ⇧
                 </div>
                 <span id="filename">No image selected.</span>
@@ -30,22 +27,19 @@
                        name="image"
                        accept="image/*"
                        onchange="update_filename()"
-                       id="{{ form.image.id_for_label }}">
+                       id="id_image">
             </div>
 
-            {% for e in form.body.errors %}
-            <p class="form-error">{{e}}</p>
-            {% endfor %}
-            <label for="{{ form.body.id_for_label }}"></label>
+            <label for="id_body"></label>
 
             <div>
                 <textarea class="largetextbox"
-                          name="{{ form.body.html_name }}"
+                          name="body"
                           cols="25"
                           rows="40"
                           required=""
                           placeholder="Post body"
-                          id="{{ form.body.id_for_label }}"
+                          id="id_body"
                           ></textarea>
             </div>
 
@@ -57,9 +51,7 @@
                    placeholder="Tag">
             </div>
 
-            {% for e in form.non_field_errors %}
-            <p class="form-error non-field-error">{{e}}</p>
-            {% endfor %}
+            <div id="formerrordiv"></div>
 
             <button class="button nomargin" type="submit">Post</button>
 

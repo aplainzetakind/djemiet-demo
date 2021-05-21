@@ -46,6 +46,10 @@
         query = JSON.parse('{{ query | escapejs }}');
         init_index(query);
     });
+    $('#theform').on('submit', (e) => {
+        e.preventDefault();
+        submit_form();
+    });
     $( function() {
         $(".taginput").autocomplete({
             source: '{% url 'autocomplete' %}',

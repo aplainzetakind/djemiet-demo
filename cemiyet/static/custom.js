@@ -441,7 +441,7 @@ function update_filename() {
 function clear_form() {
     $('#formdiv').find("input[type=text], input[type=file], textarea").val('');
     $('#filename').text('No image selected.');
-    $('.form-error').hide();
+    $('#formerrordiv').empty();
 }
 
 function toggle_form() {
@@ -467,5 +467,37 @@ async function focus_post(id, clear, prepend) {
     $('#gallerydiv').fadeOut(animation_speed, () => {
         post_to_focus(id, clear, prepend)
         post = $('#post-' + id);
+    });
+}
+
+function submit_form() {
+    fd = new FormData($('form')[0]);
+
+    $.ajax({
+        url: 'content',
+        data: fd,
+        processData: false,
+        contentType: false,
+        type: 'POST',
+
+        success: function(data) {
+            clear_form();
+            toggle_form();
+            refresh_gallery();
+        },
+
+        error : function(xhr,errmsg,err) {
+            $('#formerrordiv').empty();
+            if (xhr.status === 400) {
+                errobject = JSON.parse(xhr.responseJSON);
+                for (k of Object.keys(errobject)) {
+                    for (v of errobject[k]) {
+                        console.log(v);
+                        $('<p>' + v['message'] + '</p>')
+                            .appendTo('#formerrordiv');
+                    }
+                }
+            }
+        }
     });
 }

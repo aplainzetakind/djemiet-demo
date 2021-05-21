@@ -113,14 +113,14 @@ class Post(models.Model):
 def init_popularity(post):
     """ Sets initial popularity based on the created_on field. """
     ctime = post.created_on.timestamp()
-    pop = int(ctime * 10) - 36000
+    pop = int(ctime * 10)
 
     post.popularity = pop
 
 def update_popularity(post, response):
     """ Bumps the popularity of a post based on the response. """
     # MOVE THIS PARAMETER TO A SETTING FILE
-    parameter = 0.2
+    parameter = 0.5
     pop = post.popularity
     newtime = response.created_on.timestamp() * 10
 

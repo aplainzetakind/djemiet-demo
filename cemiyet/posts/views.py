@@ -108,6 +108,7 @@ class PostingFormView(FormView):
     fill = ''
     tag = ''
 
+    #  This is probably redundant now. Check before removing.
     def get(self, request, *args, **kwargs):
         postid = kwargs.get('postid')
         if postid is not None:
@@ -117,7 +118,7 @@ class PostingFormView(FormView):
                 self.tag = post.tags
                 return super().get(request, *args, **kwargs)
             except ObjectDoesNotExist:
-                # This needs to be handled in a more polished manner.
+                # This needs to be handled in a more graceful manner.
                 return HttpResponse(status=500)
         else:
             return super().get(request, *args, **kwargs)
@@ -144,7 +145,12 @@ class PostingFormView(FormView):
         for parent in post.parents.all():
             update_popularity(parent, post)
             parent.save()
-        return super().form_valid(form)
+        return HttpResponse(status=200)
+        #  return super().form_valid(form)
+
+    def form_invalid(self, form):
+        resp = form.errors.as_json()
+        return JsonResponse(resp, status=400, safe=False)
 
 @login_required
 def autocomplete(request):
@@ -173,6 +179,6 @@ def add_to_watchlist(request):
                 request.user.profile.watchlist.add(post)
             return HttpResponse(status=200)
         except ObjectDoesNotExist as exp:
-            return JsonResponse({ 'error': str(exp) }, status=500)
+            return JsonResponse({ 'error': str(exp) }, status=400)
     else:
         return HttpResponse(status=500)
