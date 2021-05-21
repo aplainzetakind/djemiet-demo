@@ -146,6 +146,10 @@ function corner_widget(elem) {
 
 function render_image(post) {
     img = post.find('img');
+    img.hide();
+    img.on('load',function() {
+        $(this).fadeIn(animation_speed);
+    });
     img.attr('src', img.attr('source'));
 }
 
