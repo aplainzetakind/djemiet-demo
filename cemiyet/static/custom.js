@@ -4,7 +4,7 @@ class UrlState {
     constructor(obj) {
         this.ids = obj.id ? obj.id.map(Number) : [];
         this.tags = [];
-        this.watched = obj.watched ? obj.watched[0] == ['true'] : false;
+        this.watch = obj.watch ? obj.watch[0] == ['true'] : false;
         if (obj.page && Number(obj.page[0])) {
             this.page = Number(obj.page[0]);
         }
@@ -16,7 +16,7 @@ class UrlState {
         return this.tags.map((t) => 'tag=' + t).join('&');
     }
 
-    get watched_param() { return this.watched ? 'watched=' + this.watched : ''; }
+    get watch_param() { return this.watch ? 'watch=' + this.watch : ''; }
 
     get page_param() { return this.page ? 'page=' + this.page : ''; }
 
@@ -26,7 +26,7 @@ class UrlState {
         return ['/posts?as=gallery',
             parent,
             this.tag_params,
-            this.watched_param,
+            this.watch_param,
             this.page_param]
             .filter((s) => s.length)
             .join('&');
@@ -35,14 +35,24 @@ class UrlState {
     get content_url() {
         let q = [this.id_params,
             this.tag_params,
-            this.watched_param,
+            this.watch_param,
             this.page_param].filter(s => s.length).join('&');
         return ['content', q].filter((s) => s.length).join('?');
     }
 
-    set_url() {
-        return history.pushState(null, null, this.content_url);
+    get state_obj() {
+        return new Object({
+            ids: this.ids,
+            tags: this.tags,
+            watch: this.watch,
+            page: this.page
+        });
     }
+
+    set_url() {
+        return history.pushState(this.state_obj, null, this.content_url);
+    }
+
 }
 
 // A global variable to track the url parameters for the page.
@@ -53,40 +63,60 @@ var urlstate;
 async function init_index(obj) {
     urlstate = new UrlState(obj);
     if (obj.tag) { obj.tag.map(add_tag); }
+    if (urlstate.watch) { $('#favtoggle').addClass('favon'); }
+    $('#focusdiv').hide();
     fetch_posts(urlstate.ids).then((html) => {
         $('#focusdiv').html(html);
         $('#focusdiv .plusscis').last().hide();
-        $('#focusdiv > div').fadeIn();
+        $('#focusdiv .post').each(function() {
+            render_image($(this));
+        });
+        $('#focusdiv').fadeIn();
         refresh_gallery();
-        if ($('.form-error').length) {
-            toggle_form();
-        }
+    });
+    history.replaceState(urlstate.state_obj, null, urlstate.content_url);
+    window.addEventListener('popstate', function(e) {
+        urlstate.ids = e.state.ids;
+        clear_tags();
+        if (e.state.tags) { e.state.tags.map(add_tag); }
+        urlstate.watch = e.state.watch;
+        $('#favtoggle').toggleClass('favon', urlstate.watch);
+        urlstate.page = e.state.page;
+        $('#focusdiv').fadeOut(animation_speed,() => {
+            fetch_posts(urlstate.ids).then((html) => {
+                $('#gallerydiv').fadeOut(animation_speed,() => {
+                    $('#focusdiv').html(html);
+                    $('#focusdiv .plusscis').last().hide();
+                    $('#focusdiv .post').each(function() {
+                        render_image($(this));
+                    });
+                    $('#focusdiv').fadeIn();
+                    refresh_gallery();
+                });
+            });
+        });
     });
 }
 
 async function refresh_gallery() {
     $('.nav').fadeTo(animation_speed, 0).css({'visibility': 'hidden'});
-    togglenavs();
 
     $.ajax({url: urlstate.gallery_url, success: (result) => {
         $('#gallerydiv').fadeOut(animation_speed, () => {
             $('#gallerydiv').html(result);
             get_hovers();
             enable_hovers();
-            $('#gallerydiv').fadeIn(animation_speed);
-            $('.nav').fadeTo(animation_speed, 100).css({'visibility': 'hidden'});
+            $('#gallerydiv').fadeIn(animation_speed, togglenavs);
         });
     }});
 }
 
-// The main functions which are called directly from the UI to manipulate the
-// DOM are:
+// The main functions which make such changes to the DOM as to be reflected in
+// the url:
 //
 // corner_widget
 // add_tag
-// add_tag_from_autocomplete
 // home
-//
 // refclick
 // toggle_favfilter
 
@@ -97,14 +127,8 @@ function corner_widget(elem) {
         elem.fadeOut(animation_speed);
         post.nextAll().slideUp(animation_speed, () => {
             post.nextAll().remove();
-            console.log(postid);
-            for (let [i, val] of urlstate.ids.entries()) {
-                if (val === postid) {
-                    urlstate.ids = urlstate.ids.slice(0,i + 1);
-                    urlstate.set_url();
-                    break;
-                }
-            }
+            urlstate.ids = urlstate.ids.slice(0,urlstate.ids.findIndex(postid) + 1);
+            urlstate.set_url();
             refresh_gallery();
         });
     }
@@ -120,12 +144,16 @@ function corner_widget(elem) {
     }
 }
 
+function render_image(post) {
+    img = post.find('img');
+    img.attr('src', img.attr('source'));
+}
+
 function append_post(post) {
-            img = post.find('img');
-            img.attr('src', img.attr('source'));
-            $('#focusdiv').children().last().find('.plusscis').fadeIn(animation_speed);
-            post.appendTo('#focusdiv');
-            post.slideDown(animation_speed);
+    render_image(post);
+    $('#focusdiv').children().last().find('.plusscis').fadeIn(animation_speed);
+    post.appendTo('#focusdiv');
+    post.slideDown(animation_speed);
 }
 
 async function clickref(ref) {
@@ -152,8 +180,6 @@ async function clickref(ref) {
     }
     if (ref.closest('#focusdiv').length) {
         thispostid = ref.closest('.post').attr('postid');
-        console.log(thispostid);
-        console.log($('#focusdiv').children().first().attr('postid'));
         while ($('#focusdiv').children().first().attr('postid') !== thispostid) {
             urlstate.ids.shift();
             $('#focusdiv').children().first().slideUp(animation_speed);
@@ -163,6 +189,8 @@ async function clickref(ref) {
         post.slideDown(animation_speed);
         urlstate.ids.unshift(target);
         urlstate.set_url();
+        get_hovers();
+        enable_hovers();
     }
 }
 
@@ -209,7 +237,7 @@ function home() {
         $('#focusdiv').empty();
         urlstate.ids = [];
         urlstate.tags = [];
-        urlstate.watched = false;
+        urlstate.watch = false;
         delete urlstate.page;
         urlstate.set_url();
         $('#focusdiv').fadeIn();
@@ -218,8 +246,9 @@ function home() {
 }
 
 function toggle_favfilter() {
-    current = $('#favtoggle').text();
-    $('#favtoggle').text(current === '☆' ? '★' : '☆');
+    $('#favtoggle').toggleClass('favon')
+    urlstate.watch = (!urlstate.watch)
+    urlstate.set_url();
     refresh_gallery();
 }
 
@@ -344,14 +373,21 @@ async function fetch_posts(ids) {
     }
 }
 
+function clear_tags_click() {
+    clear_tags();
+    refresh_gallery();
+    urlstate.set_url();
+}
+
 function clear_tags() {
     $('#taglist').empty();
     $('#cleartags').fadeOut(animation_speed);
-    refresh_gallery();
+    urlstate.tags = [];
 }
 
 function nav(target) {
     urlstate.page = $('#navigation').attr(target);
+    urlstate.set_url();
     refresh_gallery();
 }
 
@@ -383,41 +419,6 @@ function update_filename() {
   file = $('#id_image').val()
   fileName = file.split("\\");
   $('#filename').text(fileName[fileName.length - 1]);
-}
-
-async function post_to_focus(id, clear, prepend) {
-    post = $('#post-' + id);
-
-    post.hide();
-    if (clear) {
-        $('#focusdiv').empty();
-    }
-
-    if (!prepend) {
-        $('#focusdiv .plusscis').last().fadeIn(animation_speed);
-    }
-
-    if (!post.length) {
-        html = await fetch_posts([id]);
-        post = $(html);
-        post.css('display', 'none');
-    }
-
-    post.find('.plusscis').hide();
-    imgurl = post.find('img').attr('source');
-    post.find('img').attr('src', '');
-    post.find('img').attr('src', imgurl);
-
-    if (prepend) {
-        post.find('.plusscis').fadeIn(animation_speed);
-        post.find('.plusscis').fadeIn(animation_speed);
-        post.prependTo($('#focusdiv'))
-    } else {
-        post.appendTo($('#focusdiv'))
-    }
-
-    override_refs();
-    slide_new_post($('#post-' + id));
 }
 
 function clear_form() {

@@ -77,6 +77,12 @@ input[type="text"], input[type="password"] {
   color: #777777;
   cursor: pointer; }
 
+#favtoggle::before {
+  content: '☆'; }
+
+#favtoggle.favon::before {
+  content: '★'; }
+
 #tagfilter {
   width: 13rem;
   height: 2rem;
@@ -336,6 +342,9 @@ form {
 
 #focusdiv .plusscis::before {
   content: "✂"; }
+
+.hoverpost .plusscis {
+  display: none; }
 
 .tagwidget {
   overflow: hidden; }

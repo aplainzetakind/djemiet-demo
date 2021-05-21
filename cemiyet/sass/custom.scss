@@ -100,6 +100,14 @@ input[type="text"], input[type="password"] {
     cursor: pointer;
 }
 
+#favtoggle::before {
+    content: '☆';
+}
+
+#favtoggle.favon::before {
+    content: '★';
+}
+
 #tagfilter {
     width: 13rem;
     height: 2rem;
@@ -385,6 +393,10 @@ form { margin: 0; }
 
 #focusdiv .plusscis::before {
     content: "✂";
+}
+
+.hoverpost .plusscis {
+    display: none;
 }
 
 .tagwidget { overflow: hidden; }

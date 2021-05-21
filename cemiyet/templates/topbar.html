@@ -2,14 +2,14 @@
 <div id="topbar" class="shadow-white">
     <div id="topbar-logo"
          style="cursor: pointer" onclick="home()"></div>
-    <div id="favtoggle" onclick="toggle_favfilter()">☆</div>
+    <div id="favtoggle" onclick="toggle_favfilter()"></div>
     <input id="tagfilter" class="taginput" type="text" placeholder="Tag filter">
     <div id="taglist">
     </div>
     <div id="cleartagsbox">
         <div id="cleartags"
              class="leftmost fineprint corner-widget"
-             onclick="clear_tags()">Ø</div>
+             onclick="clear_tags_click()">Ø</div>
     </div>
     <a id="logout" class="button" href="{% url 'logout' %}"></a>
 </div>
