@@ -198,33 +198,37 @@ async function clickref(ref) {
     }
 }
 
+function add_tag_with_history(value) {
+    add_tag(value);
+    refresh_gallery();
+    urlstate.set_url();
+}
+
 function add_tag(value) {
     value = value.toLowerCase();
     if (!urlstate.tags.includes(value)) {
-    $('<div class="tag" tagname="' + value +'">' + value + '</div>').appendTo('#taglist')
-    urlstate.tags.push(value);
-    $('#taglist .tag').last().click(function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        let tagname = $(this).attr('tagname')
-        $(this).remove();
-        urlstate.tags = urlstate.tags.filter(name => name !== tagname)
-        if (!$('#taglist').children().length) {
-            $('#cleartags').fadeOut(animation_speed);
+        $('<div class="tag" tagname="' + value +'">' + value + '</div>').appendTo('#taglist')
+        urlstate.tags.push(value);
+        $('#taglist .tag').last().click(function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            let tagname = $(this).attr('tagname')
+            $(this).remove();
+            urlstate.tags = urlstate.tags.filter(name => name !== tagname)
+            if (!$('#taglist').children().length) {
+                $('#cleartags').fadeOut(animation_speed);
+            }
+            refresh_gallery();
+            urlstate.set_url();
+        });
+        $(function() {
+            while( $('#taglist').height() > $('#topbar').height() ) {
+                $('#taglist').css('font-size', (parseInt($('#taglist').css('font-size')) - 1) + "px" );
+            }
+        });
+        if ($('#cleartags').css('display') === 'none') {
+            $('#cleartags').fadeIn(animation_speed);
         }
-        refresh_gallery();
-        urlstate.set_url();
-    });
-    $(function() {
-        while( $('#taglist').height() > $('#topbar').height() ) {
-            $('#taglist').css('font-size', (parseInt($('#taglist').css('font-size')) - 1) + "px" );
-        }
-    });
-    if ($('#cleartags').css('display') === 'none') {
-        $('#cleartags').fadeIn(animation_speed);
-    }
-    refresh_gallery();
-    urlstate.set_url();
     }
 }
 
@@ -232,7 +236,7 @@ function add_tag_from_autocomplete(e, ui) {
     e.preventDefault();
     $('#tagfilter').val('');
     value = ui.item.value;
-    add_tag(value);
+    add_tag_with_history(value);
 }
 
 function home() {

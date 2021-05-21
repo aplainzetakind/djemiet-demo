@@ -11,7 +11,8 @@
                 onclick="clickid($(this))">
                 #{{ post.id }}
             </span>
-            <span class="tagwidget widget montserrat floatright" onclick="add_tag('{{ post.tags }}')">
+            <span class="tagwidget widget montserrat floatright"
+                onclick="add_tag_with_history('{{ post.tags }}')">
                 &lt;{{ post.tags }}&gt;
             </span>
         </div>
