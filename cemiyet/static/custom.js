@@ -127,7 +127,7 @@ function corner_widget(elem) {
         elem.fadeOut(animation_speed);
         post.nextAll().slideUp(animation_speed, () => {
             post.nextAll().remove();
-            urlstate.ids = urlstate.ids.slice(0,urlstate.ids.findIndex(postid) + 1);
+            urlstate.ids = urlstate.ids.slice(0,urlstate.ids.indexOf(postid) + 1);
             urlstate.set_url();
             refresh_gallery();
         });
@@ -156,6 +156,13 @@ function render_image(post) {
 function append_post(post) {
     render_image(post);
     $('#focusdiv').children().last().find('.plusscis').fadeIn(animation_speed);
+    let param;
+    if ($('#focusdiv').children().length) {
+        param = {scrollTop: ($("#focusdiv").children().last().offset().top - 90)}
+    } else {
+        param = {scrollTop: 0}
+    }
+    $('html, body').animate(param, animation_speed);
     post.appendTo('#focusdiv');
     post.slideDown(animation_speed);
 }
@@ -184,13 +191,15 @@ async function clickref(ref) {
     }
     if (ref.closest('#focusdiv').length) {
         thispostid = ref.closest('.post').attr('postid');
-        while ($('#focusdiv').children().first().attr('postid') !== thispostid) {
-            urlstate.ids.shift();
-            $('#focusdiv').children().first().slideUp(animation_speed);
-            $('#focusdiv').children().first().remove();
-        }
-        post.prependTo('#focusdiv');
-        post.slideDown(animation_speed);
+        $('html, body').animate({scrollTop: 0}, animation_speed, () => {
+            while ($('#focusdiv').children().first().attr('postid') !== thispostid) {
+                urlstate.ids.shift();
+                $('#focusdiv').children().first().slideUp(animation_speed);
+                $('#focusdiv').children().first().remove();
+            }
+            post.prependTo('#focusdiv');
+            post.slideDown(animation_speed);
+        });
         urlstate.ids.unshift(target);
         urlstate.set_url();
         get_hovers();
@@ -365,8 +374,8 @@ function clickid(elem) {
         $('#tag_text').val(tag);
     }
     $('html, body').animate({
-        scrollTop: ($("#formdiv").offset().top - 40)
-    }, 200);
+        scrollTop: ($("#formdiv").offset().top - 90)
+    }, animation_speed);
 }
 
 // Fetches the html for the posts with given ids. The argument is always an
