@@ -200,11 +200,11 @@ async function clickref(ref) {
             post.prependTo('#focusdiv');
             render_image(post);
             post.slideDown(animation_speed);
+            get_hovers();
+            enable_hovers();
         });
         urlstate.ids.unshift(target);
         urlstate.set_url();
-        get_hovers();
-        enable_hovers();
     }
 }
 
