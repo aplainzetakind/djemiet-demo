@@ -138,6 +138,7 @@ function corner_widget(elem) {
             post.hide();
             append_post(post);
             urlstate.ids.push(postid);
+            delete urlstate.page;
             urlstate.set_url();
             refresh_gallery();
         });
@@ -184,6 +185,7 @@ async function clickref(ref) {
                 post.find('.plusscis').hide();
                 append_post(post);
                 urlstate.ids = [target];
+                delete urlstate.page;
                 urlstate.set_url();
                 refresh_gallery();
             });
