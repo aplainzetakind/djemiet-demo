@@ -24,7 +24,8 @@
 
             <div class="post-body">
                 {% if post.image %}
-                <img source="{{ post.image.url }}" src="{% static 'img.png'%}">
+                <img source="{{ post.image.url }}" src="{% static 'img.png'%}"
+                onclick="image_click($(this))">
                 {% endif %}
                 <div>{{ post.body|postfilter:request.user|urlize }}</div>
             </div>

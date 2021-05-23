@@ -603,6 +603,27 @@ input {
 input[type="file"] {
   display: none; }
 
+#lightbox {
+  position: fixed;
+  display: grid;
+  padding: 2rem;
+  left: 0;
+  top: 0;
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.7); }
+
+#lightboximg {
+  z-index: 20;
+  opacity: 1;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  background-color: #bbbbbb; }
+
 @media screen and (max-width: 700px) {
   #contents {
     padding-top: 40px; }

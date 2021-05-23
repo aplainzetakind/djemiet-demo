@@ -1,4 +1,4 @@
-const animation_speed = 300
+const animation_speed = 300;
 
 // We keep the state of the page in an object, with methods to conveniently
 // return url parameters for AJAX requests or setting the url.
@@ -505,4 +505,19 @@ function submit_form() {
             }
         }
     });
+}
+
+function image_click(img) {
+    if (img.closest('#focusdiv').length) {
+        let target = img.attr('src');
+        $('#lightboximg').on('load',function() {
+            $('#lightbox').show();
+        });
+        $('#lightboximg').attr('src',target);
+    }
+}
+
+function close_lightbox() {
+    $('#lightbox').hide();
+    $('#lightboximg').attr('src','');
 }
