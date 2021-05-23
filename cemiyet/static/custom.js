@@ -333,7 +333,6 @@ function enable_hovers() {
         refid = $(this).attr("reftarget");
         target = $("#pop-" + refid);
         card = $(this).closest(".post");
-        maxwidth = $(window).width / 4
         topoffset = $(this).offset().top - card.offset().top;
         offset = $(this).offset().left - card.offset().left
         target.appendTo(card);
