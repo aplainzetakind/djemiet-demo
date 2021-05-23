@@ -1,5 +1,7 @@
 const animation_speed = 300
 
+// We keep the state of the page in an object, with methods to conveniently
+// return url parameters for AJAX requests or setting the url.
 class UrlState {
     constructor(obj) {
         this.ids = obj.id ? obj.id.map(Number) : [];
