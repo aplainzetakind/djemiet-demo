@@ -259,6 +259,7 @@ function home() {
         $('#focusdiv').empty();
         urlstate.ids = [];
         urlstate.tags = [];
+        clear_tags();
         urlstate.watch = false;
         delete urlstate.page;
         urlstate.set_url();
