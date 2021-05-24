@@ -26,6 +26,7 @@ urlpatterns = [
     path('content', posts.views.ContentView.as_view(), name='content'),
     path('posts', posts.views.PostsView.as_view(), name='posts'),
     path('ac/', posts.views.autocomplete, name='autocomplete'),
+    path('tokens/', posts.views.tokens, name='tokens'),
     path('watch', posts.views.add_to_watchlist, name='watchlist'),
     path('admin/', admin.site.urls),
     path('accounts/login', LoginView.as_view(redirect_authenticated_user=True), name='login'),

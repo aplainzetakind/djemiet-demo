@@ -16,7 +16,7 @@ html, body {
   font-family: 'Forum';
   font-size: 1.5em; }
 
-.shadow-white, .nav div {
+.shadow-white, .nav div, #tokenpopup {
   background-color: #ffffff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border-radius: 3px; }
@@ -56,7 +56,7 @@ input[type="text"], input[type="password"] {
   z-index: 1;
   padding: 0.5rem 1rem 0.5rem 1rem; }
   #topbar a {
-    margin: auto 0 auto auto; }
+    margin: auto 0 auto 1rem; }
 
 #topbar-logo {
   margin: auto auto auto 0; }
@@ -627,6 +627,45 @@ input[type="file"] {
   max-height: 100%;
   margin: auto;
   background-color: #bbbbbb; }
+
+#tokenboxplaceholder {
+  font-size: 1.5rem;
+  line-height: 0.8em;
+  width: 1em;
+  height: 1em;
+  margin: auto 0.3rem auto auto; }
+
+#tokenbox {
+  margin: auto;
+  font-family: 'Montserrat';
+  color: #777777;
+  cursor: pointer;
+  display: none; }
+
+#tokenbox::before {
+  content: "🗝";
+  text-shadow: 0 0 #777777;
+  color: transparent; }
+
+#tokenpopup {
+  position: absolute;
+  font-size: 1rem;
+  width: 20em;
+  display: none;
+  padding: 0.5em 0.5em 1rem 0.5em;
+  color: #000000;
+  cursor: auto; }
+  #tokenpopup .title {
+    margin: 0 auto 0 auto; }
+  #tokenpopup p {
+    margin: 0.2em auto 0.2rem 2rem;
+    cursor: text;
+    -webkit-user-select: text;
+    /* Safari */
+    -ms-user-select: text;
+    /* IE 10 and IE 11 */
+    user-select: text;
+    /* Standard syntax */ }
 
 @media screen and (max-width: 700px) {
   #contents {

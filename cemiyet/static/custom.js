@@ -108,6 +108,7 @@ async function refresh_gallery() {
             $('#gallerydiv').html(result);
             get_hovers();
             enable_hovers();
+            refresh_tokens();
             $('#gallerydiv').fadeIn(animation_speed, togglenavs);
         });
     }});
@@ -520,4 +521,34 @@ function image_click(img) {
 function close_lightbox() {
     $('#lightbox').hide();
     $('#lightboximg').attr('src','');
+}
+
+function refresh_tokens() {
+    $.ajax({
+        url: 'tokens',
+        type: 'GET',
+
+        success: function(data) {
+            let tokens = JSON.parse(data);
+            if (tokens.length) {
+                $('#tokenbox').fadeIn(animation_speed);
+                $('#tokenpopup').click(function(e) { e.stopPropagation(); });
+                $('#tokenbox').click(function(e) {
+                    e.preventDefault();
+                    let innerhtml ='';
+                    for (let token of tokens) {
+                        innerhtml += '<p>' + token + '</p>';
+                    }
+                    $('#tokenlist').html(innerhtml);
+                    rightoffset = $(window).width() - $('#tokenbox').offset().left + $('#tokenbox').width();
+                    console.log(rightoffset);
+                    topoffset = $('#tokenbox').offset().top;
+                    $('#tokenpopup').css({top: topoffset, right: rightoffset});
+                    $('#tokenpopup').fadeIn(animation_speed);
+                });
+            } else {
+                $('#tokenbox').fadeOut(animation_speed);
+            }
+        }
+    });
 }

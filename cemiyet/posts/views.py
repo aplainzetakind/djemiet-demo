@@ -162,8 +162,14 @@ def autocomplete(request):
         for tag in qs:
             titles.append(tag.name)
         return JsonResponse(titles, safe=False)
-    return render(request, 'post')
+    return HttpResponse(status=400)
 
+@login_required
+def tokens(request):
+    """ Serve a list of registration tokens of the user. """
+    domain = request.META['HTTP_HOST']
+    response = [ domain + '/reg/' + token.token for token in request.user.tokens.all() ]
+    return JsonResponse(json.dumps(response), safe=False)
 
 @login_required
 def add_to_watchlist(request):

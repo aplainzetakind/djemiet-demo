@@ -74,7 +74,7 @@ input[type="text"], input[type="password"] {
     z-index: 1;
     padding: 0.5rem 1rem 0.5rem 1rem;
     a {
-        margin: auto 0 auto auto;
+        margin: auto 0 auto 1rem;
     }
 }
 
@@ -711,6 +711,51 @@ input[type="file"] {
     background-color: #bbbbbb;
 }
 
+#tokenboxplaceholder {
+    font-size: 1.5rem;
+    line-height: 0.8em;
+    width: 1em;
+    height: 1em;
+    margin: auto 0.3rem auto auto;
+}
+
+#tokenbox {
+    margin: auto;
+    font-family: 'Montserrat';
+    color: #777777;
+    cursor: pointer;
+    display: none;
+}
+
+#tokenbox::before {
+    content: "🗝";
+    text-shadow: 0 0 #777777;
+    color: transparent;
+}
+
+#tokenpopup {
+    @extend .shadow-white;
+    position: absolute;
+    font-size: 1rem;
+    width: 20em;
+    display: none;
+    padding: 0.5em 0.5em 1rem 0.5em;
+    color: #000000;
+    cursor: auto;
+
+    .title {
+        margin: 0 auto 0 auto;
+    }
+
+    p {
+        margin: 0.2em auto 0.2rem 2rem;
+        cursor: text;
+        -webkit-user-select: text; /* Safari */
+        -ms-user-select: text; /* IE 10 and IE 11 */
+        user-select: text; /* Standard syntax */
+    }
+}
+
 @media screen and (max-width: 700px) {
     #contents {
         padding-top: 40px;
@@ -780,5 +825,4 @@ input[type="file"] {
     #taglist {
         width: 8rem;
     }
-
 }

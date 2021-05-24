@@ -11,5 +11,17 @@
              class="leftmost fineprint corner-widget"
              onclick="clear_tags_click()">Ø</div>
     </div>
+    <div id="tokenboxplaceholder">
+        <div id="tokenbox">
+            <div id="tokenpopup">
+                <div class="titlebar">
+                    <div class="title">REGISTRATION LINKS</div>
+                    <div class="widget montserrat"
+                         onclick="$('#tokenpopup').hide();">X</div>
+                </div>
+                <div id="tokenlist"></div>
+            </div>
+        </div>
+    </div>
     <a id="logout" class="button" href="{% url 'logout' %}"></a>
 </div>
