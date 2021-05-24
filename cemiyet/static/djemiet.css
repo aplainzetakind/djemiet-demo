@@ -443,6 +443,9 @@ form {
 .ownref {
   font-style: italic; }
 
+.autocite {
+  color: #dd7700; }
+
 .star::after {
   content: "☆"; }
 

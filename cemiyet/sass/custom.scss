@@ -494,6 +494,10 @@ form { margin: 0; }
     font-style: italic;
 }
 
+.autocite {
+    color: #dd7700;
+}
+
 .star::after {
     content: "☆";
 }
@@ -509,17 +513,6 @@ form { margin: 0; }
 .small-square {
     height: 20em;
 }
-
-// .post-body {
-    // position: relative;
-    // margin-top: 0.4em;
-    // margin-bottom: 5pt;
-    // overflow-y: scroll;
-    // overflow-x: hidden;
-    // scrollbar-width: none;
-    // font-size: 20px;
-    // line-height: 1.2em;
-// }
 
 .button {
     font-family: 'Forum';

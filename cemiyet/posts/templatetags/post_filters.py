@@ -17,43 +17,42 @@ def concat_str(str1, str2):
     """ The filter `add` coerces arguments to integers, so this is needed. """
     return str(str1) + str(str2)
 
-def render(num, user):
+def renderref(num, viewing_user, post_author):
     """ Turns a number into a link, italicizes it and/or puts a star at the end
     depending on whether the referenced post is user's own or is on user's
     watchlist. """
-    post = Post.objects.get(pk=int(num))
+    cited_post = Post.objects.get(pk=int(num))
+    cited_author = cited_post.author
     cls = "reflink star-" + str(num)
-    if post in user.profile.watchlist.all():
+    if cited_post in viewing_user.profile.watchlist.all():
         cls += " watched"
-    if post.author == user:
+    if cited_author == viewing_user:
         cls += " ownref"
+    if cited_author == post_author:
+        cls += " autocite"
     return '<span class="'+ cls +'" reftarget=' + num +\
             ' onclick="clickref($(this))">' + num + '</span>'
 
-def linkify_nums(result, user):
+def linkify_nums(result, user, author):
     """ Applies post citation markdown. """
-    return re.sub(r'\[\[([0-9]*)\]\]', lambda x: render(x.group(1), user), result)
+    return re.sub(r'\[\[([0-9]*)\]\]', lambda x: renderref(x.group(1), user,
+        author), result)
 
-@register.filter(needs_autoescape=True)
-def postfilter(value, user, autoescape=True):
-    """ Markdown for post body. """
-    if autoescape:
-        result = conditional_escape(value)
-    else:
-        result = value
+@register.simple_tag
+def render_body(post, viewer):
+    body_text = post.body
+    post_author = post.author
 
-    result = linkify_nums(result, user)
+    result = linkify_nums(conditional_escape(body_text), viewer, post_author)
     result = re.sub(r'[\t\r\f\v]*\n[\t\r\f\v]*\n\s*', r'</p><p>', result)
     result = re.sub(r'[\t\r\f\v]*\n\s*', r'</br>', result)
     result = '<p>' + result + '</p>'
     return mark_safe(result)
 
-@register.filter(needs_autoescape=True)
-def titlefilter(value, user, autoescape=True):
-    """ Markdown for post title. """
-    if autoescape:
-        result = conditional_escape(value)
-    else:
-        result = value
-    result = linkify_nums(result, user)
+@register.simple_tag
+def render_title(post, viewer):
+    title_text = post.title
+    post_author = post.author
+
+    result = linkify_nums(conditional_escape(title_text), viewer, post_author)
     return mark_safe(result)

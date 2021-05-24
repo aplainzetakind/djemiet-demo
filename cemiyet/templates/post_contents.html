@@ -19,7 +19,7 @@
 
         <div class="postcontent">
             {% if post.title %}
-            <div class="title">{{ post.title|titlefilter:request.user }}</div>
+            <div class="title">{% render_title post request.user %}</div>
             {% endif %}
 
             <div class="post-body">
@@ -27,10 +27,9 @@
                 <img source="{{ post.image.url }}" src="{% static 'img.png'%}"
                 onclick="image_click($(this))">
                 {% endif %}
-                <div>{{ post.body|postfilter:request.user|urlize }}</div>
+                <div>{% render_body post request.user %}</div>
             </div>
         </div>
-
 
         <div class="postfooter">
             <div class="star star-{{ post.id }} widget left{% if post in favourites %} watched{% endif %}"

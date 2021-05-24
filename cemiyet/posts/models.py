@@ -121,10 +121,11 @@ def update_popularity(post, response):
     """ Bumps the popularity of a post based on the response. """
     # MOVE THIS PARAMETER TO A SETTING FILE
     parameter = 0.5
-    pop = post.popularity
-    newtime = response.created_on.timestamp() * 10
+    if post.author != response.author:
+        pop = post.popularity
+        newtime = response.created_on.timestamp() * 10
 
-    post.popularity = int((parameter * newtime) + ((1 - parameter) * pop))
+        post.popularity = int((parameter * newtime) + ((1 - parameter) * pop))
 
 def reset_popularities():
     """ To be used to apply any changes to the entire db table. """
