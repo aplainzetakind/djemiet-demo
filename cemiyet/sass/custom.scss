@@ -750,9 +750,9 @@ input[type="file"] {
     p {
         margin: 0.2em auto 0.2rem 2rem;
         cursor: text;
-        -webkit-user-select: text; /* Safari */
-        -ms-user-select: text; /* IE 10 and IE 11 */
-        user-select: text; /* Standard syntax */
+        -webkit-user-select: all; /* Safari */
+        -ms-user-select: all; /* IE 10 and IE 11 */
+        user-select: all; /* Standard syntax */
     }
 }
 

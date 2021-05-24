@@ -660,11 +660,11 @@ input[type="file"] {
   #tokenpopup p {
     margin: 0.2em auto 0.2rem 2rem;
     cursor: text;
-    -webkit-user-select: text;
+    -webkit-user-select: all;
     /* Safari */
-    -ms-user-select: text;
+    -ms-user-select: all;
     /* IE 10 and IE 11 */
-    user-select: text;
+    user-select: all;
     /* Standard syntax */ }
 
 @media screen and (max-width: 700px) {
