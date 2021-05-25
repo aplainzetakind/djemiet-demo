@@ -6,7 +6,7 @@ to process the post body according to a very minimal markdown-like syntax.
 import re
 from django.urls import reverse
 from django import template
-from django.utils.html import conditional_escape
+from django.utils.html import conditional_escape, urlize
 from django.utils.safestring import mark_safe
 from posts.models import Post
 
@@ -47,7 +47,7 @@ def render_body(post, viewer):
     result = re.sub(r'[\t\r\f\v]*\n[\t\r\f\v]*\n\s*', r'</p><p>', result)
     result = re.sub(r'[\t\r\f\v]*\n\s*', r'</br>', result)
     result = '<p>' + result + '</p>'
-    return mark_safe(result)
+    return mark_safe(urlize(result))
 
 @register.simple_tag
 def render_title(post, viewer):

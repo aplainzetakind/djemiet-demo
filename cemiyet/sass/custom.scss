@@ -1,3 +1,5 @@
+$djemiet-blue: #238cbc;
+
 @mixin w_max_c {
     width: intrinsic;           /* Safari/WebKit uses a non-standard name */
     width: -moz-max-content;    /* Firefox/Gecko */
@@ -9,6 +11,13 @@ html, body {
     scrollbar-width: none;
     font-family: 'VollkornRegular';
     font-size: 20px;
+}
+
+a {
+    color: $djemiet-blue;
+    font-family: 'VollkornSemibold';
+    text-decoration: none;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 900px) {
@@ -485,7 +494,7 @@ form { margin: 0; }
 }
 
 .reflink {
-    color: #238cbc;
+    color: $djemiet-blue;
     font-family: 'VollkornSemibold';
     cursor: pointer;
 }

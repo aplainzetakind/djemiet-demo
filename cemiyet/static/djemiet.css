@@ -4,6 +4,12 @@ html, body {
   font-family: 'VollkornRegular';
   font-size: 20px; }
 
+a {
+  color: #238cbc;
+  font-family: 'VollkornSemibold';
+  text-decoration: none;
+  cursor: pointer; }
+
 @media screen and (max-width: 900px) {
   html, body {
     font-size: 15px; } }
