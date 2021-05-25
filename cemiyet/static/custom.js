@@ -208,7 +208,9 @@ async function clickref(ref) {
             get_hovers();
             enable_hovers();
         });
+        console.log(urlstate.ids);
         urlstate.ids.unshift(target);
+        console.log(urlstate.ids);
         urlstate.set_url();
     }
 }
