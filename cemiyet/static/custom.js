@@ -120,7 +120,7 @@ async function refresh_gallery() {
 // corner_widget
 // add_tag
 // home
-// refclick
+// clickref
 // toggle_favfilter
 
 function corner_widget(elem) {
@@ -199,7 +199,6 @@ async function clickref(ref) {
         $('html, body').animate({scrollTop: 0}, animation_speed, () => {
             while ($('#focusdiv').children().first().attr('postid') !== thispostid) {
                 urlstate.ids.shift();
-                $('#focusdiv').children().first().slideUp(animation_speed);
                 $('#focusdiv').children().first().remove();
             }
             post.prependTo('#focusdiv');
@@ -207,11 +206,9 @@ async function clickref(ref) {
             post.slideDown(animation_speed);
             get_hovers();
             enable_hovers();
+            urlstate.ids.unshift(target);
+            urlstate.set_url();
         });
-        console.log(urlstate.ids);
-        urlstate.ids.unshift(target);
-        console.log(urlstate.ids);
-        urlstate.set_url();
     }
 }
 
@@ -500,7 +497,6 @@ function submit_form() {
                 errobject = JSON.parse(xhr.responseJSON);
                 for (k of Object.keys(errobject)) {
                     for (v of errobject[k]) {
-                        console.log(v);
                         $('<p>' + v['message'] + '</p>')
                             .appendTo('#formerrordiv');
                     }
@@ -543,7 +539,6 @@ function refresh_tokens() {
                     }
                     $('#tokenlist').html(innerhtml);
                     rightoffset = $(window).width() - $('#tokenbox').offset().left + $('#tokenbox').width();
-                    console.log(rightoffset);
                     topoffset = $('#tokenbox').offset().top;
                     $('#tokenpopup').css({top: topoffset, right: rightoffset});
                     $('#tokenpopup').fadeIn(animation_speed);
