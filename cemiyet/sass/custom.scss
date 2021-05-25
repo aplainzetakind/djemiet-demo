@@ -1,4 +1,5 @@
 $djemiet-blue: #238cbc;
+$djemiet-green: #118800;
 
 @mixin w_max_c {
     width: intrinsic;           /* Safari/WebKit uses a non-standard name */
@@ -501,6 +502,22 @@ form { margin: 0; }
 
 .ownref {
     font-style: italic;
+}
+
+.quote {
+    color: $djemiet-green;
+}
+
+.quote .reflink {
+    color: $djemiet-green;
+}
+
+.quote .autocite {
+    text-decoration: underline;
+}
+
+.quote a {
+    color: $djemiet-green;
 }
 
 .autocite {
