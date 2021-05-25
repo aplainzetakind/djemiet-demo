@@ -539,8 +539,7 @@ function refresh_tokens() {
                     }
                     $('#tokenlist').html(innerhtml);
                     rightoffset = $(window).width() - $('#tokenbox').offset().left + $('#tokenbox').width();
-                    topoffset = $('#tokenbox').offset().top;
-                    $('#tokenpopup').css({top: topoffset, right: rightoffset});
+                    $('#tokenpopup').css({top: 20, right: rightoffset});
                     $('#tokenpopup').fadeIn(animation_speed);
                 });
             } else {
