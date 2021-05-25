@@ -71,9 +71,9 @@ input[type="text"], input[type="password"] {
   content: "";
   display: block;
   height: 50px;
-  width: 81px;
+  width: 112px;
   box-sizing: content-box;
-  background-image: url("/static/logos/kufi-50x81.png"); }
+  background-image: url("/static/logos/50x112.png"); }
 
 #favtoggle {
   line-height: 0.8em;
