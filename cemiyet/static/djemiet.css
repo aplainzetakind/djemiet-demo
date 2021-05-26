@@ -1,6 +1,5 @@
 @charset "UTF-8";
 html, body {
-  scrollbar-width: none;
   font-family: 'VollkornRegular';
   font-size: 20px; }
 
@@ -322,7 +321,11 @@ form {
   line-height: 1.2em;
   max-height: auto;
   overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
   scrollbar-width: none; }
+  .post-body ::-webkit-scrollbar {
+    display: none; }
 
 .postfooter {
   display: flex;

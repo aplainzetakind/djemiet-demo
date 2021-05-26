@@ -9,7 +9,6 @@ $djemiet-green: #118800;
 }
 
 html, body {
-    scrollbar-width: none;
     font-family: 'VollkornRegular';
     font-size: 20px;
 }
@@ -368,7 +367,12 @@ form { margin: 0; }
     line-height: 1.2em;
     max-height: auto;
     overflow-y: scroll;
+    overflow-x: hidden;
+    -ms-overflow-style: none;
     scrollbar-width: none;
+    ::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 
