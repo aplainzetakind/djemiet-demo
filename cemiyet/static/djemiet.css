@@ -697,6 +697,10 @@ input[type="file"] {
     user-select: all;
     /* Standard syntax */ }
 
+.midfooter {
+  margin-left: auto;
+  margin-right: auto; }
+
 @media screen and (max-width: 700px) {
   #contents {
     padding-top: 40px; }

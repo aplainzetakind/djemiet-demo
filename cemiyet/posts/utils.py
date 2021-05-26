@@ -2,6 +2,7 @@
 Put utility functions here.
 """
 import re
+from collections import OrderedDict
 from posts.models import Post
 
 def get_refs(text):
@@ -27,3 +28,22 @@ def normalize_tag(text):
         raise TagError("Tags can only contain letters, spaces and hyphens.")
 
     return text
+
+def get_ancestors(post):
+    result = post.parents.all()
+    if result.count():
+        for p in result:
+            result = result.union(get_ancestors(p))
+    return result
+
+def reset_descendants():
+    postsdict = OrderedDict()
+    for post in Post.objects.all().order_by('-pk'):
+        postsdict[post] = 0
+
+    while postsdict:
+        post, count = postsdict.popitem(0)
+        post.descendants = count
+        post.save()
+        for ancestor in get_ancestors(post):
+            postsdict[ancestor] += 1

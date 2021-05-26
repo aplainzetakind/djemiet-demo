@@ -4,16 +4,15 @@ The views pertaining to posts. These are:
     - add_to_watchlist: This expects POST requests from the frontend to add posts
       to the user's watchlist.
 """
+import json
 from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render
 from django.views.generic import View, ListView, TemplateView
 from django.views.generic.edit import FormView
 from django.contrib.auth.decorators import login_required
-from django.core.serializers import serialize
-import json
 from cemiyet import settings
+from .utils import get_ancestors
 from .models import Post, Tag, update_popularity, init_popularity
 from .forms import PostForm
 
@@ -145,6 +144,9 @@ class PostingFormView(FormView):
         for parent in post.parents.all():
             update_popularity(parent, post)
             parent.save()
+        for ancestor in get_ancestors(post):
+            ancestor.descendants += 1
+            ancestor.save()
         return HttpResponse(status=200)
         #  return super().form_valid(form)
 

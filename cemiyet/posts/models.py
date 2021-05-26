@@ -106,6 +106,7 @@ class Post(models.Model):
             on_delete=models.CASCADE,
             blank=True,
             null=True)
+    descendants = models.IntegerField(blank=False, null=False, default=0)
 
     def __str__(self):
         return '#' + str(self.pk)
