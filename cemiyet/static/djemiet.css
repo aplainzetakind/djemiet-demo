@@ -1,11 +1,18 @@
 @charset "UTF-8";
 html, body {
-  scrollbar-width: none;
   font-family: 'VollkornRegular';
-  font-size: 20px; }
+  font-size: 20px;
+  -ms-overflow-style: none;
+  scrollbar-width: none; }
+
+body::-webkit-scrollbar {
+  display: none; }
+
+html::-webkit-scrollbar {
+  display: none; }
 
 a {
-  color: #238cbc;
+  color: #086cce;
   font-family: 'VollkornSemibold';
   text-decoration: none;
   cursor: pointer; }
@@ -322,7 +329,12 @@ form {
   line-height: 1.2em;
   max-height: auto;
   overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
   scrollbar-width: none; }
+
+.post-body::-webkit-scrollbar {
+  display: none; }
 
 .postfooter {
   display: flex;
@@ -442,15 +454,27 @@ form {
   margin-bottom: 0.5em; }
 
 .reflink {
-  color: #238cbc;
+  color: #086cce;
   font-family: 'VollkornSemibold';
   cursor: pointer; }
 
 .ownref {
   font-style: italic; }
 
+.quote {
+  color: #137b08; }
+
+.quote .reflink {
+  color: #137b08; }
+
+.quote .autocite {
+  text-decoration: underline; }
+
+.quote a {
+  color: #137b08; }
+
 .autocite {
-  color: #dd7700; }
+  color: #bf5606; }
 
 .star::after {
   content: "☆"; }
@@ -717,7 +741,7 @@ input[type="file"] {
   #topbar-logo::before {
     height: 25px;
     width: 56px;
-    background-image: url("/static/logos/50x112.png");
+    background-image: url("/static/logos/kufi-50x81.png");
     background-size: 56px 25px; }
   #tagfilter {
     width: 6.5rem; }
