@@ -12,7 +12,7 @@ html::-webkit-scrollbar {
   display: none; }
 
 a {
-  color: #238cbc;
+  color: #086cce;
   font-family: 'VollkornSemibold';
   text-decoration: none;
   cursor: pointer; }
@@ -454,7 +454,7 @@ form {
   margin-bottom: 0.5em; }
 
 .reflink {
-  color: #238cbc;
+  color: #086cce;
   font-family: 'VollkornSemibold';
   cursor: pointer; }
 
@@ -462,19 +462,19 @@ form {
   font-style: italic; }
 
 .quote {
-  color: #118800; }
+  color: #19800e; }
 
 .quote .reflink {
-  color: #118800; }
+  color: #19800e; }
 
 .quote .autocite {
   text-decoration: underline; }
 
 .quote a {
-  color: #118800; }
+  color: #19800e; }
 
 .autocite {
-  color: #dd7700; }
+  color: #bf5606; }
 
 .star::after {
   content: "☆"; }

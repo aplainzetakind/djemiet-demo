@@ -1,5 +1,12 @@
-$djemiet-blue: #238cbc;
-$djemiet-green: #118800;
+$white: #ffffff;
+$gray0: #bbbbbb;
+$gray1: #777777;
+$gray2: #e4e4e4;
+$black: #000000;
+$orange: #bf5606;
+$red: #cc5555;
+$blue: #086cce;
+$green: #19800e;
 
 @mixin w_max_c {
     width: intrinsic;           /* Safari/WebKit uses a non-standard name */
@@ -24,7 +31,7 @@ html::-webkit-scrollbar {
 }
 
 a {
-    color: $djemiet-blue;
+    color: $blue;
     font-family: 'VollkornSemibold';
     text-decoration: none;
     cursor: pointer;
@@ -48,7 +55,7 @@ a {
 }
 
 .shadow-white {
-    background-color: #ffffff;
+    background-color: $white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 3px;
 }
@@ -70,7 +77,7 @@ a {
 
 .montserrat {
     font-family: 'Montserrat';
-    color: #777777;
+    color: $gray1;
 }
 
 .fineprint {
@@ -115,7 +122,7 @@ input[type="text"], input[type="password"] {
     margin: auto 0.3rem auto auto;
     font-family: 'Montserrat';
     font-size: 1.5rem;
-    color: #777777;
+    color: $gray1;
     cursor: pointer;
 }
 
@@ -147,7 +154,7 @@ input[type="text"], input[type="password"] {
 }
 
 .tag {
-    background-color: #e4e4e4;
+    background-color: $gray2;
     border-radius: 0.4em;
     padding: 0.1em 0.4em 0.3em 0.4em;
     margin: 2px;
@@ -302,7 +309,7 @@ form { margin: 0; }
     display: grid;
     grid-template-rows: 1.5em auto 1.5em;
     top: 0;
-    background-color: #ffffff;
+    background-color: $white;
     border-radius: 3px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 3px 6px 20px 0 rgba(0, 0, 0, 0.25);
     box-sizing: border-box;
@@ -436,7 +443,7 @@ form { margin: 0; }
 }
 
 .fineprint a {
-    color: #777777;
+    color: $gray1;
     font-family: 'Montserrat';
     text-decoration: none;
 }
@@ -509,7 +516,7 @@ form { margin: 0; }
 }
 
 .reflink {
-    color: $djemiet-blue;
+    color: $blue;
     font-family: 'VollkornSemibold';
     cursor: pointer;
 }
@@ -519,11 +526,11 @@ form { margin: 0; }
 }
 
 .quote {
-    color: $djemiet-green;
+    color: $green;
 }
 
 .quote .reflink {
-    color: $djemiet-green;
+    color: $green;
 }
 
 .quote .autocite {
@@ -531,11 +538,11 @@ form { margin: 0; }
 }
 
 .quote a {
-    color: $djemiet-green;
+    color: $green;
 }
 
 .autocite {
-    color: #dd7700;
+    color: $orange;
 }
 
 .star::after {
@@ -560,7 +567,7 @@ form { margin: 0; }
     height: 2.5em;
     line-height: 2.5em;
     padding: 0 1.5rem;
-    background-color: #ffffff;
+    background-color: $white;
 }
 
 .largetextbox {
@@ -569,7 +576,7 @@ form { margin: 0; }
 }
 
 #formerrordiv {
-    color: #cc5555;
+    color: $red;
     width: 15em;
     text-align: left;
     margin-left: auto;
@@ -585,7 +592,7 @@ form { margin: 0; }
 }
 
 .form-error {
-    color: #cc5555;
+    color: $red;
     width: 50%;
     text-align: left;
     width: 224px;
@@ -675,7 +682,7 @@ form { margin: 0; }
 .ui-front {
     @include w_max_c
     list-style-type: none;
-    background-color: #ffffff;
+    background-color: $white;
     border-radius: 4px;
     border: 1px solid #d1d1d1;
     width: max-content;
@@ -748,7 +755,7 @@ input[type="file"] {
     max-width: 100%;
     max-height: 100%;
     margin: auto;
-    background-color: #bbbbbb;
+    background-color: $gray0;
 }
 
 #tokenboxplaceholder {
@@ -762,14 +769,14 @@ input[type="file"] {
 #tokenbox {
     margin: auto;
     font-family: 'Montserrat';
-    color: #777777;
+    color: $gray1;
     cursor: pointer;
     display: none;
 }
 
 #tokenbox::before {
     content: "🗝";
-    text-shadow: 0 0 #777777;
+    text-shadow: 0 0 $gray1;
     color: transparent;
 }
 
@@ -780,7 +787,7 @@ input[type="file"] {
     width: 20em;
     display: none;
     padding: 0.5em 0.5em 1rem 0.5em;
-    color: #000000;
+    color: $black;
     cursor: auto;
 
     .title {
