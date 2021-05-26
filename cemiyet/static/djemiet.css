@@ -1,7 +1,15 @@
 @charset "UTF-8";
 html, body {
   font-family: 'VollkornRegular';
-  font-size: 20px; }
+  font-size: 20px;
+  -ms-overflow-style: none;
+  scrollbar-width: none; }
+
+body::-webkit-scrollbar {
+  display: none; }
+
+html::-webkit-scrollbar {
+  display: none; }
 
 a {
   color: #238cbc;
@@ -324,8 +332,9 @@ form {
   overflow-x: hidden;
   -ms-overflow-style: none;
   scrollbar-width: none; }
-  .post-body ::-webkit-scrollbar {
-    display: none; }
+
+.post-body::-webkit-scrollbar {
+  display: none; }
 
 .postfooter {
   display: flex;
