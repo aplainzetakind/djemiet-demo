@@ -44,10 +44,6 @@ def render_body(post, viewer):
     post_author = post.author
 
     result = linkify_nums(conditional_escape(body_text), viewer, post_author)
-    result = re.sub(r'^(&gt.*)$',
-            lambda x: '<span class="quote">' + x.group(1) + '</span>',
-            result,
-            flags=re.MULTILINE)
     result = re.sub(r'[\t\r\f\v]*\n[\t\r\f\v]*\n\s*', r'</p><p>', result)
     result = re.sub(r'[\t\r\f\v]*\n\s*', r'</br>', result)
     result = '<p>' + result + '</p>'

@@ -461,18 +461,6 @@ form {
 .ownref {
   font-style: italic; }
 
-.quote {
-  color: #19800e; }
-
-.quote .reflink {
-  color: #19800e; }
-
-.quote .autocite {
-  text-decoration: underline; }
-
-.quote a {
-  color: #19800e; }
-
 .autocite {
   color: #bf5606; }
 
