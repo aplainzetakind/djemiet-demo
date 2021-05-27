@@ -35,7 +35,7 @@
             <div class="star star-{{ post.id }} widget left{% if post in favourites %} watched{% endif %}"
                  onclick="favourite('{{ post.id }}', '{{ csrf_token }}')"></div>
 
-            <div class="midfooter">{{ post.children.count }}/{{ post.descendants }}</div>
+            <div class="midfooter counter">{{ post.children.count }}/{{ post.descendants }}</div>
 
             <div class="midfooter">
                 {{ post.created_on|date:"SHORT_DATE_FORMAT"}},

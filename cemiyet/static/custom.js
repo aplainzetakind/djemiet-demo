@@ -60,7 +60,6 @@ class UrlState {
     set_url() {
         return history.pushState(this.state_obj, null, this.content_url);
     }
-
 }
 
 // The global variable to track the page state.
@@ -522,6 +521,16 @@ function submit_form() {
             clear_form();
             toggle_form();
             refresh_gallery();
+            to_update = JSON.parse(data)
+            // Update counters of affected posts. This has potential to be very
+            // expensive.
+            for (k of Object.keys(to_update)) {
+                $("[postid='" + k +"']").each(function() {
+                    console.log(to_update[k]);
+                    $(this).find('.counter')
+                    .html(to_update[k][0] + '/' + to_update[k][1]);
+                });
+            }
         },
 
         error : function(xhr,errmsg,err) {

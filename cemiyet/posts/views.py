@@ -159,10 +159,13 @@ class PostingFormView(FormView):
             parent.save()
 
         #  Increment the descendant count of all ancestors of the present post.
-        for ancestor in get_ancestors(post):
+        ancestors = get_ancestors(post)
+        for ancestor in ancestors:
             ancestor.descendants += 1
             ancestor.save()
-        return HttpResponse(status=200)
+        response_json = json.dumps({ ancestor.pk : [ancestor.children.count(),
+            ancestor.descendants] for ancestor in ancestors })
+        return JsonResponse(response_json, status=200, safe=False)
 
     def form_invalid(self, form):
         resp = form.errors.as_json()
