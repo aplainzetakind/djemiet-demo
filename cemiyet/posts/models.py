@@ -1,15 +1,14 @@
 """
 Database models for posts.
 """
+
+import os
+import time
 import django
 from django.db import models
 from django.conf import settings
-import os
-import time
 
 
-#  REFACTOR THIS TO A SEPARATE FILE
-#
 #  Below is the code for AutoOneToOneField, copy pasted from the package
 #  django-annoying. I found it redundant to include an entire package for one
 #  class.
@@ -82,7 +81,9 @@ class Tag(models.Model):
     def __str__(self):
         return str(self.name)
 
-def assign_filename(instance, filename):
+def assign_filename(instance, filename): #pylint: disable=W0613
+    """ We save images with the filename replaced by the system time in
+    nanoseconds. """
     temp = os.path.splitext(filename)
     return str(time.time_ns()) + temp[1]
 
@@ -110,31 +111,6 @@ class Post(models.Model):
 
     def __str__(self):
         return '#' + str(self.pk)
-
-def init_popularity(post):
-    """ Sets initial popularity based on the created_on field. """
-    ctime = post.created_on.timestamp()
-    pop = int(ctime * 10)
-
-    post.popularity = pop
-
-def update_popularity(post, response):
-    """ Bumps the popularity of a post based on the response. """
-    # MOVE THIS PARAMETER TO A SETTING FILE
-    parameter = 0.5
-    if post.author != response.author:
-        pop = post.popularity
-        newtime = response.created_on.timestamp() * 10
-
-        post.popularity = int((parameter * newtime) + ((1 - parameter) * pop))
-
-def reset_popularities():
-    """ To be used to apply any changes to the entire db table. """
-    for post in Post.objects.all():
-        init_popularity(post)
-        for response in post.children.all():
-            update_popularity(post, response)
-        post.save()
 
 class Profile(models.Model):
     """ This follows the advice here:

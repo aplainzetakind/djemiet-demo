@@ -16,6 +16,6 @@
 
 {% for post in post_list %}
 {% with postdivid=idprefix|concat_str:post.id %}
-{% include 'post_contents.html' %}
+{% include 'posts/post_contents.html' %}
 {% endwith %}
 {% endfor %}
