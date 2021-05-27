@@ -58,6 +58,7 @@ class UrlState {
 
     // Invoke history.pushState with the appropriate parameters.
     set_url() {
+        console.log('click');
         return history.pushState(this.state_obj, null, this.content_url);
     }
 }
@@ -206,19 +207,20 @@ async function clickref(ref) {
     }
     if (ref.closest('#focusdiv').length) {
         thispostid = ref.closest('.post').attr('postid');
-        $('html, body').animate({scrollTop: 0}, animation_speed, () => {
-            while ($('#focusdiv').children().first().attr('postid') !== thispostid) {
-                urlstate.ids.shift();
-                $('#focusdiv').children().first().remove();
-            }
-            post.prependTo('#focusdiv');
-            render_image(post);
-            post.slideDown(animation_speed);
-            get_hovers();
-            enable_hovers();
-            urlstate.ids.unshift(target);
-            urlstate.set_url();
-        });
+        $('html, body').animate({scrollTop: 0}, animation_speed).promise()
+            .then(function() {
+                while ($('#focusdiv').children().first().attr('postid') !== thispostid) {
+                    urlstate.ids.shift();
+                    $('#focusdiv').children().first().remove();
+                }
+                post.prependTo('#focusdiv');
+                render_image(post);
+                post.slideDown(animation_speed);
+                get_hovers();
+                enable_hovers();
+                urlstate.ids.unshift(target);
+                urlstate.set_url();
+            });
     }
 }
 
