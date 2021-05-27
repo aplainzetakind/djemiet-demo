@@ -17,6 +17,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import View, ListView, TemplateView
 from django.views.generic.edit import FormView
 from django.contrib.auth.decorators import login_required
+from tokens.models import new_token
 from cemiyet import settings
 from .utils import get_ancestors, update_popularity, init_popularity
 from .models import Post, Tag
@@ -165,6 +166,12 @@ class PostingFormView(FormView):
             ancestor.save()
         response_json = json.dumps({ ancestor.pk : [ancestor.children.count(),
             ancestor.descendants] for ancestor in ancestors })
+
+        #  DEMO ONLY: if the post is a response to post number 9, then award a
+        #  token.
+        if 9 in [ parent.pk for parent in post.parents.all() ]:
+            new_token(1, post.author.pk)
+
         return JsonResponse(response_json, status=200, safe=False)
 
     def form_invalid(self, form):
