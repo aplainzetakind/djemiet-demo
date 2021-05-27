@@ -1,7 +1,8 @@
 const animation_speed = 300;
 
 // We keep the state of the page in an object, with methods to conveniently
-// return url parameters for AJAX requests or setting the url.
+// return url parameters for AJAX requests or setting the url. Intended to have
+// a single instance.
 class UrlState {
     constructor(obj) {
         this.ids = obj.id ? obj.id.map(Number) : [];
@@ -13,15 +14,17 @@ class UrlState {
     }
 
     get id_params() { return this.ids.map((n) => 'id=' + n).join('&'); }
-
     get tag_params() {
         return this.tags.map((t) => 'tag=' + t).join('&');
     }
-
     get watch_param() { return this.watch ? 'watch=' + this.watch : ''; }
-
     get page_param() { return this.page ? 'page=' + this.page : ''; }
 
+
+
+    // Return the URL to be used in gallery refreshes. If there are posts in
+    // focus, the last one is used for the `parent` parameter, the rest of the
+    // focused posts are ignored.
     get gallery_url() {
         let parent = this.ids.length ? 'parent=' + this.ids[this.ids.length - 1] : ''
 
@@ -34,6 +37,7 @@ class UrlState {
             .join('&');
     }
 
+    // Return the page URL, for setting with the history API.
     get content_url() {
         let q = [this.id_params,
             this.tag_params,
@@ -42,6 +46,7 @@ class UrlState {
         return ['content', q].filter((s) => s.length).join('?');
     }
 
+    // The page state as an object, for the history API.
     get state_obj() {
         return new Object({
             ids: this.ids,
@@ -51,13 +56,14 @@ class UrlState {
         });
     }
 
+    // Invoke history.pushState with the appropriate parameters.
     set_url() {
         return history.pushState(this.state_obj, null, this.content_url);
     }
 
 }
 
-// A global variable to track the url parameters for the page.
+// The global variable to track the page state.
 var urlstate;
 
 // The initialization function. The argument is passed as JSON from the
@@ -65,17 +71,8 @@ var urlstate;
 async function init_index(obj) {
     urlstate = new UrlState(obj);
     if (obj.tag) { obj.tag.map(add_tag); }
-    if (urlstate.watch) { $('#favtoggle').addClass('favon'); }
-    $('#focusdiv').hide();
-    fetch_posts(urlstate.ids).then((html) => {
-        $('#focusdiv').html(html);
-        $('#focusdiv .plusscis').last().hide();
-        $('#focusdiv .post').each(function() {
-            render_image($(this));
-        });
-        $('#focusdiv').fadeIn();
-        refresh_gallery();
-    });
+    $('#favtoggle').toggleClass('favon', urlstate.watch);
+    populate_focus(html);
     history.replaceState(urlstate.state_obj, null, urlstate.content_url);
     window.addEventListener('popstate', function(e) {
         urlstate.ids = e.state.ids;
@@ -84,22 +81,30 @@ async function init_index(obj) {
         urlstate.watch = e.state.watch;
         $('#favtoggle').toggleClass('favon', urlstate.watch);
         urlstate.page = e.state.page;
-        $('#focusdiv').fadeOut(animation_speed,() => {
-            fetch_posts(urlstate.ids).then((html) => {
-                $('#gallerydiv').fadeOut(animation_speed,() => {
-                    $('#focusdiv').html(html);
-                    $('#focusdiv .plusscis').last().hide();
-                    $('#focusdiv .post').each(function() {
-                        render_image($(this));
-                    });
-                    $('#focusdiv').fadeIn();
-                    refresh_gallery();
-                });
-            });
+        $('#gallerydiv').fadeOut(animation_speed,() => {
+            populate_focus(html);
         });
     });
 }
 
+// Refactored out of init_index and its addEventListener subroutine. Probably
+// better to refactor further.
+function populate_focus(html) {
+    $('#focusdiv').fadeOut(animation_speed,() => {
+        fetch_posts(urlstate.ids).then((html) => {
+            $('#focusdiv').html(html);
+            $('#focusdiv .plusscis').last().hide();
+            $('#focusdiv .post').each(function() {
+                render_image($(this));
+            });
+            $('#focusdiv').fadeIn();
+            refresh_gallery();
+        });
+    });
+}
+
+// Makes an AJAX call to refresh the contents of the gallery div based on
+// `urlstate`.
 async function refresh_gallery() {
     $('.nav').fadeTo(animation_speed, 0).css({'visibility': 'hidden'});
 
@@ -114,18 +119,13 @@ async function refresh_gallery() {
     }});
 }
 
-// The main functions which make such changes to the DOM as to be reflected in
-// the url:
-//
-// corner_widget
-// add_tag
-// home
-// clickref
-// toggle_favfilter
-
+// Clicking the corner widget element, which appears as a plus sign in posts in
+// the #gallerydiv, and as scissors in posts in the #focusdiv, performs
+// different functions depending on that context.
 function corner_widget(elem) {
     post = elem.closest('.post')
     postid = Number(post.attr('postid'));
+    // If the post is in focus, remove the posts coming after it.
     if (post.closest('#focusdiv').length) {
         elem.fadeOut(animation_speed);
         post.nextAll().slideUp(animation_speed, () => {
@@ -135,6 +135,7 @@ function corner_widget(elem) {
             refresh_gallery();
         });
     }
+    // If the post is in the gallery, append it to the focus.
     if (post.closest('#gallerydiv').length) {
         $('#gallerydiv').fadeOut(animation_speed, () => {
             post.find('.plusscis').hide();
@@ -148,6 +149,10 @@ function corner_widget(elem) {
     }
 }
 
+// When posts move to focus, the placeholder image icon is replaced by the
+// actual image by changing the `src` attribute. This function takes care of
+// hiding the element until the actual image is loaded to prevent the momentary
+// flashing of an oversized icon.
 function render_image(post) {
     img = post.find('img');
     img.hide();
@@ -157,6 +162,8 @@ function render_image(post) {
     img.attr('src', img.attr('source'));
 }
 
+// Appends a post to the #focusdiv. Only called once from corner_widget, so
+// refactored only for the sake of organization.
 function append_post(post) {
     render_image(post);
     $('#focusdiv').children().last().find('.plusscis').fadeIn(animation_speed);
@@ -171,6 +178,10 @@ function append_post(post) {
     post.slideDown(animation_speed);
 }
 
+// What clicking a citation link effects is also context-dependent. Citations
+// from #gallerydiv clear #focusdiv and move the cited posts into the #focusdiv
+// as a singleton. Citations in #focusdiv clear the preceding posts and prepend
+// the cited post to #focusdiv.
 async function clickref(ref) {
     let target = Number(ref.attr('reftarget'));
     if ($('#post-' + target).length) {
@@ -212,12 +223,11 @@ async function clickref(ref) {
     }
 }
 
-function add_tag_with_history(value) {
-    add_tag(value);
-    refresh_gallery();
-    urlstate.set_url();
-}
-
+// Add a tag to the tagfilter. This function takes care both of updating
+// `urlstate` and populating the UI elements, but does not make changes to the
+// history. This is because when a page whose URL contains multiple tags, we
+// loop over them using this function, and we do not want to creat multiple
+// history nodes for this.
 function add_tag(value) {
     value = value.toLowerCase();
     if (!urlstate.tags.includes(value)) {
@@ -246,6 +256,16 @@ function add_tag(value) {
     }
 }
 
+// This bundles a URL refresh with adding a tag. Used for adding tags from the
+// autocomplete box or clicking the tag of a post.
+function add_tag_with_history(value) {
+    add_tag(value);
+    refresh_gallery();
+    urlstate.set_url();
+}
+
+// This is called from autocomplete element clicks. Also clears the autocomplete
+// box.
 function add_tag_from_autocomplete(e, ui) {
     e.preventDefault();
     $('#tagfilter').val('');
@@ -253,6 +273,8 @@ function add_tag_from_autocomplete(e, ui) {
     add_tag_with_history(value);
 }
 
+// Called when the logo is clicked. Clears `urlstate` and refreshes the page
+// accordingly.
 function home() {
     $('#focusdiv').fadeOut(animation_speed);
     $('#gallerydiv').fadeOut(animation_speed, () => {
@@ -268,15 +290,13 @@ function home() {
     });
 }
 
+// Toggles the watchlist filter.
 function toggle_favfilter() {
     $('#favtoggle').toggleClass('favon')
     urlstate.watch = (!urlstate.watch)
     urlstate.set_url();
     refresh_gallery();
 }
-
-
-
 
 // Determine the missing hover divs for citations on the page to fetch them and
 // insert into the #bench div.
@@ -350,6 +370,8 @@ function enable_hovers() {
     });
 }
 
+// Called when the star icon is clicked to toggle whether the post is
+// watchlisted.
 function favourite(id, token) {
     options = {
         method: 'POST',
@@ -366,6 +388,9 @@ function favourite(id, token) {
         });
 }
 
+// When the number of a post is clicked, the markdown for citing it is
+// automatically inserted into the posting form and the page scrolls to the
+// form.
 function clickid(elem) {
     id = elem.closest('.post').attr('postid');
     tag = elem.closest('.post').attr('posttag');
@@ -395,24 +420,32 @@ async function fetch_posts(ids) {
     }
 }
 
-function clear_tags_click() {
-    clear_tags();
-    refresh_gallery();
-    urlstate.set_url();
-}
-
+// Clear the taglist and set urlstate.tags, but don't refresh the callery or set
+// the URL yet.
 function clear_tags() {
     $('#taglist').empty();
     $('#cleartags').fadeOut(animation_speed);
     urlstate.tags = [];
 }
 
+// Fired by clicking the clear tags icon from the top bar.
+function clear_tags_click() {
+    clear_tags();
+    refresh_gallery();
+    urlstate.set_url();
+}
+
+// Here `target` is one of '1', 'prev', 'next', 'last'. The page numbers these
+// correspond to is read off the attributes of #navigation, which is served by
+// gallery refreshes.
 function nav(target) {
     urlstate.page = $('#navigation').attr(target);
     urlstate.set_url();
     refresh_gallery();
 }
 
+// Toggle the visibility of navigation arrows depending on whether appropriate
+// pages exist.
 function togglenavs() {
     hasprev = $('#navigation').attr('prev');
     hasnext = $('#navigation').attr('next');
@@ -437,18 +470,22 @@ function togglenavs() {
 
 }
 
+
+// Trims the directory part of the selected file in the upload dialog.
 function update_filename() {
   file = $('#id_image').val()
   fileName = file.split("\\");
   $('#filename').text(fileName[fileName.length - 1]);
 }
 
+// Clear form.
 function clear_form() {
     $('#formdiv').find("input[type=text], input[type=file], textarea").val('');
     $('#filename').text('No image selected.');
     $('#formerrordiv').empty();
 }
 
+// Toggle the visibility of the posting form.
 function toggle_form() {
     if ($('#formdiv').css('display') === 'none') {
         lastfocus = $('#focusdiv').children().last()
@@ -467,14 +504,10 @@ function toggle_form() {
     }
 }
 
-async function focus_post(id, clear, prepend) {
-    $('.nav').fadeTo(animation_speed, 0).css({'visibility': 'hidden'});
-    $('#gallerydiv').fadeOut(animation_speed, () => {
-        post_to_focus(id, clear, prepend)
-        post = $('#post-' + id);
-    });
-}
 
+// Override default form submission with this function in order to perform an
+// AJAX without a page refresh. TODO: Fix quick multiple clicks resulting in
+// multiple posts.
 function submit_form() {
     fd = new FormData($('form')[0]);
 
@@ -506,6 +539,7 @@ function submit_form() {
     });
 }
 
+// When an image in #focusdiv is clicked, display it in a lightbox.
 function image_click(img) {
     if (img.closest('#focusdiv').length) {
         let target = img.attr('src');
@@ -521,6 +555,8 @@ function close_lightbox() {
     $('#lightboximg').attr('src','');
 }
 
+// Get user's invitation links, if there are any, then show #tokenbox and
+// populate and position #tokenpopup.
 function refresh_tokens() {
     $.ajax({
         url: 'tokens',
