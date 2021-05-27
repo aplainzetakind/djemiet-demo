@@ -12,7 +12,7 @@ html::-webkit-scrollbar {
   display: none; }
 
 a {
-  color: #086cce;
+  color: #316eaa;
   font-family: 'VollkornSemibold';
   text-decoration: none;
   cursor: pointer; }
@@ -454,7 +454,7 @@ form {
   margin-bottom: 0.5em; }
 
 .reflink {
-  color: #086cce;
+  color: #316eaa;
   font-family: 'VollkornSemibold';
   cursor: pointer; }
 
@@ -462,7 +462,7 @@ form {
   font-style: italic; }
 
 .autocite {
-  color: #bf5606; }
+  color: #97480c; }
 
 .star::after {
   content: "☆"; }
