@@ -4,7 +4,6 @@ https://docs.djangoproject.com/en/3.1/howto/custom-template-tags/
 to process the post body according to a very minimal markdown-like syntax.
 """
 import re
-from django.urls import reverse
 from django import template
 from django.utils.html import conditional_escape, urlize
 from django.utils.safestring import mark_safe
@@ -18,9 +17,12 @@ def concat_str(str1, str2):
     return str(str1) + str(str2)
 
 def renderref(num, viewing_user, post_author):
-    """ Turns a number into a link, italicizes it and/or puts a star at the end
-    depending on whether the referenced post is user's own or is on user's
-    watchlist. """
+    """ Turns a marked-down number into a <span> element, adding classes to the
+    element depending on whether
+    - The cited post is on the viewing user's watchlist.
+    - The cited post is viewing user's own.
+    - The cited post is post author's own.
+    """
     cited_post = Post.objects.get(pk=int(num))
     cited_author = cited_post.author
     cls = "reflink star-" + str(num)
@@ -33,17 +35,22 @@ def renderref(num, viewing_user, post_author):
     return '<span class="'+ cls +'" reftarget=' + num +\
             ' onclick="clickref($(this))">' + num + '</span>'
 
-def linkify_nums(result, user, author):
+def linkify_nums(text, viewer, author):
     """ Applies post citation markdown. """
-    return re.sub(r'\[\[([0-9]*)\]\]', lambda x: renderref(x.group(1), user,
-        author), result)
+    return re.sub(r'\[\[([0-9]*)\]\]', lambda x: renderref(x.group(1), viewer,
+        author), text)
 
 @register.simple_tag
 def render_body(post, viewer):
+    """
+    When rendering the post body, reference links are styled depending on
+    both the viewing user and the post author. We compute the resulting post
+    body using a simple tag.
+    """
     body_text = post.body
-    post_author = post.author
+    author = post.author
 
-    result = linkify_nums(conditional_escape(body_text), viewer, post_author)
+    result = linkify_nums(conditional_escape(body_text), viewer, author)
     result = re.sub(r'[\t\r\f\v]*\n[\t\r\f\v]*\n\s*', r'</p><p>', result)
     result = re.sub(r'[\t\r\f\v]*\n\s*', r'</br>', result)
     result = '<p>' + result + '</p>'
@@ -51,6 +58,9 @@ def render_body(post, viewer):
 
 @register.simple_tag
 def render_title(post, viewer):
+    """
+    Like render_body but with fewer modifications to the content.
+    """
     title_text = post.title
     post_author = post.author
 

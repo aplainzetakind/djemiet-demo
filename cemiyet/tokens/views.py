@@ -8,13 +8,12 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import RegistrationToken
 
 class TokenRegView(FormView):
-    """ If the token passed from the url is valid, expose a registration form,
-    and upon successful registration, delete the token from the database. This
-    should be extended such that tokens would know to whom they were given, and
-    eventually that should pass to the newly created user's profile as an
-    invited_by field."""
+    """
+    If the token passed from the url is valid, expose a registration form,
+    and upon successful registration, decrement the `uses` field of the token.
+    """
     form_class = UserCreationForm
-    template_name = 'register.html'
+    template_name = 'registration/register.html'
     success_url = '/'
 
     def get(self, request, *args, **kwargs):
@@ -33,6 +32,7 @@ class TokenRegView(FormView):
             tkn = RegistrationToken.objects.get(token=token)
             user = form.save()
             user.profile.invited_by = tkn.owner
+            user.profile.save()
             user.save()
             if tkn.uses > 1:
                 tkn.uses -= 1

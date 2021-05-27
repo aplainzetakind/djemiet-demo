@@ -1,36 +1,52 @@
 """
-The views pertaining to posts. These are:
-    - PostingFormView: Called from post and respond pages.
-    - add_to_watchlist: This expects POST requests from the frontend to add posts
-      to the user's watchlist.
+The views pertaining to posts. The app runs as a single page app, served at
+/content. ContentView forwards requests based on method to IndexView or
+PostingFormView. IndexView serves the single page app, so it is meant to be
+accessed only once as the entry point. Serving posts for partial page updates
+are handled by PostsView. These three views provide the basic functionality.
+
+There are three other views:
+autocomplete: Endpoint for jQuery autocompletion of tags.
+tokens: Serves a list of invitation URLs held by by the user.
+add_to_watchlist: Toggles watchlist for a given post.
 """
+import json
 from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render
 from django.views.generic import View, ListView, TemplateView
 from django.views.generic.edit import FormView
 from django.contrib.auth.decorators import login_required
-from django.core.serializers import serialize
-import json
 from cemiyet import settings
-from .models import Post, Tag, update_popularity, init_popularity
+from .utils import get_ancestors, update_popularity, init_popularity
+from .models import Post, Tag
 from .forms import PostForm
 
 @method_decorator(login_required, name='dispatch')
 class ContentView(View):
-
+    """
+    The view served at content. Redirects based on request methods. Forms that
+    are POSTed are handled by PostingFormView, and GETs are redirected to
+    IndexView.
+    """
     def get(self, request, *args, **kwargs):
+        """ Serve content page. """
         view = IndexView.as_view()
         return view(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
+        """ Process posting form. """
         view = PostingFormView.as_view()
         return view(request, *args, **kwargs)
 
 
 @method_decorator(login_required, name='dispatch')
 class IndexView(TemplateView):
+    """
+    The single page app served at /content. This renders the template,
+    passes initial state from the GET parameters as JSON to Javascript. Further
+    mutations of the page state are handled by the frontend.
+    """
     paginate_by = settings.POSTS_COUNT_PER_PAGE
     template_name = 'content.html'
 
@@ -46,6 +62,10 @@ class IndexView(TemplateView):
 
 @method_decorator(login_required, name='dispatch')
 class PostsView(ListView):
+    """ The view which serves html for posts for partial loads. Different
+    sections of the page use the same endpoint. Different purposes are conveyed
+    by the `mode` GET parameter, according to which the classes of the elements
+    vary. """
     template_name = 'posts/posts.html'
 
     def get(self, request, *args, **kwargs):
@@ -56,6 +76,8 @@ class PostsView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['favourites'] = self.request.user.profile.watchlist.all()
+        #  This boolean decides whether the template response renders the
+        #  `#navigation` div.
         context['gallery'] = False
         context['idprefix'] = "post-"
         mode = self.request.GET.get('as')
@@ -70,23 +92,31 @@ class PostsView(ListView):
     def get_queryset(self):
         queryset = Post.objects.all()
 
+        #  The `watch` GET parameter determines whether only responses to
+        #  watched posts are served.
         watch = self.request.GET.get('watch')
         if watch:
             wlist = self.request.user.profile.watchlist.all()
             queryset = queryset.filter(parents__in=wlist)
 
+        #  The `parent` GET parameter hold the post id which, if present,
+        #  filters the queryset to replies to the post with that id.
         parent = self.request.GET.get('parent')
         if parent:
             queryset = queryset.filter(parents=parent)
 
+        #  Filter queryset to posts whose tag is among the `tag` parameters.
         tags = self.request.GET.getlist('tag')
         if tags:
             queryset = queryset.filter(tags__name__in=tags)
 
+        #  The posts whose ids are given in the `id` parameters are served only.
         ids = self.request.GET.getlist('id')
         if ids:
             queryset = queryset.filter(pk__in=ids)
 
+        #  If we are serving multiple posts but not in the gallery, sort them
+        #  latest-first. In the gallery, sort first by popularity.
         if self.request.GET.get('as') == 'gallery':
             sorting = ('-popularity','-created_on')
         else:
@@ -103,50 +133,36 @@ class PostingFormView(FormView):
     the post being replied to.
     """
     form_class = PostForm
-    template_name = 'content.html'
-    success_url = '/content'
-    fill = ''
-    tag = ''
 
-    #  This is probably redundant now. Check before removing.
-    def get(self, request, *args, **kwargs):
-        postid = kwargs.get('postid')
-        if postid is not None:
-            try:
-                post = Post.objects.get(pk=postid)
-                self.fill = '[[' + str(postid) + ']]\n'
-                self.tag = post.tags
-                return super().get(request, *args, **kwargs)
-            except ObjectDoesNotExist:
-                # This needs to be handled in a more graceful manner.
-                return HttpResponse(status=500)
-        else:
-            return super().get(request, *args, **kwargs)
-
-    def get_initial(self):
-        return {'body':self.fill,
-                'tags':self.tag}
-
-    #  Test what happens with bad input.
     def form_valid(self, form):
         post = form.save(commit=False)
         post.author = self.request.user
         taginput = form.cleaned_data.get('tag_text')
+
+        #  If the tag supplied in the form does not exist, create it.
         if Tag.objects.filter(name=taginput):
             post.tags = Tag.objects.get(name=taginput)
         else:
             tag = Tag(name=taginput)
             tag.save()
             post.tags = Tag.objects.get(name=taginput)
+
         post.save()
         init_popularity(post)
         post.save()
         form.save_m2m()
+
+        #  Update the popularity of posts to which the newly posted post is a
+        #  reply.
         for parent in post.parents.all():
             update_popularity(parent, post)
             parent.save()
+
+        #  Increment the descendant count of all ancestors of the present post.
+        for ancestor in get_ancestors(post):
+            ancestor.descendants += 1
+            ancestor.save()
         return HttpResponse(status=200)
-        #  return super().form_valid(form)
 
     def form_invalid(self, form):
         resp = form.errors.as_json()
@@ -154,7 +170,7 @@ class PostingFormView(FormView):
 
 @login_required
 def autocomplete(request):
-    """ Respond to GET requests for autocomplete suggestions. """
+    """ Respond to GET requests for autocomplete options. """
     if 'term' in request.GET:
         term = request.GET.get('term').lower()
         qs = Tag.objects.filter(name__icontains=term)
@@ -166,9 +182,10 @@ def autocomplete(request):
 
 @login_required
 def tokens(request):
-    """ Serve a list of registration tokens of the user. """
+    """ Serve the list of registration URLs of the user. """
     domain = request.META['HTTP_HOST']
-    response = [ domain + '/reg/' + token.token for token in request.user.tokens.all() ]
+    response = [ domain + '/reg/' + token.token
+                for token in request.user.tokens.all() ]
     return JsonResponse(json.dumps(response), safe=False)
 
 @login_required
