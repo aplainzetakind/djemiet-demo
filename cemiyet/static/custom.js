@@ -72,7 +72,7 @@ async function init_index(obj) {
     urlstate = new UrlState(obj);
     if (obj.tag) { obj.tag.map(add_tag); }
     $('#favtoggle').toggleClass('favon', urlstate.watch);
-    populate_focus(html);
+    populate_focus();
     history.replaceState(urlstate.state_obj, null, urlstate.content_url);
     window.addEventListener('popstate', function(e) {
         urlstate.ids = e.state.ids;
@@ -82,14 +82,14 @@ async function init_index(obj) {
         $('#favtoggle').toggleClass('favon', urlstate.watch);
         urlstate.page = e.state.page;
         $('#gallerydiv').fadeOut(animation_speed,() => {
-            populate_focus(html);
+            populate_focus();
         });
     });
 }
 
 // Refactored out of init_index and its addEventListener subroutine. Probably
 // better to refactor further.
-function populate_focus(html) {
+function populate_focus() {
     $('#focusdiv').fadeOut(animation_speed,() => {
         fetch_posts(urlstate.ids).then((html) => {
             $('#focusdiv').html(html);
