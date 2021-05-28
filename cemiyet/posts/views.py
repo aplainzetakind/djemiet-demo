@@ -61,7 +61,6 @@ class IndexView(TemplateView):
 
 
 
-@method_decorator(login_required, name='dispatch')
 class PostsView(ListView):
     """ The view which serves html for posts for partial loads. Different
     sections of the page use the same endpoint. Different purposes are conveyed
@@ -70,9 +69,12 @@ class PostsView(ListView):
     template_name = 'posts/posts.html'
 
     def get(self, request, *args, **kwargs):
-        if request.GET.get('as') == "gallery":
-            self.paginate_by = settings.POSTS_COUNT_PER_PAGE
-        return super().get(request, *args, **kwargs)
+        if request.user.is_authenticated:
+            if request.GET.get('as') == "gallery":
+                self.paginate_by = settings.POSTS_COUNT_PER_PAGE
+            return super().get(request, *args, **kwargs)
+        login_url = '/accounts/login/?next=/content'
+        return JsonResponse(json.dumps(login_url), status=403, safe=False)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
