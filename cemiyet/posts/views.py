@@ -22,7 +22,7 @@ from .utils import get_ancestors, update_popularity, init_popularity
 from .models import Post, Tag
 from .forms import PostForm
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(login_required, name='get')
 class ContentView(View):
     """
     The view served at content. Redirects based on request methods. Forms that
@@ -36,8 +36,11 @@ class ContentView(View):
 
     def post(self, request, *args, **kwargs):
         """ Process posting form. """
-        view = PostingFormView.as_view()
-        return view(request, *args, **kwargs)
+        if request.user.is_authenticated:
+            view = PostingFormView.as_view()
+            return view(request, *args, **kwargs)
+        login_url = '/accounts/login/?next=/content'
+        return JsonResponse(json.dumps({'url':login_url}), status=403, safe=False)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -73,7 +76,7 @@ class PostsView(ListView):
                 self.paginate_by = settings.POSTS_COUNT_PER_PAGE
             return super().get(request, *args, **kwargs)
         login_url = '/accounts/login/?next=/content'
-        return JsonResponse(json.dumps(login_url), status=403, safe=False)
+        return JsonResponse(json.dumps({'url':login_url}), status=403, safe=False)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

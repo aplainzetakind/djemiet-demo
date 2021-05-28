@@ -88,17 +88,23 @@ async function init_index(obj) {
 
 // Refactored out of init_index and its addEventListener subroutine. Probably
 // better to refactor further.
-function populate_focus() {
+async function populate_focus() {
     $('#focusdiv').fadeOut(animation_speed,() => {
-        fetch_posts(urlstate.ids).then((html) => {
-            $('#focusdiv').html(html);
-            $('#focusdiv .plusscis').last().hide();
-            $('#focusdiv .post').each(function() {
-                render_image($(this));
+        try {
+            fetch_posts(urlstate.ids).then((html) => {
+                $('#focusdiv').html(html);
+                $('#focusdiv .plusscis').last().hide();
+                $('#focusdiv .post').each(function() {
+                    render_image($(this));
+                });
+                $('#focusdiv').fadeIn();
+                refresh_gallery();
             });
-            $('#focusdiv').fadeIn();
-            refresh_gallery();
-        });
+        } catch(e) {
+            // url = JSON.parse(await e)['url'];
+            // $(window).attr('location', url);
+            return;
+        }
     });
 }
 
@@ -197,8 +203,14 @@ async function clickref(ref) {
     if ($('#post-' + target).length) {
         post = $('#post-' + target);
     } else {
-        let html = await fetch_posts([target]);
-        post = $(html);
+        try {
+            let html = await fetch_posts([target]);
+            post = $(html);
+        } catch(e) {
+            url = JSON.parse(await e)['url'];
+            $(window).attr('location', url);
+            return;
+        }
     }
     post.hide();
     if (ref.closest('#gallerydiv').length) {
@@ -424,8 +436,13 @@ function clickid(elem) {
 async function fetch_posts(ids) {
     if (ids.length) {
         query = '/posts?' + ids.map((n) => { return 'id=' + n }).join('&');
-        let resp = await fetch(query, { method: 'GET' });
-        return resp.text();
+        return await fetch(query, { method: 'GET' }).then((response) => {
+            if (response.ok) {
+                return response.text();
+            } else {
+                throw response.json();
+            }
+        });
     } else {
         return '';
     }
@@ -555,6 +572,10 @@ function submit_form() {
                             .appendTo('#formerrordiv');
                     }
                 }
+            }
+            if (xhr.status === 403) {
+                url = JSON.parse(xhr.responseJSON);
+                $(window).attr('location', url['url']);
             }
         }
     });
