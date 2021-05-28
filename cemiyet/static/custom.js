@@ -58,7 +58,6 @@ class UrlState {
 
     // Invoke history.pushState with the appropriate parameters.
     set_url() {
-        console.log('click');
         return history.pushState(this.state_obj, null, this.content_url);
     }
 }
@@ -108,15 +107,26 @@ function populate_focus() {
 async function refresh_gallery() {
     $('.nav').fadeTo(animation_speed, 0).css({'visibility': 'hidden'});
 
-    $.ajax({url: urlstate.gallery_url, success: (result) => {
-        $('#gallerydiv').fadeOut(animation_speed, () => {
-            $('#gallerydiv').html(result);
-            get_hovers();
-            enable_hovers();
-            refresh_tokens();
-            $('#gallerydiv').fadeIn(animation_speed, togglenavs);
-        });
-    }});
+    $.ajax({
+        url: urlstate.gallery_url,
+
+        success: (result) => {
+            $('#gallerydiv').fadeOut(animation_speed, () => {
+                $('#gallerydiv').html(result);
+                get_hovers();
+                enable_hovers();
+                refresh_tokens();
+                $('#gallerydiv').fadeIn(animation_speed, togglenavs);
+            });
+        },
+
+        error : function(xhr,errmsg,err) {
+            if (xhr.status === 403) {
+                url = JSON.parse(xhr.responseJSON);
+                $(window).attr('location', url);
+            }
+        }
+    });
 }
 
 // Clicking the corner widget element, which appears as a plus sign in posts in
