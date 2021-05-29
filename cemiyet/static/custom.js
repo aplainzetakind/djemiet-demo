@@ -128,8 +128,8 @@ async function refresh_gallery() {
 
         error : function(xhr,errmsg,err) {
             if (xhr.status === 403) {
-                url = JSON.parse(xhr.responseJSON);
-                $(window).attr('location', url);
+                jsn = JSON.parse(xhr.responseJSON);
+                $(window).attr('location', jsn['url']);
             }
         }
     });
